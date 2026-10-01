@@ -1,0 +1,327 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/current_company",
+        "query": []
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "trial_end_date": "2020-01-01T00:00:00.000Z",
+        "shopify_app_store_referral?": false,
+        "trialing?": false,
+        "paying": false,
+        "has_ever_created_remote_channel": true,
+        "id": 1004,
+        "name": "redacted-62f81766",
+        "created_at": "2020-01-01T00:00:00.000Z",
+        "updated_at": "2020-01-01T00:00:00.000Z",
+        "referring_website": null,
+        "has_right_to_use_veeqo": true,
+        "billing_period_started": null,
+        "chargify_product_handle": "trial",
+        "chargify_current_plan": null,
+        "active_features": [
+            "letterbox_shipping_address_deletion",
+            "printing_tempfile_document_attach",
+            "channel_api2cart_delivery_cost_ex_tax",
+            "profit_analyzer",
+            "amazon_shipping_v2_ontrac_connectable",
+            "amazon_anonymiser_orders_v2_shadow",
+            "enable_allocations_table",
+            "mandatory_2fa_owners",
+            "async_history_entry",
+            "dhl_parcel_uk_rest_api",
+            "segment_replacement",
+            "sofd_use_delay_queue",
+            "picking_queue_counts_shadow_compare",
+            "create_manual_orders_permission",
+            "two_factor_v2",
+            "mandatory_2fa_admins",
+            "set_referral_code",
+            "channel_shopify_fulfillment_orders_api",
+            "seller_shipping_status_check",
+            "woocommerce_available",
+            "async_allocation",
+            "shipment_form_quote_options",
+            "activejob_ebay_order_update",
+            "knightbus_create_single_shipment",
+            "channels_ebay_oauth2_enabled",
+            "knightbus_opaque_failure_retry",
+            "knightbus_us_migration",
+            "display_variant_full_title",
+            "limit_remote_variants_count",
+            "shopify_product_graphql",
+            "walmart_oauth2_enabled",
+            "redacted-a720997f",
+            "routing_order_type_switcher",
+            "enable_inventory_v2_phase_1",
+            "enable_new_listings_experience",
+            "calculate_stock_with_database",
+            "enable_react_channels_page",
+            "disable_tiktok_connection",
+            "disable_forecast_etl_for_company_andon",
+            "sortinghat_inventory_production",
+            "redacted-da715a64",
+            "redacted-d39b85ab",
+            "amazon_order_fetching_via_spapi_enabled",
+            "enable_subscription_settings_page",
+            "enqueue_update_price_activejob",
+            "mcf_amazon_fba_no_branding_enabled",
+            "signup_geo_block",
+            "channels_deactivate_deleted_listings",
+            "company_signup_events",
+            "warehouse_address_validation",
+            "rolling_session_persistence",
+            "order_cache_skip_uncacheable_orders",
+            "crw_events_separated_locking",
+            "amazon_shipping_v2_fedex_oauth",
+            "qz_printing",
+            "default_off_amazon_billing_preferences",
+            "update_product_from_primary_channel",
+            "pigwidgeon_enabled",
+            "show_multi_warehouse_orders",
+            "sortinghat_inventory_shadow_testing",
+            "optimised_picking_queue_counts",
+            "shopify_orders_fetch_via_graphql",
+            "v1_api_access"
+        ],
+        "veeqo_product_name": "redacted-4cc254cb",
+        "plan_features": {
+            "accounting": {
+                "settings": true,
+                "xero": true
+            },
+            "channels": {
+                "amazon_fba": true,
+                "amazon_wizard_default_region_us": true,
+                "amazon_wizard_shipping_only": true,
+                "amazon_wizard_short_flow": true,
+                "buy_shipping_terms": true,
+                "change_routing_order_type": true,
+                "manage_stock_level": true,
+                "noths": true,
+                "opencart": true,
+                "prestashop": true,
+                "shopify_multi_location": true,
+                "vend": true,
+                "update_remote_order_by_default": true,
+                "master_of_stock_activation_banner": true,
+                "connect_tiktok_channel": true
+            },
+            "dashboard": {
+                "any_actions": true
+            },
+            "fulfilment": {
+                "allocate_action": true,
+                "digital_picking_in_onboarding": true
+            },
+            "inventory": {
+                "change_stock_reason": true,
+                "merge_review": true,
+                "show_stock_levels": true,
+                "use_custom_views": true,
+                "use_kits": true,
+                "power_feature_inventory_tours": true,
+                "power_upgrade_stock_sync": true
+            },
+            "listings": {
+                "any_actions": true
+            },
+            "onboarding": {
+                "amazon_quick_connect": true,
+                "endless_trial": true,
+                "hide_connect_carrier_step": true,
+                "inventory_features": true,
+                "signup_redirects_to_amazon_wizard": true,
+                "signup_redirects_to_channels_wizard": true
+            },
+            "orders": {
+                "auto_allocation": true,
+                "nav_sub_items": true,
+                "deallocate_when_packing": true,
+                "address_validation": true,
+                "hide_legacy_bulk_shipping": true
+            },
+            "picking": {
+                "any_actions": true
+            },
+            "price_lists": {
+                "any_actions": true
+            },
+            "printing": {
+                "direct_print": true,
+                "sku_on_label": true
+            },
+            "purchase_orders": {
+                "any_actions": true
+            },
+            "reorders": {
+                "any_actions": true
+            },
+            "reports": {
+                "forecast": true,
+                "returns": true,
+                "inventory_history": true,
+                "stock": true,
+                "team_metrics": true,
+                "shipping_metrics": true,
+                "daily_digest_email": true
+            },
+            "returns": {
+                "any_actions": true
+            },
+            "roles": {
+                "any_actions": true
+            },
+            "settings_page": {
+                "customers": true,
+                "listings_linking": true,
+                "usps_scan_forms": true,
+                "carrier_settings_page": true,
+                "validate_company_address": true
+            },
+            "shipping": {
+                "ship_with_amazon_v2": true,
+                "payment_data_collection": true,
+                "buy_shipping_sub_carrier_amzn_us": true,
+                "shipping_credits": true,
+                "ship_on_future_date": true,
+                "multiple_carrier_accounts": true,
+                "hide_ups_packages": true,
+                "ship_from_orders_list": true
+            },
+            "shipping_providers": {
+                "amazon_shipping_v2": true
+            },
+            "stock_transfers": {
+                "any_actions": true
+            },
+            "suppliers": {
+                "any_actions": true
+            },
+            "user_roles": {
+                "admin": true,
+                "picker_packer": true,
+                "accountant": true,
+                "customer_service_agent": true,
+                "purchaser": true,
+                "warehouse_manager": true,
+                "customer_service_manager": true,
+                "catalog_manager": true,
+                "warehouse_associate": true
+            },
+            "wholesale": {
+                "any_actions": true
+            },
+            "billing": {
+                "allow_pay_with_seller_central": true
+            },
+            "api": {
+                "any_actions": true
+            }
+        },
+        "paid_plan_features": {
+            "CHANNEL": [
+                {
+                    "name": "redacted-883dfb76",
+                    "condition": {
+                        "limit": 10,
+                        "usage": 0,
+                        "listing_ids": []
+                    }
+                }
+            ]
+        },
+        "owner": {
+            "id": 1001,
+            "login": "redacted-db2a60ab",
+            "email": "redacted-2d6dcc26@example.com",
+            "account_owner_user_id": null,
+            "activation_code": null,
+            "activated_at": null,
+            "location": null,
+            "created_at": "2020-01-01T00:00:00.000Z",
+            "created_by_id": null,
+            "updated_at": "2020-01-01T00:00:00.000Z",
+            "updated_by_id": null,
+            "deleted_at": null,
+            "deleted_by_id": null,
+            "guide_progress": null,
+            "company_id": 1004,
+            "guide_completed_message_viewed": null,
+            "orders_walkthrough_viewed": false,
+            "default_warehouse_id": null,
+            "timezone": "redacted-b4928874",
+            "failed_login_attempts": 0,
+            "default_channel_id": null,
+            "two_factor_authentication_enabled": false,
+            "role_id": 1011,
+            "new_orders_opted_in": true,
+            "new_products_opted_in": true,
+            "default_order_view_id": null
+        },
+        "employees": [
+            {
+                "id": 1001,
+                "login": "redacted-db2a60ab",
+                "email": "redacted-2d6dcc26@example.com",
+                "account_owner_user_id": null,
+                "activation_code": null,
+                "activated_at": null,
+                "location": null,
+                "created_at": "2020-01-01T00:00:00.000Z",
+                "created_by_id": null,
+                "updated_at": "2020-01-01T00:00:00.000Z",
+                "updated_by_id": null,
+                "deleted_at": null,
+                "deleted_by_id": null,
+                "guide_progress": null,
+                "company_id": 1004,
+                "guide_completed_message_viewed": null,
+                "orders_walkthrough_viewed": false,
+                "default_warehouse_id": null,
+                "timezone": "redacted-b4928874",
+                "failed_login_attempts": 0,
+                "default_channel_id": null,
+                "two_factor_authentication_enabled": false,
+                "role_id": 1011,
+                "new_orders_opted_in": true,
+                "new_products_opted_in": true,
+                "default_order_view_id": null
+            }
+        ],
+        "company_address": {
+            "address_line_1": "redacted-634fc388",
+            "address_line_2": null,
+            "address_line_3": null,
+            "post_code": "redacted-92cbb389",
+            "city": "redacted-63387b13",
+            "region": "WA",
+            "country": "US",
+            "phone": "redacted-27f6d038"
+        },
+        "settings": {
+            "id": 1012,
+            "currency_code": "USD",
+            "charge_taxes_on_shipping_rates": true,
+            "point_of_sale_enabled": false,
+            "require_complete_packing": false,
+            "phone_number": "redacted-27f6d038",
+            "weight_unit": "oz",
+            "dimensions_unit": "inches",
+            "timezone": "redacted-b4928874",
+            "pull_fba_inbound_stock": null,
+            "stock_change_reason_required": false,
+            "auto_allocation_enabled": false,
+            "link_similar_amazon_listings_within_marketplace": false,
+            "link_similar_amazon_listings_within_region": false,
+            "link_similar_amazon_listings_across_fba_and_fbm": false,
+            "automated_packing_flow": false,
+            "phone_payments": false,
+            "date_format": "redacted-1233238f"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/purchase_orders",
+        "query": {
+            "page_size": 10
+        }
+    },
+    "status": 403,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "error_messages": "Feature not available on your current plan"
+    }
+}

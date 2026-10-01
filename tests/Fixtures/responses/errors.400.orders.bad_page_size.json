@@ -1,0 +1,20 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/orders",
+        "query": {
+            "page_size": "abc"
+        }
+    },
+    "status": 400,
+    "headers": {
+        "content-type": "application/json;charset=utf-8",
+        "x-total-count": "11111",
+        "x-total-pages-count": "11111"
+    },
+    "body": {
+        "error_messages": [
+            "Infinity"
+        ]
+    }
+}

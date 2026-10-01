@@ -1,0 +1,12 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/shipping/tracking_events/1087",
+        "query": []
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": []
+}

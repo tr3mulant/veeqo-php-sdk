@@ -1,0 +1,99 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/customers/1013",
+        "query": []
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "id": 1013,
+        "email": "redacted-c49ebbdf@example.com",
+        "phone": null,
+        "mobile": null,
+        "notes": null,
+        "account": null,
+        "created_by_id": 1001,
+        "customer_type": "retail",
+        "company_name": null,
+        "payment_terms": null,
+        "currency": null,
+        "payment_method": null,
+        "discount": null,
+        "minimum_order_value": null,
+        "delivery_method_id": null,
+        "full_name": "redacted-67887b87",
+        "price_list_id": null,
+        "remote_id": null,
+        "price_list": null,
+        "billing_address": {
+            "id": 1014,
+            "short_name": null,
+            "first_name": "redacted-84153e64",
+            "last_name": "redacted-5c187796",
+            "address1": "redacted-27d25d71",
+            "address2": null,
+            "city": "redacted-853cafa6",
+            "company": null,
+            "country": "US",
+            "state": "CA",
+            "zip": "redacted-2a10f1bf",
+            "phone": "redacted-64d11ef3",
+            "email": "redacted-c49ebbdf@example.com",
+            "is_default": null
+        },
+        "shipping_addresses": [
+            {
+                "id": 1015,
+                "short_name": null,
+                "first_name": "redacted-84153e64",
+                "last_name": "redacted-5c187796",
+                "email": null,
+                "company": null,
+                "address1": "redacted-27d25d71",
+                "address2": null,
+                "city": "redacted-853cafa6",
+                "country": "US",
+                "state": "CA",
+                "zip": "redacted-2a10f1bf",
+                "phone": "redacted-64d11ef3",
+                "tax_id": null,
+                "is_default": null,
+                "validated": null,
+                "residential": null,
+                "validation_message": null,
+                "verified": true,
+                "location_found": true
+            }
+        ],
+        "contact_data": {
+            "email": "redacted-c49ebbdf@example.com",
+            "phone": null
+        },
+        "last_used_shipping_address": {
+            "id": 1015,
+            "short_name": null,
+            "first_name": "redacted-84153e64",
+            "last_name": "redacted-5c187796",
+            "email": null,
+            "company": null,
+            "address1": "redacted-27d25d71",
+            "address2": null,
+            "city": "redacted-853cafa6",
+            "country": "US",
+            "state": "CA",
+            "zip": "redacted-2a10f1bf",
+            "phone": "redacted-64d11ef3",
+            "tax_id": null,
+            "is_default": null,
+            "validated": null,
+            "residential": null,
+            "validation_message": null,
+            "verified": true,
+            "location_found": true
+        },
+        "delivery_method": null
+    }
+}

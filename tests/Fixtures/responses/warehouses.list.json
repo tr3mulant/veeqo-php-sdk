@@ -1,0 +1,81 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/warehouses",
+        "query": {
+            "page_size": 10
+        }
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8",
+        "x-total-count": "1",
+        "x-total-pages-count": "1"
+    },
+    "body": [
+        {
+            "address_line_1": "redacted-634fc388",
+            "address_line_2": null,
+            "city": "redacted-63387b13",
+            "click_and_collect_days": null,
+            "click_and_collect_enabled": false,
+            "country": "US",
+            "created_at": "2020-01-01T00:00:00.000Z",
+            "created_by_id": 1001,
+            "default_min_reorder": 0,
+            "deleted_at": null,
+            "deleted_by_id": null,
+            "id": 1003,
+            "inventory_type_code": "wavg",
+            "name": "redacted-aa73766d",
+            "trading_name": "redacted-62f81766",
+            "phone": "redacted-a5d1851f",
+            "post_code": "redacted-92cbb389",
+            "region": "WA",
+            "tax_id": null,
+            "eori_id": null,
+            "uk_ims_id": null,
+            "ioss_id": null,
+            "display_position": 1111,
+            "updated_at": "2020-01-01T00:00:00.000Z",
+            "updated_by_id": null,
+            "requested_carrier_account": null,
+            "letterbox_address_status": "redacted-18c4526a",
+            "cut_off_times": null,
+            "cut_off_times_enabled": false,
+            "external_id": null
+        },
+        {
+            "address_line_1": "",
+            "address_line_2": "",
+            "city": "",
+            "click_and_collect_days": null,
+            "click_and_collect_enabled": false,
+            "country": "",
+            "created_at": "2020-01-01T00:00:00.000Z",
+            "created_by_id": 1001,
+            "default_min_reorder": 0,
+            "deleted_at": null,
+            "deleted_by_id": null,
+            "id": 1010,
+            "inventory_type_code": "wavg",
+            "name": "redacted-44cb95cb",
+            "trading_name": null,
+            "phone": null,
+            "post_code": "",
+            "region": "",
+            "tax_id": null,
+            "eori_id": null,
+            "uk_ims_id": null,
+            "ioss_id": null,
+            "display_position": 1111,
+            "updated_at": "2020-01-01T00:00:00.000Z",
+            "updated_by_id": null,
+            "requested_carrier_account": null,
+            "letterbox_address_status": null,
+            "cut_off_times": null,
+            "cut_off_times_enabled": false,
+            "external_id": null
+        }
+    ]
+}

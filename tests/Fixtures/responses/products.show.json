@@ -1,0 +1,247 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/products/1342",
+        "query": []
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "id": 1342,
+        "title": "redacted-fe210fbb",
+        "created_by_id": 1001,
+        "created_at": "2020-01-01T00:00:00.000Z",
+        "weight": 0,
+        "origin_country": "US",
+        "deleted_at": null,
+        "deleted_by_id": null,
+        "hs_tariff_number": null,
+        "mid_code": null,
+        "taric_code": null,
+        "notes": "",
+        "product_tax_rate_id": null,
+        "tax_rate": 0,
+        "updated_at": "2020-01-01T00:00:00.000Z",
+        "updated_by_id": null,
+        "web_meta_description": "",
+        "web_meta_keywords": "",
+        "web_meta_title": "",
+        "web_page_title": "",
+        "web_page_url": "",
+        "estimated_delivery": null,
+        "requires_review": true,
+        "hazmat": false,
+        "image": "https://example.com/redacted-8fe47a38",
+        "brand": {
+            "id": 1343,
+            "name": "redacted-e4167a9c",
+            "display_position": 0,
+            "products_count": 0
+        },
+        "sellables": [
+            {
+                "requires_review": true,
+                "allocated_stock_level_at_all_warehouses": 0,
+                "id": 1344,
+                "type": "redacted-e2708970",
+                "title": "redacted-32a6fb0b",
+                "sku_code": "redacted-fa9ae21b",
+                "upc_code": "",
+                "model_number": "",
+                "price": 11.11,
+                "cost_price": 0,
+                "min_reorder_level": 0,
+                "quantity_to_reorder": 0,
+                "created_by_id": 1001,
+                "created_at": "2020-01-01T00:00:00.000Z",
+                "updated_at": "2020-01-01T00:00:00.000Z",
+                "deleted_at": null,
+                "weight_grams": 10.111111,
+                "weight_unit": "oz",
+                "product_title": "redacted-fe210fbb",
+                "full_title": "redacted-fe210fbb",
+                "sellable_title": "",
+                "profit": 11.11,
+                "margin": 100,
+                "tax_rate": 0,
+                "estimated_delivery": null,
+                "origin_country": null,
+                "hs_tariff_number": null,
+                "mid_code": null,
+                "taric_code": null,
+                "hs_code_extensions": [],
+                "supplementary_units": 0,
+                "customs_description": null,
+                "hazmat": null,
+                "image_url": "https://example.com/redacted-8fe47a38",
+                "product": {
+                    "id": 1342,
+                    "title": "redacted-fe210fbb",
+                    "weight": 0,
+                    "origin_country": "US",
+                    "hs_tariff_number": null,
+                    "taric_code": null,
+                    "mid_code": null,
+                    "tax_rate": 0,
+                    "estimated_delivery": null,
+                    "deleted_at": null,
+                    "deleted_by_id": null,
+                    "description": "redacted-95811463",
+                    "main_image_src": "https://example.com/redacted-8fe47a38"
+                },
+                "reorders": [],
+                "stock_entries": [
+                    {
+                        "sellable_id": 1344,
+                        "warehouse_id": 1003,
+                        "infinite": false,
+                        "allocated_stock_level": 0,
+                        "stock_running_low": true,
+                        "updated_at": "2020-01-01T00:00:00.000Z",
+                        "incoming_stock_level": 0,
+                        "transit_outgoing_stock_level": 0,
+                        "warehouse": {
+                            "id": 1003,
+                            "name": "redacted-aa73766d",
+                            "display_position": 1111
+                        },
+                        "physical_stock_level": 0,
+                        "available_stock_level": 0,
+                        "sellable_on_hand_value": 0,
+                        "transit_incoming_stock_level": 0,
+                        "location": null
+                    }
+                ],
+                "variant_option_specifics": [],
+                "variant_property_specifics": [],
+                "images": [],
+                "measurement_attributes": {
+                    "id": 1345,
+                    "width": 1,
+                    "height": 1,
+                    "depth": 11,
+                    "dimensions_unit": "inches"
+                },
+                "main_thumbnail_url": "https://example.com/redacted-02be89c7",
+                "available_stock_level_at_all_warehouses": 0,
+                "stock_level_at_all_warehouses": 0,
+                "inventory": {
+                    "infinite": false,
+                    "physical_stock_level_at_all_warehouses": 0,
+                    "allocated_stock_level_at_all_warehouses": 0,
+                    "available_stock_level_at_all_warehouses": 0,
+                    "incoming_stock_level_at_all_warehouses": 0,
+                    "transit_outgoing_stock_level_at_all_warehouses": 0,
+                    "transit_incoming_stock_level_at_all_warehouses": 0
+                },
+                "weight": 1.1,
+                "active_channels": [
+                    {
+                        "id": 1008,
+                        "name": "redacted-65fc1b77",
+                        "type_code": "amazon_fba",
+                        "short_name": null
+                    }
+                ],
+                "channel_sellables": [
+                    {
+                        "id": 1346,
+                        "remote_title": "redacted-32a6fb0b",
+                        "remote_sku": "redacted-fa9ae21b",
+                        "remote_price": 11.11,
+                        "remote_grams": "10.111111",
+                        "remote_profit": 11.11,
+                        "remote_margin": 100,
+                        "currency_code": null,
+                        "channel_product_id": 1347,
+                        "channel_product_remote_title": "redacted-fe210fbb",
+                        "channel_product_status": "pulled",
+                        "sellable_id": 1344,
+                        "image_url": "https://example.com/redacted-bb0b41ec",
+                        "url": "",
+                        "failures": [],
+                        "channel": {
+                            "id": 1008,
+                            "name": "redacted-65fc1b77",
+                            "type_code": "amazon_fba",
+                            "veeqo_dictates_price": false,
+                            "currency_code": "USD",
+                            "marketplace_country": null,
+                            "short_name": null
+                        }
+                    }
+                ],
+                "total_quantity_sold": 1,
+                "on_hand_value": 0
+            }
+        ],
+        "channel_products": [
+            {
+                "id": 1347,
+                "remote_title": "redacted-fe210fbb",
+                "remote_description": "redacted-eae86e08",
+                "remote_id": "redacted-0fe0ea30",
+                "channel_type_code": "amazon_fba",
+                "channel_short_name": null,
+                "inactive_after": null,
+                "status": "pulled",
+                "channel": {
+                    "id": 1008,
+                    "name": "redacted-65fc1b77",
+                    "type_code": "amazon_fba",
+                    "short_name": null
+                },
+                "channel_sellables": [
+                    {
+                        "id": 1346,
+                        "remote_title": "redacted-32a6fb0b",
+                        "remote_sku": "redacted-fa9ae21b",
+                        "remote_price": 11.11,
+                        "remote_grams": "10.111111",
+                        "remote_profit": 11.11,
+                        "remote_margin": 100,
+                        "currency_code": null,
+                        "channel_product_id": 1347,
+                        "channel_product_remote_title": "redacted-fe210fbb",
+                        "channel_product_status": "pulled",
+                        "sellable_id": 1344,
+                        "image_url": "https://example.com/redacted-bb0b41ec",
+                        "url": "",
+                        "failures": [],
+                        "channel": {
+                            "id": 1008,
+                            "name": "redacted-65fc1b77",
+                            "type_code": "amazon_fba",
+                            "veeqo_dictates_price": false,
+                            "currency_code": "USD",
+                            "marketplace_country": null,
+                            "short_name": null
+                        }
+                    }
+                ]
+            }
+        ],
+        "active_channels": [
+            {
+                "id": 1008,
+                "name": "redacted-65fc1b77",
+                "type_code": "amazon_fba",
+                "short_name": null
+            }
+        ],
+        "tags": [],
+        "total_quantity_sold": 1,
+        "thumbnail_url": "https://example.com/redacted-02be89c7",
+        "description": "redacted-95811463",
+        "on_hand_value": 0,
+        "main_image_src": "https://example.com/redacted-8fe47a38",
+        "total_allocated_stock_level": 0,
+        "total_available_stock_level": 0,
+        "total_stock_level": 0,
+        "inventory": {
+            "infinite": false
+        }
+    }
+}

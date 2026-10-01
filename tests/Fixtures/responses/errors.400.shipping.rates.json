@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/shipping/rates/1049",
+        "query": []
+    },
+    "status": 400,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "error_messages": "Order must have a destination address."
+    }
+}

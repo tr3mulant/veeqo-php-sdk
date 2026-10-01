@@ -1,0 +1,20 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/tags/1468",
+        "query": []
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "id": 1468,
+        "name": "redacted-89058129",
+        "colour": "redacted-e4806743",
+        "company_id": 1004,
+        "taggings_count": 0,
+        "deleted_at": null,
+        "deleted_by_id": null
+    }
+}

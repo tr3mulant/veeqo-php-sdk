@@ -1,0 +1,12 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/current_company",
+        "query": []
+    },
+    "status": 429,
+    "headers": {
+        "content-length": "0"
+    },
+    "body": ""
+}

@@ -1,0 +1,31 @@
+{
+    "request": {
+        "method": "GET",
+        "path": "/sellables/1344/warehouses/1003/stock_entry",
+        "query": []
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "sellable_id": 1344,
+        "warehouse_id": 1003,
+        "infinite": false,
+        "allocated_stock_level": 0,
+        "stock_running_low": true,
+        "updated_at": "2020-01-01T00:00:00.000Z",
+        "incoming_stock_level": 0,
+        "transit_outgoing_stock_level": 0,
+        "warehouse": {
+            "id": 1003,
+            "name": "redacted-aa73766d",
+            "display_position": 1111
+        },
+        "physical_stock_level": 0,
+        "available_stock_level": 0,
+        "sellable_on_hand_value": 0,
+        "transit_incoming_stock_level": 0,
+        "location": null
+    }
+}
