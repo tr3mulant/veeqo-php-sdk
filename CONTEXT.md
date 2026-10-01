@@ -38,3 +38,7 @@ _Avoid_: token, secret
 **Access token**:
 A permanent credential issued to an Appstore app when a Veeqo account approves it; one per Veeqo account.
 _Avoid_: API key, bearer key, OAuth key
+
+**Client credentials**:
+The client ID and client secret Veeqo issues to an Appstore app. They identify the app itself, never a Veeqo account, and are only used to obtain access tokens.
+_Avoid_: app key, OAuth credentials
