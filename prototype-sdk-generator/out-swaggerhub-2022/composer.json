@@ -1,0 +1,21 @@
+{
+    "name": "iron-gate/veeqo",
+    "description": "Veeqo API SDK",
+    "type": "library",
+    "require": {
+        "php": "^8.2",
+        "saloonphp/saloon": "^3.0|^4.0",
+        "spatie/laravel-data": "^3.0|^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "IronGate\\Veeqo\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
