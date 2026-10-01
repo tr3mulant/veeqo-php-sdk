@@ -5,7 +5,7 @@ A PHP/Laravel client for the Veeqo API, used both by private integrations talkin
 ## Tenancy
 
 **Veeqo account**:
-One Veeqo subscription and everything in it; the scope every credential is bound to. The API calls it a Company.
+One Veeqo subscription and everything in it; the scope every credential is bound to.
 _Avoid_: seller, company, tenant, organisation
 
 **Seller**:
@@ -16,7 +16,7 @@ _Avoid_: using it to mean a Veeqo account or a Seller Central account
 A login within a Veeqo account. A Veeqo account may have several users, each able to generate their own API key.
 
 **Channel**:
-A sales channel connected to a Veeqo account, such as an Amazon Seller Central account or a Shopify store. The API calls it a Store.
+A sales channel connected to a Veeqo account, such as an Amazon Seller Central account or a Shopify store.
 _Avoid_: store, marketplace, seller account
 
 ## Integration kinds
