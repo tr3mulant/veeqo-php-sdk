@@ -1,6 +1,6 @@
 <?php
 
-namespace IronGate\Veeqo;
+namespace TremulantTech\Veeqo;
 
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;

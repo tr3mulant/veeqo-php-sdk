@@ -1,8 +1,8 @@
 <?php
 
-use IronGate\Veeqo\Requests\Orders\GetOrder;
-use IronGate\Veeqo\Requests\Orders\ListOrders;
-use IronGate\Veeqo\Veeqo;
+use TremulantTech\Veeqo\Requests\Orders\GetOrder;
+use TremulantTech\Veeqo\Requests\Orders\ListOrders;
+use TremulantTech\Veeqo\Veeqo;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 use Saloon\Http\PendingRequest;

@@ -3,15 +3,15 @@
 PHP SDK for the [Veeqo API](https://developers.veeqo.com/api), built on [Saloon](https://docs.saloon.dev) v4.
 
 ```bash
-composer require irongateenterprises/veeqo-php-sdk
+composer require tremulanttech/veeqo-php-sdk
 ```
 
 ## Plain PHP
 
 ```php
-use IronGate\Veeqo\Veeqo;
-use IronGate\Veeqo\Requests\Orders\GetOrder;
-use IronGate\Veeqo\Requests\Orders\ListOrders;
+use TremulantTech\Veeqo\Veeqo;
+use TremulantTech\Veeqo\Requests\Orders\GetOrder;
+use TremulantTech\Veeqo\Requests\Orders\ListOrders;
 
 $veeqo = new Veeqo('your-api-key');
 

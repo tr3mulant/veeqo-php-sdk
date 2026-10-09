@@ -1,6 +1,6 @@
 <?php
 
-namespace IronGate\Veeqo\Requests\Orders;
+namespace TremulantTech\Veeqo\Requests\Orders;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;

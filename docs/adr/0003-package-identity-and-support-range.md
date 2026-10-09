@@ -1,6 +1,6 @@
 # Package identity, support range and semver policy
 
-The package is `irongateenterprises/veeqo-php-sdk` under the `IronGate\Veeqo` namespace. It is a company product, so it carries the company's name, not a personal account's; the GitHub repo moves from `tr3mulant` to an `irongateenterprises` org before the first Packagist release, so the vendor and repo match. A Packagist name can't be changed without abandoning the package, which is why this is settled first.
+The package is `tremulanttech/veeqo-php-sdk` under the `TremulantTech\Veeqo` namespace. It carries the Tremulant Tech brand, matching the `tremulanttech.com` domain, not the `tr3mulant` handle; the GitHub repo moves from `tr3mulant` to a `tremulanttech` org before the first Packagist release, so the vendor and repo match. A Packagist name can't be changed without abandoning the package, which is why this is settled first.
 
 ## Policy
 
@@ -14,7 +14,8 @@ The package is `irongateenterprises/veeqo-php-sdk` under the `IronGate\Veeqo` na
 
 ## Considered options
 
-- `tr3mulant/…` vendor: matches where the repo lives today, but ties a company product to a personal account forever.
+- `tr3mulant/…` vendor: matches where the repo lives today, but the leetspeak handle reads as a personal account in every `use` statement, and the repo can move later while the vendor can't.
+- `tremulant-tech/…` vendor: same brand, but the domain has no hyphen; `tremulanttech` matches it exactly.
 - PHP `^8.2` or `^8.3`: reaches more users, but either the declared floor goes untested or the tooling has to drop back to Pest 4. PHP 8.2 stops getting security fixes in December 2026.
 - A separate `veeqo-php-sdk-laravel` package: twice the release work for one class.
 - 1.0 straight after the Orders slice: it would commit to a stable API before any of it had been checked against live Veeqo responses.

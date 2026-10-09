@@ -1,5 +1,5 @@
 {
-    "name": "irongateenterprises/veeqo-php-sdk",
+    "name": "tremulanttech/veeqo-php-sdk",
     "description": "PHP SDK for the Veeqo API, built on Saloon, with Laravel auto-discovery.",
     "type": "library",
     "license": "MIT",
@@ -13,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "IronGate\\Veeqo\\": "src/"
+            "TremulantTech\\Veeqo\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "IronGate\\Veeqo\\VeeqoServiceProvider"
+                "TremulantTech\\Veeqo\\VeeqoServiceProvider"
             ]
         }
     },

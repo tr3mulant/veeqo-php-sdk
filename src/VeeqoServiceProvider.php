@@ -1,6 +1,6 @@
 <?php
 
-namespace IronGate\Veeqo;
+namespace TremulantTech\Veeqo;
 
 use Illuminate\Support\ServiceProvider;
 
