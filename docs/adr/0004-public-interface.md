@@ -8,7 +8,8 @@ Saloon's `Response::dto()` returns `mixed` and requests carry no generic type, s
 - **Resource methods return the data class.** Callers who need headers or the raw body send the request themselves.
 - **`list()` returns a lazy `Generator` over every page**, driven by the connector's paginator; no `LazyCollection`, so plain PHP keeps working. Page-level control is `$veeqo->paginate(new ListOrders(...))`. Iterating to the end costs one request per 100 items against the 5 req/s limit.
 - **Filters and parent IDs are named parameters**, mirrored on the request constructor, so a typo fails in PHP rather than being silently ignored by Veeqo.
-- **Non-JSON operations return a PSR-7 `StreamInterface`** (e.g. `purchaseOrders()->downloadPdf($id)`), the one exception to returning a data class.
+- **Non-JSON operations return a PSR-7 `StreamInterface`** (e.g. `purchaseOrders()->downloadPdf($id)`).
+- **Operations without a usable body return `void`**: every DELETE, every 204 (even where the spec documents a body, as on `PUT /channels/{id}` and `PUT /warehouses/{id}`), and every operation with no documented 2xx body (`orders()->update()`, `lineItems()->update()`, `bulkTagging()->create()`, `orders()->cancel()`, `payments()->create()`, `currentCompany()->update()`). Typing an undocumented body would turn a successful write into an `UnexpectedResponse` that invites a double-applying retry; callers re-fetch with `get()`. A normal return means a 2xx, because every non-2xx throws (ADR 0001); callers who need the status or headers send the request themselves (`$veeqo->send(new UpdateChannel(...))->status()`). Returning the entity later is a minor (ADR 0003). With `StreamInterface`, these are the only exceptions to returning a data class.
 
 ## Mapping operations to methods
 
