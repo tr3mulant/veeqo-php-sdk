@@ -25,7 +25,6 @@
  * Error bodies (status >= 400) come from our own bad requests and are kept verbatim.
  * After a run, review the "kept" report it prints before committing.
  */
-
 $root = dirname(__DIR__, 2);
 $out = __DIR__.'/responses';
 $salt = random_bytes(32);
