@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Cache;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
+use Saloon\Http\OAuth2\GetAccessTokenRequest;
 use Tests\Laravel\TestCase;
 use TremulantTech\Veeqo\Requests\Orders\GetOrder;
 use TremulantTech\Veeqo\Veeqo;
+use TremulantTech\Veeqo\VeeqoOAuth;
 use TremulantTech\Veeqo\VeeqoServiceProvider;
 
 uses(TestCase::class);
@@ -44,5 +46,36 @@ function registerWithApiKey(?string $apiKey, ?string $rateLimitStore = null): vo
     config(['veeqo.api_key' => $apiKey, 'veeqo.rate_limit_store' => $rateLimitStore]);
     app()->forgetInstance(Veeqo::class);
     app()->offsetUnset(Veeqo::class);
+    app()->register(VeeqoServiceProvider::class, force: true);
+}
+
+it('binds an oauth connector singleton built from the configured client', function () {
+    registerWithClient('client-id', 'client-secret', 'https://app.test/veeqo/callback');
+    $mock = new MockClient([GetAccessTokenRequest::class => MockResponse::make(['access_token' => 'token-123'])]);
+
+    parse_str((string) parse_url(app(VeeqoOAuth::class)->getAuthorizationUrl(), PHP_URL_QUERY), $query);
+    app(VeeqoOAuth::class)->withMockClient($mock)->getAccessToken('the-code', 'state-1', 'state-1');
+
+    expect(app(VeeqoOAuth::class))->toBe(app(VeeqoOAuth::class))
+        ->and($query)->toMatchArray(['client_id' => 'client-id', 'redirect_uri' => 'https://app.test/veeqo/callback']);
+    $mock->assertSent(fn ($request, $response) => $response->getPendingRequest()->body()?->get('client_secret') === 'client-secret');
+});
+
+it('does not bind an oauth connector unless the client is fully configured', function (?string $clientId, ?string $clientSecret, ?string $redirectUri) {
+    registerWithClient($clientId, $clientSecret, $redirectUri);
+
+    expect(app()->bound(VeeqoOAuth::class))->toBeFalse();
+})->with([
+    'no client id' => [null, 'client-secret', 'https://app.test/veeqo/callback'],
+    'empty client id' => ['', 'client-secret', 'https://app.test/veeqo/callback'],
+    'no client secret' => ['client-id', null, 'https://app.test/veeqo/callback'],
+    'no redirect uri' => ['client-id', 'client-secret', ''],
+]);
+
+function registerWithClient(?string $clientId, ?string $clientSecret, ?string $redirectUri): void
+{
+    config(['veeqo.client_id' => $clientId, 'veeqo.client_secret' => $clientSecret, 'veeqo.redirect_uri' => $redirectUri]);
+    app()->forgetInstance(VeeqoOAuth::class);
+    app()->offsetUnset(VeeqoOAuth::class);
     app()->register(VeeqoServiceProvider::class, force: true);
 }

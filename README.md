@@ -37,6 +37,42 @@ app(Veeqo::class)->send(new GetOrder(123));
 
 Publish the config with `php artisan vendor:publish --tag=veeqo-config`.
 
+## Appstore apps
+
+`VeeqoOAuth` takes a Veeqo account from your authorize redirect to a permanent access token (Veeqo issues no refresh token and no expiry). Storing tokens and the routes are yours. In Laravel, set `VEEQO_CLIENT_ID`, `VEEQO_CLIENT_SECRET` and `VEEQO_REDIRECT_URI` and resolve `VeeqoOAuth`; it is only bound when all three are set. In plain PHP, use `new VeeqoOAuth($clientId, $clientSecret, $redirectUri)`.
+
+```php
+use Illuminate\Http\Request;
+use TremulantTech\Veeqo\Veeqo;
+use TremulantTech\Veeqo\VeeqoOAuth;
+
+Route::get('/veeqo/connect', function (VeeqoOAuth $oauth) {
+    $url = $oauth->getAuthorizationUrl();
+    session(['veeqo_state' => $oauth->getState()]);
+
+    return redirect($url);
+});
+
+Route::get('/veeqo/callback', function (Request $request, VeeqoOAuth $oauth) {
+    if ($request->has('error')) {
+        return redirect('/')->with('error', 'Veeqo access was declined.');
+    }
+
+    // Throws InvalidStateException unless the state matches the one stored in the session. The code is valid for 10 minutes.
+    $token = $oauth->getAccessToken($request->string('code')->toString(), $request->query('state'), session()->pull('veeqo_state'))
+        ->getAccessToken();
+
+    // The token response doesn't name the account, so ask Veeqo which account the token belongs to.
+    $company = Veeqo::withAccessToken($token)->currentCompany()->get();
+
+    VeeqoAccount::updateOrCreate(['company_id' => $company->id], ['access_token' => encrypt($token)]);
+
+    return redirect('/');
+});
+```
+
+A failed exchange (for example an expired code) throws the SDK exceptions described under [Errors](#errors). If a stored token gets `Unauthorized` (401), that account has revoked your app. Delete the token and ask the account to connect again.
+
 ## Errors
 
 Every HTTP error throws a `TremulantTech\Veeqo\Exceptions\VeeqoRequestException`, or one of its subclasses: `ValidationFailed` (400, 422), `Unauthorized` (401), `Forbidden` (403), `NotFound` (404), `RateLimited` (429) and `ServerError` (5xx). `errorMessages()` returns Veeqo's error messages as a list of strings. Connection failures stay Saloon's `FatalRequestException`.

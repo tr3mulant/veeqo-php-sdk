@@ -28,6 +28,16 @@ class VeeqoServiceProvider extends ServiceProvider
                     : null);
             });
         }
+
+        // Client credentials identify the app, not a Veeqo account, so one instance serves every account (ADR 0005).
+        $client = array_filter(
+            [$config->get('veeqo.client_id'), $config->get('veeqo.client_secret'), $config->get('veeqo.redirect_uri')],
+            fn ($value) => is_string($value) && $value !== '',
+        );
+
+        if (count($client) === 3) {
+            $this->app->singleton(VeeqoOAuth::class, fn () => new VeeqoOAuth(...$client));
+        }
     }
 
     public function boot(): void

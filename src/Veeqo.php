@@ -20,12 +20,6 @@ use Saloon\RateLimitPlugin\Traits\HasRateLimits;
 use Saloon\Traits\Plugins\AcceptsJson;
 use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 use Throwable;
-use TremulantTech\Veeqo\Exceptions\Forbidden;
-use TremulantTech\Veeqo\Exceptions\NotFound;
-use TremulantTech\Veeqo\Exceptions\RateLimited;
-use TremulantTech\Veeqo\Exceptions\ServerError;
-use TremulantTech\Veeqo\Exceptions\Unauthorized;
-use TremulantTech\Veeqo\Exceptions\ValidationFailed;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
 
 class Veeqo extends Connector implements HasPagination
@@ -96,17 +90,7 @@ class Veeqo extends Connector implements HasPagination
 
     public function getRequestException(Response $response, ?Throwable $senderException): VeeqoRequestException
     {
-        $status = $response->status();
-
-        return match (true) {
-            $status === 400, $status === 422 => new ValidationFailed($response, previous: $senderException),
-            $status === 401 => new Unauthorized($response, previous: $senderException),
-            $status === 403 => new Forbidden($response, previous: $senderException),
-            $status === 404 => new NotFound($response, previous: $senderException),
-            $status === 429 => new RateLimited($response, previous: $senderException),
-            $response->serverError() => new ServerError($response, previous: $senderException),
-            default => new VeeqoRequestException($response, previous: $senderException),
-        };
+        return VeeqoRequestException::fromResponse($response, $senderException);
     }
 
     // A 429 was refused outright, so any method can be resent. A 5xx or connection failure on a write
