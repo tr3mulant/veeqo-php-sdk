@@ -2,6 +2,7 @@
 
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
+use Saloon\Exceptions\Request\Statuses\NotFoundException;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 use TremulantTech\Veeqo\Exceptions\Forbidden;
@@ -47,7 +48,7 @@ it('throws the base exception for a status without a subclass', function () {
 });
 
 it('does not extend Saloon status exceptions', function () {
-    expect(caught(captured('errors.404.order')))->not->toBeInstanceOf(Saloon\Exceptions\Request\Statuses\NotFoundException::class);
+    expect(caught(captured('errors.404.order')))->not->toBeInstanceOf(NotFoundException::class);
 });
 
 it('flattens every Veeqo error body shape', function (MockResponse $response, array $messages) {
