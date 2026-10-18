@@ -1,0 +1,40 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/suppliers",
+        "operation": "https://developers.veeqo.com/api/operations/create-a-new-supplier/"
+    },
+    "status": 201,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 12345,
+        "name": "Default supplier",
+        "address_line_1": "221 High St",
+        "address_line_2": "Floor 4",
+        "city": "Swansea",
+        "region": "Glamorgan",
+        "country": "GB",
+        "post_code": "SA1 1NW",
+        "sales_contact_name": "",
+        "sales_contact_email": "",
+        "sales_phone_number": null,
+        "accounting_contact_name": "",
+        "accounting_contact_email": "",
+        "accounting_phone_number": null,
+        "currency_code": "gbp",
+        "created_by_id": 12345,
+        "updated_by_id": null,
+        "created_at": "2023-09-20T14:27:46.604Z",
+        "updated_at": "2023-09-20T14:27:46.604Z",
+        "bank_name": null,
+        "bank_account_number": null,
+        "bank_sort_code": null,
+        "credit_limit": 0,
+        "active_purchase_order_count": 1,
+        "completed_purchase_order_count": 3,
+        "purchase_order_template": "[Veeqo] Purchase Order",
+        "reminder_email_template": "[Veeqo] Purchase Order Reminder"
+    }
+}

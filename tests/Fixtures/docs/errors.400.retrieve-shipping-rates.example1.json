@@ -1,0 +1,20 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/shipping/rates/{allocation_id}",
+        "operation": "https://developers.veeqo.com/api/operations/retrieve-shipping-rates/"
+    },
+    "status": 400,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "available": [],
+        "unavailable": [],
+        "linked_accounts": [],
+        "hazmat": false,
+        "error_messages": [
+            "{\"message\":\"Validation error\",\"errors\":[{\"resource\":\"parcel\",\"field\":\"weight\",\"message\":\"Weight attribute should be greater than zero\",\"code\":\"parcel.weight_invalid\"}]}"
+        ]
+    }
+}

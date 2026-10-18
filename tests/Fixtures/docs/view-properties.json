@@ -1,0 +1,17 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/products/{product_id}/product_property_specifics/{property_id}",
+        "operation": "https://developers.veeqo.com/api/operations/view-properties/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 24352077,
+        "product_property_id": 132663,
+        "product_property_name": "Colour",
+        "value": "Blue"
+    }
+}

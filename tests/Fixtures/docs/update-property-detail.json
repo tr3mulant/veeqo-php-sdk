@@ -1,0 +1,15 @@
+{
+    "source": {
+        "method": "PUT",
+        "path": "/products/{product_id}/product_property_specifics/{property_id}",
+        "operation": "https://developers.veeqo.com/api/operations/update-property-detail/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "product_property_name": "Size",
+        "value": "13"
+    }
+}

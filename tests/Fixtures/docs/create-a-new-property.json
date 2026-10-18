@@ -1,0 +1,15 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/product_properties",
+        "operation": "https://developers.veeqo.com/api/operations/create-a-new-property/"
+    },
+    "status": 201,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 135498,
+        "name": "Some Awesome Property"
+    }
+}

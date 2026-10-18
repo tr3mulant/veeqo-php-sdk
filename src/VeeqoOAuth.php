@@ -12,7 +12,6 @@ use Saloon\Traits\Plugins\AcceptsJson;
 use Throwable;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
 
-// Takes an Appstore app from the authorize redirect to a permanent access token, and no further (ADR 0005).
 class VeeqoOAuth extends Connector
 {
     use AcceptsJson;
@@ -34,8 +33,10 @@ class VeeqoOAuth extends Connector
         return 'https://api.veeqo.com';
     }
 
-    // Saloon skips the state check when either side is empty, so a state lost from the session
-    // would let a forged callback through; here both must be present and equal.
+    /**
+     * Saloon skips the state check when either side is empty, so a state lost from the session
+     * would let a forged callback through; here both must be present and equal.
+     */
     public function getAccessToken(string $code, ?string $state, ?string $expectedState): OAuthAuthenticator
     {
         if ($state === null || $state === '' || $expectedState === null || ! hash_equals($expectedState, $state)) {
@@ -56,7 +57,6 @@ class VeeqoOAuth extends Connector
             ->setClientId($this->clientId)
             ->setClientSecret($this->clientSecret)
             ->setRedirectUri($this->redirectUri)
-            // The user authorizes on app.veeqo.com; only the token exchange hits the API host.
             ->setAuthorizeEndpoint('https://app.veeqo.com/oauth/authorize')
             ->setAllowBaseUrlOverride()
             ->setTokenEndpoint('oauth/token');

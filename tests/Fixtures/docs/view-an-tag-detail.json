@@ -1,0 +1,18 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/tags/{tag_id}",
+        "operation": "https://developers.veeqo.com/api/operations/view-an-tag-detail/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 144441,
+        "name": "Veeqo Tag",
+        "colour": "#009aed",
+        "company_id": 21314,
+        "taggings_count": 0
+    }
+}

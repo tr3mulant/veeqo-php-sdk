@@ -2,5 +2,7 @@
 
 namespace TremulantTech\Veeqo\Exceptions;
 
-// 404
+/**
+ * 404
+ */
 class NotFound extends VeeqoRequestException {}

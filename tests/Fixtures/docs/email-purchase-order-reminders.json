@@ -1,0 +1,12 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/purchase_orders/reminder",
+        "operation": "https://developers.veeqo.com/api/operations/email-purchase-order-reminders/"
+    },
+    "status": 201,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": []
+}

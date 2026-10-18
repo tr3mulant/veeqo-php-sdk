@@ -1,0 +1,170 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/shipping/rates/{allocation_id}",
+        "operation": "https://developers.veeqo.com/api/operations/retrieve-shipping-rates/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "available": [
+            {
+                "carrier": "amazon_shipping_v2",
+                "name": "amazon_shipping_v2-2295c3aa-af8c-48a0-9f19-cd84d53cbd36",
+                "title": "UPS 3 Day Select®",
+                "short_title": "UPS 3 Day Select®",
+                "title_with_price": "UPS 3 Day Select® - $11.80",
+                "total_net_charge": "11.80",
+                "total_gross_charge": "11.80",
+                "base_rate": "11.80",
+                "charges": [
+                    {
+                        "price": "$11.80",
+                        "charge_id": "BASE_RATE",
+                        "charge_title": "Base Rate",
+                        "charge_type": "MANDATORY"
+                    },
+                    {
+                        "price": "$5.90",
+                        "charge_id": "SIGNATURE_CONFIRMATION",
+                        "charge_title": "Signature confirmation",
+                        "charge_type": "OPTIONAL"
+                    },
+                    {
+                        "price": "$7.10",
+                        "charge_id": "ADULT_SIGNATURE_CONFIRMATION",
+                        "charge_title": "Adult signature confirmation",
+                        "charge_type": "OPTIONAL"
+                    }
+                ],
+                "currency": "$",
+                "weight": "1550.9999986993",
+                "remote_shipment_id": "prb123abcde",
+                "cutoff": "2025-06-10T22:00:00+01:00",
+                "mailpiece_shapes": null,
+                "liability_amount": null,
+                "expected_delivery_days": 4,
+                "sub_carrier_id": "UPS",
+                "service_carrier": "ups",
+                "shipping_service_options": [
+                    {
+                        "key": "value_added_service__VAS_GROUP_ID_CONFIRMATION",
+                        "label": "Confirmation",
+                        "type": "select",
+                        "multiple": false,
+                        "values": [
+                            {
+                                "value": "NO_CONFIRMATION",
+                                "label": "No confirmation",
+                                "price": 0,
+                                "currency": "USD"
+                            },
+                            {
+                                "value": "SIGNATURE_CONFIRMATION",
+                                "label": "Signature confirmation",
+                                "price": 5.9,
+                                "currency": "USD"
+                            },
+                            {
+                                "value": "ADULT_SIGNATURE_CONFIRMATION",
+                                "label": "Adult signature confirmation",
+                                "price": 7.1,
+                                "currency": "USD"
+                            }
+                        ],
+                        "validation": null,
+                        "unit": null,
+                        "default": null
+                    },
+                    {
+                        "key": "liability_amount",
+                        "label": "Insurance",
+                        "type": "number",
+                        "multiple": false,
+                        "values": [],
+                        "validation": {
+                            "min": 100,
+                            "max": 50000
+                        },
+                        "unit": "USD",
+                        "default": null
+                    },
+                    {
+                        "key": "try_inbound_label",
+                        "label": "Create Return Label",
+                        "type": "boolean",
+                        "multiple": false,
+                        "values": [],
+                        "validation": null,
+                        "unit": null,
+                        "default": null
+                    }
+                ],
+                "warnings": [],
+                "hidden": false,
+                "other": [],
+                "pickup_window": {
+                    "end": null,
+                    "start": null
+                },
+                "own_account": false,
+                "expires_at": "2025-06-10T21:59:59.332Z",
+                "delivery_promise_date": "2025-06-14T07:59:59+01:00",
+                "meets_delivery_promise": null,
+                "protected": null,
+                "protections": null,
+                "additional_content": null,
+                "credits": 0.059,
+                "service_id": "UPS_PTP_3DAY_SELECT",
+                "document_specification": {
+                    "doc_spec": {
+                        "format": "PNG",
+                        "printOptions": [
+                            {
+                                "supportedDPIs": [],
+                                "supportedDocumentDetails": [
+                                    {
+                                        "isMandatory": true,
+                                        "name": "LABEL"
+                                    }
+                                ],
+                                "supportedFileJoiningOptions": [
+                                    true
+                                ],
+                                "supportedPageLayouts": [
+                                    "LEFT"
+                                ]
+                            }
+                        ],
+                        "size": {
+                            "length": 6,
+                            "unit": "INCH",
+                            "width": 4
+                        }
+                    }
+                }
+            }
+        ],
+        "unavailable": [
+            {
+                "remote_shipment_id": "prb35e7b5a4",
+                "title": "UPS Next Day Air®",
+                "sub_carrier_id": "UPS",
+                "service_carrier": "ups",
+                "unavailable_reasons": [
+                    {
+                        "message": "It is not an eligible ship method for this order."
+                    }
+                ]
+            }
+        ],
+        "linked_accounts": [
+            {
+                "shipping_configuration_id": 123456,
+                "carrier": "amazon_shipping_v2__FEDEX"
+            }
+        ]
+    }
+}

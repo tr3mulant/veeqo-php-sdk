@@ -1,0 +1,62 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/customers/{id}",
+        "operation": "https://developers.veeqo.com/api/operations/view-customer-detail/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 123,
+        "email": "Phil+API@veeqo.com",
+        "customer_type": "retail",
+        "phone": "01234 567890",
+        "mobile": 7123456789,
+        "notes": "This person buys things",
+        "created_by_id": 12005,
+        "billing_address": {
+            "id": 12345678,
+            "first_name": "Phil",
+            "last_name": "Reynolds",
+            "company": "Veeqo Ltd",
+            "address1": "Tech Hub",
+            "address2": "221 High Street",
+            "city": "Swansea",
+            "country": "GB",
+            "state": null,
+            "zip": "SA1 1NW",
+            "phone": null,
+            "email": null
+        },
+        "shipping_addresses": [
+            {
+                "id": 12345678,
+                "first_name": "Phil",
+                "last_name": "Reynolds",
+                "company": "Veeqo Ltd",
+                "address1": "Tech Hub",
+                "address2": "221 High Street",
+                "city": "Swansea",
+                "country": "GB",
+                "state": "",
+                "zip": "SA1 1NW",
+                "phone": ""
+            }
+        ],
+        "last_used_shipping_address": {
+            "id": 12345678,
+            "first_name": "Phil",
+            "last_name": "Reynolds",
+            "company": "Veeqo Ltd",
+            "address1": "Tech Hub",
+            "address2": "221 High Street",
+            "city": "Swansea",
+            "country": "GB",
+            "state": "",
+            "zip": "SA1 1NW",
+            "phone": ""
+        }
+    }
+}

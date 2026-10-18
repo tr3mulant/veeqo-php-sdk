@@ -9,9 +9,8 @@ composer require tremulanttech/veeqo-php-sdk
 ## Plain PHP
 
 ```php
+use TremulantTech\Veeqo\Enums\OrderStatus;
 use TremulantTech\Veeqo\Veeqo;
-use TremulantTech\Veeqo\Requests\Orders\GetOrder;
-use TremulantTech\Veeqo\Requests\Orders\ListOrders;
 
 // Private integration: API key, sent as x-api-key.
 $veeqo = Veeqo::withApiKey('your-api-key');
@@ -19,11 +18,26 @@ $veeqo = Veeqo::withApiKey('your-api-key');
 // Appstore app: one connector per Veeqo account, with that account's OAuth access token.
 $veeqo = Veeqo::withAccessToken($accessToken);
 
-$order = $veeqo->send(new GetOrder(123))->json();
+$order = $veeqo->orders()->get(123); // TremulantTech\Veeqo\Responses\Order
 
-// Walks every page (page_size 100) lazily.
-foreach ($veeqo->paginate(new ListOrders(['status' => 'awaiting_fulfillment']))->items() as $order) {
+// Walks every page (page_size 100) lazily, one request per page.
+foreach ($veeqo->orders()->list(status: OrderStatus::AwaitingFulfillment, createdAfter: new DateTimeImmutable('-1 day')) as $order) {
     // ...
+}
+```
+
+Money is a numeric string (`$order->totalPrice === '12.50'`), date-times are `DateTimeImmutable`. A response that doesn't match its class throws `UnexpectedResponse`, carrying the response and `mismatches()`.
+
+The Saloon requests stay public underneath, for the raw body, headers, page-level control or a filter value the SDK doesn't know yet:
+
+```php
+use TremulantTech\Veeqo\Requests\Orders\ListOrders;
+
+$request = new ListOrders(channelIds: [1, 2]);
+$request->query()->add('status', 'some_new_status');
+
+foreach ($veeqo->paginate($request) as $page) {
+    $page->json();
 }
 ```
 
@@ -32,7 +46,7 @@ foreach ($veeqo->paginate(new ListOrders(['status' => 'awaiting_fulfillment']))-
 Auto-discovered. Set `VEEQO_API_KEY` in `.env`, then inject or resolve `Veeqo` (it is only bound when the key is set):
 
 ```php
-app(Veeqo::class)->send(new GetOrder(123));
+app(Veeqo::class)->orders()->get(123);
 ```
 
 Publish the config with `php artisan vendor:publish --tag=veeqo-config`.
@@ -81,7 +95,7 @@ Every HTTP error throws a `TremulantTech\Veeqo\Exceptions\VeeqoRequestException`
 use TremulantTech\Veeqo\Exceptions\NotFound;
 
 try {
-    $veeqo->send(new GetOrder(123));
+    $veeqo->orders()->get(123);
 } catch (NotFound $e) {
     $e->errorMessages(); // ['Not found']
 }

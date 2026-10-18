@@ -1,0 +1,14 @@
+{
+    "source": {
+        "method": "DELETE",
+        "path": "/purchase_orders/{purchase_order_id}/purchase_order_product_variants/{id}",
+        "operation": "https://developers.veeqo.com/api/operations/delete-purchase-order-line-item/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "success": true
+    }
+}

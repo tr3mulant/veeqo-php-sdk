@@ -1,0 +1,24 @@
+<?php
+
+namespace TremulantTech\Veeqo\Responses;
+
+use TremulantTech\Veeqo\Enums\CustomerType;
+
+readonly class Customer
+{
+    public function __construct(
+        public int $id,
+        public Address $billingAddress,
+        public int $createdById,
+        /** @var list<Address> */
+        public array $shippingAddresses,
+        public ?ContactData $contactData = null,
+        public ?CustomerType $customerType = null,
+        public ?string $email = null,
+        public ?string $fullName = null,
+        public ?Address $lastUsedShippingAddress = null,
+        public ?string $mobile = null,
+        public ?string $notes = null,
+        public ?string $phone = null,
+    ) {}
+}

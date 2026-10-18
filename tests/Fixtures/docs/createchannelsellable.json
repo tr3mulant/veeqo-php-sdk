@@ -1,0 +1,46 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/api/v2/channel_sellables",
+        "operation": "https://developers.veeqo.com/api/operations/createchannelsellable/"
+    },
+    "status": 201,
+    "headers": {
+        "content-type": "application/vnd.api+json"
+    },
+    "body": {
+        "data": {
+            "id": "123456789",
+            "type": "channel_sellable",
+            "attributes": {
+                "remote_title": "Blue Water Bottle 500ml",
+                "remote_sku": "BLUE-WATER-BOTTLE-500ML",
+                "remote_price": "0.0",
+                "currency_code": null,
+                "remote_inventory_quantity": null,
+                "remote_id": "B0EXAMPLE123",
+                "active": true
+            },
+            "relationships": {
+                "channel": {
+                    "data": {
+                        "id": "1234567",
+                        "type": "channel"
+                    }
+                },
+                "channel_product": {
+                    "data": {
+                        "id": "987654321",
+                        "type": "channel_product"
+                    }
+                },
+                "sellable": {
+                    "data": {
+                        "id": "111222333",
+                        "type": "sellable"
+                    }
+                }
+            }
+        }
+    }
+}

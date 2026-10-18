@@ -16,13 +16,15 @@ function veeqo(MockClient $mock): Veeqo
     return $veeqo->withMockClient($mock);
 }
 
-// Replays a response captured by tests/Fixtures/capture.php.
-function captured(string $name): MockResponse
+/**
+ * @param  string  $name  'responses/<name>' (captured) or 'docs/<slug>' (Veeqo's doc examples, ADR 0011)
+ */
+function fixtureResponse(string $name): MockResponse
 {
-    /** @var array{status: int, headers: array<string, string>, body: array<mixed>|string} $captured */
-    $captured = json_decode((string) file_get_contents(__DIR__."/Fixtures/responses/{$name}.json"), true);
+    /** @var array{status: int, headers: array<string, string>, body: array<mixed>|string} $fixture */
+    $fixture = json_decode((string) file_get_contents(__DIR__."/Fixtures/{$name}.json"), true);
 
-    return MockResponse::make($captured['body'], $captured['status'], $captured['headers']);
+    return MockResponse::make($fixture['body'], $fixture['status'], $fixture['headers']);
 }
 
 function connectionFailure(): MockResponse

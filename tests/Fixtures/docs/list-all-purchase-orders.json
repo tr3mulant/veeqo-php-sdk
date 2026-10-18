@@ -1,0 +1,86 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/purchase_orders",
+        "operation": "https://developers.veeqo.com/api/operations/list-all-purchase-orders/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": [
+        {
+            "id": 491,
+            "number": "PO-0000001",
+            "reference_number": null,
+            "state": "active",
+            "supplier_id": 1748,
+            "destination_warehouse_id": 1784,
+            "user_id": 1923,
+            "created_by_id": 1923,
+            "updated_by_id": null,
+            "created_at": "2026-05-28T21:34:51Z",
+            "updated_at": "2026-05-28T21:34:51Z",
+            "expected_date": "2026-06-04T00:00:00Z",
+            "estimated_delivery_days": 7,
+            "currency_code": "gbp",
+            "currency_rate": "1.0",
+            "note": null,
+            "units_ordered": 10,
+            "units_received": 0,
+            "product_variants_count": 1,
+            "received_product_variants_count": 0,
+            "subtotal": "45.0",
+            "total_tax": "9.0",
+            "total_excluding_tax": "45.0",
+            "total_including_tax": "54.0",
+            "shipping_and_handling": "0.0",
+            "supplier_report_format": null,
+            "sent_at": null,
+            "received_at": null,
+            "supplier": {
+                "id": 1748,
+                "name": "Default supplier",
+                "sales_contact_email": "buying@example.com",
+                "currency_code": "gbp"
+            },
+            "destination_warehouse": {
+                "id": 1784,
+                "name": "Main warehouse"
+            },
+            "created_by": {
+                "id": 1923,
+                "login": "seller",
+                "email": "seller@example.com"
+            },
+            "purchase_order_product_variants": [
+                {
+                    "id": 1575,
+                    "purchase_order_id": 491,
+                    "product_variant_id": 1226617,
+                    "supplier_id": 1748,
+                    "quantity": 10,
+                    "received": 0,
+                    "received_at": null,
+                    "cost": "4.5",
+                    "tax_rate": "20.0",
+                    "total_amount_excluding_tax": "45.0",
+                    "total_amount_including_tax": "54.0",
+                    "shipped": null,
+                    "supplier_product_variant": {
+                        "id": 8811,
+                        "supplier_id": 1748,
+                        "product_variant_id": 1226617,
+                        "cost": "4.5",
+                        "title": "APPLE MAGIC MOUSE [TEST]",
+                        "product_variant": {
+                            "id": 1226617,
+                            "sku_code": "MOUSE-01",
+                            "full_title": "APPLE MAGIC MOUSE [TEST]"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -62,7 +62,6 @@ it('refuses to turn rate limiting on after construction without a store', functi
 
 beforeEach(fn () => MemoryStore::clear());
 
-// Sends $count requests through $veeqo and returns the sleeps (in seconds) taken along the way.
 function sleepsFor(Veeqo $veeqo, int $count, ?MockResponse $response = null): array
 {
     $sleeps = [];

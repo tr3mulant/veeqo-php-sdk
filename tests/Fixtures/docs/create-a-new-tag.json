@@ -1,0 +1,18 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/tags",
+        "operation": "https://developers.veeqo.com/api/operations/create-a-new-tag/"
+    },
+    "status": 201,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 144441,
+        "name": "Veeqo Tag",
+        "colour": "#009aed",
+        "company_id": 21314,
+        "taggings_count": 0
+    }
+}

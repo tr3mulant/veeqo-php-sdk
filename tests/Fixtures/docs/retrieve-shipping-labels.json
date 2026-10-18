@@ -1,0 +1,14 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/shipping/labels{format}?shipment_ids[]={shipment_ids}",
+        "operation": "https://developers.veeqo.com/api/operations/retrieve-shipping-labels/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "labels_count": 1
+    }
+}

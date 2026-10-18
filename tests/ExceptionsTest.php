@@ -33,12 +33,12 @@ it('throws an SDK exception per status', function (MockResponse $response, strin
         ->toBeInstanceOf(VeeqoException::class)
         ->toBeInstanceOf(RequestException::class);
 })->with([
-    '400' => [fn () => captured('errors.400.orders.bad_page_size'), ValidationFailed::class],
+    '400' => [fn () => fixtureResponse('responses/errors.400.orders.bad_page_size'), ValidationFailed::class],
     '422' => [fn () => MockResponse::make(['error_messages' => ['Sku is taken']], 422), ValidationFailed::class],
-    '401' => [fn () => captured('errors.401'), Unauthorized::class],
-    '403' => [fn () => captured('errors.403.suppliers.list'), Forbidden::class],
-    '404' => [fn () => captured('errors.404.order'), NotFound::class],
-    '429' => [fn () => captured('errors.429'), RateLimited::class],
+    '401' => [fn () => fixtureResponse('responses/errors.401'), Unauthorized::class],
+    '403' => [fn () => fixtureResponse('responses/errors.403.suppliers.list'), Forbidden::class],
+    '404' => [fn () => fixtureResponse('responses/errors.404.order'), NotFound::class],
+    '429' => [fn () => fixtureResponse('responses/errors.429'), RateLimited::class],
     '500' => [fn () => MockResponse::make('', 500), ServerError::class],
     '503' => [fn () => MockResponse::make('<html>down</html>', 503), ServerError::class],
 ]);
@@ -48,19 +48,19 @@ it('throws the base exception for a status without a subclass', function () {
 });
 
 it('does not extend Saloon status exceptions', function () {
-    expect(caught(captured('errors.404.order')))->not->toBeInstanceOf(NotFoundException::class);
+    expect(caught(fixtureResponse('responses/errors.404.order')))->not->toBeInstanceOf(NotFoundException::class);
 });
 
 it('flattens every Veeqo error body shape', function (MockResponse $response, array $messages) {
     expect(caught($response)->errorMessages())->toBe($messages);
 })->with([
-    'list' => [fn () => captured('errors.400.orders.bad_page_size'), ['Infinity']],
-    'string' => [fn () => captured('errors.400.shipping.rates'), ['Order must have a destination address.']],
-    'status/error, string status' => [fn () => captured('errors.404.product'), ['Not Found']],
-    'status/error, int status' => [fn () => captured('errors.404.route'), ['Not Found']],
+    'list' => [fn () => fixtureResponse('responses/errors.400.orders.bad_page_size'), ['Infinity']],
+    'string' => [fn () => fixtureResponse('responses/errors.400.shipping.rates'), ['Order must have a destination address.']],
+    'status/error, string status' => [fn () => fixtureResponse('responses/errors.404.product'), ['Not Found']],
+    'status/error, int status' => [fn () => fixtureResponse('responses/errors.404.route'), ['Not Found']],
     '422 list' => [fn () => MockResponse::make(['error_messages' => ['Sku is taken', 'Title is blank']], 422), ['Sku is taken', 'Title is blank']],
     'json-encoded upstream error stays a string' => [fn () => MockResponse::make(['error_messages' => ['{"code":"bad"}']], 422), ['{"code":"bad"}']],
-    'empty 429' => [fn () => captured('errors.429'), []],
+    'empty 429' => [fn () => fixtureResponse('responses/errors.429'), []],
     'non-json 5xx' => [fn () => MockResponse::make('<html>down</html>', 503), []],
 ]);
 
