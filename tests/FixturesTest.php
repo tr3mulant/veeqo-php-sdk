@@ -8,6 +8,7 @@ use TremulantTech\Veeqo\Exceptions\RateLimited;
 use TremulantTech\Veeqo\Exceptions\Unauthorized;
 use TremulantTech\Veeqo\Exceptions\ValidationFailed;
 use TremulantTech\Veeqo\Requests\Orders\GetOrder;
+use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
 use TremulantTech\Veeqo\Veeqo;
@@ -26,6 +27,8 @@ const HYDRATES = [
     'docs/list-all-orders' => Order::class,
     'docs/view-an-order-detail' => Order::class,
     'docs/show-returns-on-order' => OrderReturn::class,
+    'docs/create-a-new-order' => Order::class,
+    'docs/create-a-new-order-note' => Note::class,
 ];
 
 const THROWS = [
@@ -52,7 +55,7 @@ const PENDING = [
     'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show', 'responses/tags.list',
     'responses/tags.show', 'responses/warehouses.list', 'responses/warehouses.show',
     'docs/create-a-bundle', 'docs/create-a-customer', 'docs/create-a-delivery-method', 'docs/create-a-new-allocation',
-    'docs/create-a-new-order', 'docs/create-a-new-order-note', 'docs/create-a-new-product', 'docs/create-a-new-property',
+    'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-new-supplier', 'docs/create-a-new-tag', 'docs/create-a-shipment', 'docs/create-a-store',
     'docs/create-a-warehouse', 'docs/create-bundle-content', 'docs/createchannelsellable', 'docs/delete-purchase-order-line-item',
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order', 'docs/list-all-customers', 'docs/list-all-delivery-methods',

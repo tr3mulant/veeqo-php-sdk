@@ -6,12 +6,16 @@ use DateTimeImmutable;
 
 readonly class Channel
 {
+    /**
+     * @param  list<ChannelWarehouse>  $channelWarehouses
+     * @param  list<WarehouseSummary>  $activeWarehouses
+     * @param  list<WarehouseSummary>  $warehouses
+     */
     public function __construct(
         public int $id,
         public string $addressLine1,
         public string $addressLine2,
         public bool $automaticProductLinkingDisabled,
-        /** @var list<ChannelWarehouse> */
         public array $channelWarehouses,
         public string $city,
         public bool $createProductIfUnmatched,
@@ -28,7 +32,6 @@ readonly class Channel
         public string $state,
         public string $typeCode,
         public bool $updateRemoteOrder,
-        /** @var list<WarehouseSummary> */
         public array $activeWarehouses = [],
         public ?int $alwaysSetQty = null,
         public ?AmazonChannelSpecific $amazonChannelSpecific = null,
@@ -82,7 +85,6 @@ readonly class Channel
         public ?bool $veeqoDictatesPrice = null,
         public ?bool $veeqoDictatesStockLevel = null,
         public ?WarehouseSummary $warehouse = null,
-        /** @var list<WarehouseSummary> */
         public array $warehouses = [],
         public ?bool $withFba = null,
     ) {}

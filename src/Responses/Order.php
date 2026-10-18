@@ -6,40 +6,45 @@ use DateTimeImmutable;
 
 readonly class Order
 {
+    /**
+     * @param  list<Allocation>  $allocations
+     * @param  numeric-string  $deliveryCost
+     * @param  list<Note>  $employeeNotes
+     * @param  list<LineItem>  $lineItems
+     * @param  list<OrderReturn>  $returns
+     * @param  numeric-string  $subtotalPrice
+     * @param  numeric-string  $totalDiscounts
+     * @param  numeric-string  $totalPrice
+     * @param  numeric-string  $totalTax
+     * @param  numeric-string|null  $additionalOrderLevelTaxlessDiscount
+     * @param  numeric-string|null  $adjustmentAmount
+     * @param  numeric-string|null  $refundAmount
+     * @param  numeric-string|null  $shippingDiscount
+     * @param  numeric-string|null  $totalFees
+     */
     public function __construct(
         public int $id,
         public bool $allocatedCompletely,
-        /** @var list<Allocation> */
         public array $allocations,
         public Channel $channel,
         public DateTimeImmutable $createdAt,
         public User $createdBy,
-        /** @var numeric-string */
         public string $deliveryCost,
         public DeliveryMethodSummary $deliveryMethod,
-        /** @var list<Note> */
         public array $employeeNotes,
         public bool $fulfilledByAmazon,
-        /** @var list<LineItem> */
         public array $lineItems,
         public string $number,
         public bool $receiptPrinted,
-        /** @var list<OrderReturn> */
         public array $returns,
         public bool $sendNotificationEmail,
         public string $status,
-        /** @var numeric-string */
         public string $subtotalPrice,
-        /** @var numeric-string */
         public string $totalDiscounts,
-        /** @var numeric-string */
         public string $totalPrice,
-        /** @var numeric-string */
         public string $totalTax,
         public DateTimeImmutable $updatedAt,
-        /** @var numeric-string|null */
         public ?string $additionalOrderLevelTaxlessDiscount = null,
-        /** @var numeric-string|null */
         public ?string $adjustmentAmount = null,
         public ?Address $billingAddress = null,
         public ?bool $canBeShipped = null,
@@ -59,14 +64,11 @@ readonly class Order
         public ?Payment $payment = null,
         public ?bool $pickedCompletely = null,
         public ?string $pickedStatus = null,
-        /** @var numeric-string|null */
         public ?string $refundAmount = null,
         public ?bool $restockShippedItems = null,
         public ?string $salesRecordNumber = null,
         public ?DateTimeImmutable $shippedAt = null,
-        /** @var numeric-string|null */
         public ?string $shippingDiscount = null,
-        /** @var numeric-string|null */
         public ?string $totalFees = null,
         public ?bool $withDuties = null,
     ) {}

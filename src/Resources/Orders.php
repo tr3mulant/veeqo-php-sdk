@@ -6,9 +6,15 @@ use DateTimeInterface;
 use Generator;
 use LogicException;
 use Saloon\Http\Response;
+use TremulantTech\Veeqo\Data\Orders\CancelOrderData;
+use TremulantTech\Veeqo\Data\Orders\CreateOrderData;
+use TremulantTech\Veeqo\Data\Orders\UpdateOrderData;
 use TremulantTech\Veeqo\Enums\OrderStatus;
+use TremulantTech\Veeqo\Requests\Orders\CancelOrder;
+use TremulantTech\Veeqo\Requests\Orders\CreateOrder;
 use TremulantTech\Veeqo\Requests\Orders\GetOrder;
 use TremulantTech\Veeqo\Requests\Orders\ListOrders;
+use TremulantTech\Veeqo\Requests\Orders\UpdateOrder;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Veeqo;
 
@@ -51,5 +57,20 @@ class Orders
     public function get(int $id): Order
     {
         return $this->veeqo->hydrate(Order::class, $this->veeqo->send(new GetOrder($id)));
+    }
+
+    public function create(CreateOrderData $data): Order
+    {
+        return $this->veeqo->hydrate(Order::class, $this->veeqo->send(new CreateOrder($data)));
+    }
+
+    public function update(int $id, UpdateOrderData $data): void
+    {
+        $this->veeqo->send(new UpdateOrder($id, $data));
+    }
+
+    public function cancel(int $id, ?CancelOrderData $data = null): void
+    {
+        $this->veeqo->send(new CancelOrder($id, $data));
     }
 }

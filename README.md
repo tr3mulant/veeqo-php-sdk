@@ -41,6 +41,27 @@ foreach ($veeqo->paginate($request) as $page) {
 }
 ```
 
+Writes take a `Data` class named in Veeqo's wire terms (`*_attributes` included); null arguments are left out of the body and the `{"order": ...}` envelope is added for you. Edit the request body for anything the class can't express, such as an explicit null:
+
+```php
+use TremulantTech\Veeqo\Data\Orders\CreateOrderData;
+use TremulantTech\Veeqo\Data\Orders\LineItemData;
+use TremulantTech\Veeqo\Data\Orders\UpdateOrderData;
+use TremulantTech\Veeqo\Requests\Orders\UpdateOrder;
+
+$order = $veeqo->orders()->create(new CreateOrderData(
+    channelId: 1,
+    deliveryMethodId: 2,
+    customerId: 3,
+    deliverToId: 4,
+    lineItemsAttributes: [new LineItemData(sellableId: 5, pricePerUnit: '9.99', quantity: 1)],
+));
+
+$request = new UpdateOrder($order->id, new UpdateOrderData(deliveryMethodId: 6));
+$request->body()->set(['order' => [...$request->body()->get('order'), 'due_date' => null]]);
+$veeqo->send($request);
+```
+
 ## Laravel
 
 Auto-discovered. Set `VEEQO_API_KEY` in `.env`, then inject or resolve `Veeqo` (it is only bound when the key is set):

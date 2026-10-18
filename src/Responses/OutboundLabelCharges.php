@@ -4,9 +4,11 @@ namespace TremulantTech\Veeqo\Responses;
 
 readonly class OutboundLabelCharges
 {
+    /**
+     * @param  numeric-string|null  $value
+     */
     public function __construct(
         public ?string $unit = null,
-        /** @var numeric-string|null */
         public ?string $value = null,
     ) {}
 }

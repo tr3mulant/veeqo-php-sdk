@@ -6,6 +6,9 @@ use DateTimeImmutable;
 
 readonly class Shipment
 {
+    /**
+     * @param  numeric-string|null  $insuredValue
+     */
     public function __construct(
         public int $id,
         public int $allocationId,
@@ -18,7 +21,6 @@ readonly class Shipment
         public int $shippedById,
         public float $weight,
         public ?bool $hasReturnLabel = null,
-        /** @var numeric-string|null */
         public ?string $insuredValue = null,
         public ?string $labelUrl = null,
         public ?User $shippedBy = null,

@@ -6,6 +6,9 @@ use DateTimeImmutable;
 
 readonly class StockEntry
 {
+    /**
+     * @param  numeric-string  $sellableOnHandValue
+     */
     public function __construct(
         public int $allocatedStockLevel,
         public int $availableStockLevel,
@@ -13,7 +16,6 @@ readonly class StockEntry
         public bool $infinite,
         public int $physicalStockLevel,
         public int $sellableId,
-        /** @var numeric-string */
         public string $sellableOnHandValue,
         public DateTimeImmutable $updatedAt,
         public WarehouseSummary $warehouse,
