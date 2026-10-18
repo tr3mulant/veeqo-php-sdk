@@ -6,6 +6,7 @@ The package is `tremulanttech/veeqo-php-sdk` under the `TremulantTech\Veeqo` nam
 
 - **PHP `^8.4`.** We never claim a PHP version CI can't test, and the dev tooling (Pest 5, PHPUnit 13) needs 8.4. It also brings property hooks and asymmetric visibility to typed responses.
 - **Laravel: every version still in security support**, today `^12.0 || ^13.0`. Each is dropped once its security support ends.
+- **Pest is `^4.0 || ^5.2` while Laravel 12 is supported.** `orchestra/testbench-core` 10.x (Laravel 12) conflicts with PHPUnit `>=13.2`, and Pest 5 needs `^13.2.4`, so Laravel 12 CI lanes resolve Pest 4 / PHPUnit 12. Laravel 13 lanes use Pest 5. Drop the `^4.0` alternative when Laravel 12 is dropped.
 - **Laravel is optional.** `illuminate/support` goes in `require-dev` and `suggest`, never `require`. A `conflict` entry blocks unsupported versions (`illuminate/support: <12.0`). There's no separate Laravel package while the layer is one service provider; revisit when it grows facades or fakes (the same trigger as Larastan in ADR 0002).
 - **0.x until the core API is covered and verified against the live API**, then 1.0.0. In 0.x, minor releases may break, as Composer's `^0.x` allows.
 - **Public API** is everything in `src/` not marked `@internal`.

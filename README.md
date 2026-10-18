@@ -40,5 +40,6 @@ Veeqo allows 5 requests/second (burst of 100). Requests that get a 429 are retri
 ## Testing
 
 ```bash
-vendor/bin/pest
+composer test
+composer analyse   # PHPStan level 10, same command CI runs
 ```

@@ -4,16 +4,33 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "saloonphp/saloon": "^4.0",
-        "saloonphp/pagination-plugin": "^2.3"
+        "php": "^8.4",
+        "cuyz/valinor": "^2.6",
+        "saloonphp/pagination-plugin": "^2.3",
+        "saloonphp/rate-limit-plugin": "^2.5",
+        "saloonphp/saloon": "^4.0"
     },
     "require-dev": {
-        "pestphp/pest": "^5.2"
+        "illuminate/support": "^12.0 || ^13.0",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "pestphp/pest": "^4.0 || ^5.2",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.0"
+    },
+    "suggest": {
+        "illuminate/support": "Required for the Laravel service provider (^12.0 || ^13.0)."
+    },
+    "conflict": {
+        "illuminate/support": "<12.0"
     },
     "autoload": {
         "psr-4": {
             "TremulantTech\\Veeqo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "extra": {
@@ -30,5 +47,9 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "analyse": "phpstan analyse --memory-limit=1G",
+        "test": "pest"
+    }
 }

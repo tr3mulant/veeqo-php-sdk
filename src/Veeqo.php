@@ -19,7 +19,7 @@ class Veeqo extends Connector implements HasPagination
     use AlwaysThrowOnErrors;
 
     // Veeqo allows 5 req/s with a burst bucket of 100; a 429 means back off and retry.
-    // ponytail: reactive retry only, add saloonphp/rate-limit-plugin if bulk jobs keep hitting 429s.
+    // Proactive limiting is opt-in via saloonphp/rate-limit-plugin (ADR 0009, not wired yet).
     public ?int $tries = 4;
 
     public ?int $retryInterval = 1000;
