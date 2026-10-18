@@ -5,6 +5,10 @@ namespace TremulantTech\Veeqo;
 use CuyZ\Valinor\Mapper\MappingError;
 use CuyZ\Valinor\Mapper\TreeMapper;
 use CuyZ\Valinor\MapperBuilder;
+use CuyZ\Valinor\Normalizer\Format;
+use CuyZ\Valinor\Normalizer\Normalizer;
+use CuyZ\Valinor\NormalizerBuilder;
+use DateTimeInterface;
 use LogicException;
 use Psr\Http\Message\RequestInterface;
 use Saloon\Contracts\Authenticator;
@@ -27,6 +31,8 @@ use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 use Throwable;
 use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
+use TremulantTech\Veeqo\Resources\LineItems;
+use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
 use TremulantTech\Veeqo\Resources\Returns;
 
@@ -48,6 +54,9 @@ class Veeqo extends Connector implements HasPagination
     private readonly string $limiterPrefix;
 
     private ?TreeMapper $mapper = null;
+
+    /** @var Normalizer<array<mixed>|scalar|null>|null */
+    private static ?Normalizer $normalizer = null;
 
     /**
      * Private so a connector is only built by credential kind, one per Veeqo account (ADR 0005).
@@ -71,6 +80,16 @@ class Veeqo extends Connector implements HasPagination
     public static function withAccessToken(#[\SensitiveParameter] string $accessToken, ?RateLimitStore $rateLimitStore = null): static
     {
         return new static(new TokenAuthenticator($accessToken), $accessToken, $rateLimitStore);
+    }
+
+    public function lineItems(): LineItems
+    {
+        return new LineItems($this);
+    }
+
+    public function notes(): Notes
+    {
+        return new Notes($this);
     }
 
     public function orders(): Orders
@@ -218,6 +237,52 @@ class Veeqo extends Connector implements HasPagination
     }
 
     /**
+     * @internal
+     *
+     * A request body in wire terms: null properties dropped, snake_case keys, DATE_ATOM dates, enum values (ADR 0010).
+     *
+     * @return array<string, mixed>
+     */
+    public static function normalize(object $data): array
+    {
+        self::$normalizer ??= (new NormalizerBuilder)
+            ->registerTransformer(self::toWire(...))
+            ->normalizer(Format::array());
+
+        $body = self::$normalizer->normalize($data);
+        if (! is_array($body)) {
+            throw new LogicException('Expected an object to normalize to an array');
+        }
+
+        /** @var array<string, mixed> $body */
+        return $body;
+    }
+
+    /**
+     * @pure
+     *
+     * @param  pure-callable(): mixed  $next
+     */
+    private static function toWire(object $value, callable $next): mixed
+    {
+        if ($value instanceof DateTimeInterface) {
+            return $value->format(DATE_ATOM);
+        }
+        $normalized = $next();
+        if (! is_array($normalized)) {
+            return $normalized;
+        }
+        $body = [];
+        foreach ($normalized as $key => $field) {
+            if ($field !== null) {
+                $body[strtolower((string) preg_replace('/[A-Z]/', '_$0', (string) $key))] = $field;
+            }
+        }
+
+        return $body;
+    }
+
+    /**
      * @template T of object
      *
      * @param  class-string<T>  $class
@@ -237,14 +302,19 @@ class Veeqo extends Connector implements HasPagination
         return $this->mapper ??= (new MapperBuilder)
             ->allowSuperfluousKeys()
             ->registerKeyConverter(self::propertyName(...))
-            ->registerConverter(
-                /**
-                 * var_export, because (string) cuts a float to 14 digits (ADR 0007).
-                 *
-                 * @return numeric-string
-                 */
-                static fn (int|float $money): string => var_export($money, true),
-            )
+            ->registerConverter(self::money(...))
             ->mapper();
+    }
+
+    /**
+     * var_export, because (string) cuts a float to 14 digits (ADR 0007).
+     *
+     * @pure
+     *
+     * @return numeric-string
+     */
+    private static function money(int|float $money): string
+    {
+        return var_export($money, true); // @phpstan-ignore return.type (a JSON number is finite, so this is always digits)
     }
 }

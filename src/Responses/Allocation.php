@@ -6,10 +6,12 @@ use DateTimeImmutable;
 
 readonly class Allocation
 {
+    /**
+     * @param  list<AllocationLineItem>  $lineItems
+     */
     public function __construct(
         public int $id,
         public DateTimeImmutable $createdAt,
-        /** @var list<AllocationLineItem> */
         public array $lineItems,
         public int $orderId,
         public float $totalWeight,

@@ -9,6 +9,9 @@ use DateTimeImmutable;
  */
 readonly class OrderReturn
 {
+    /**
+     * @param  list<OrderReturnLineItem>  $lineItems
+     */
     public function __construct(
         public int $id,
         public ?DateTimeImmutable $createdAt = null,
@@ -17,7 +20,6 @@ readonly class OrderReturn
         public ?string $type = null,
         public ?User $user = null,
         public ?string $warehouseName = null,
-        /** @var list<OrderReturnLineItem> */
         public array $lineItems = [],
     ) {}
 }
