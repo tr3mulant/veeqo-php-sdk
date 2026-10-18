@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 use Tests\Laravel\TestCase;
@@ -8,14 +9,6 @@ use TremulantTech\Veeqo\Veeqo;
 use TremulantTech\Veeqo\VeeqoServiceProvider;
 
 uses(TestCase::class);
-
-function registerWithApiKey(?string $apiKey): void
-{
-    config(['veeqo.api_key' => $apiKey]);
-    app()->forgetInstance(Veeqo::class);
-    app()->offsetUnset(Veeqo::class);
-    app()->register(VeeqoServiceProvider::class, force: true);
-}
 
 it('binds a connector built from the configured api key', function () {
     registerWithApiKey('laravel-key');
@@ -38,3 +31,18 @@ it('does not bind a connector without an api key', function (?string $apiKey) {
 
     expect(app()->bound(Veeqo::class))->toBeFalse();
 })->with(['null' => null, 'empty' => '']);
+
+it('rate limits the singleton through the configured cache store', function () {
+    registerWithApiKey('laravel-key', 'array');
+    app(Veeqo::class)->withMockClient(new MockClient([MockResponse::make(['id' => 7])]))->send(new GetOrder(7));
+
+    expect(Cache::store('array')->get('veeqo:'.hash('sha256', 'laravel-key').':25_every_5'))->toBeString();
+});
+
+function registerWithApiKey(?string $apiKey, ?string $rateLimitStore = null): void
+{
+    config(['veeqo.api_key' => $apiKey, 'veeqo.rate_limit_store' => $rateLimitStore]);
+    app()->forgetInstance(Veeqo::class);
+    app()->offsetUnset(Veeqo::class);
+    app()->register(VeeqoServiceProvider::class, force: true);
+}

@@ -2,6 +2,7 @@
 
 namespace TremulantTech\Veeqo;
 
+use LogicException;
 use Saloon\Contracts\Authenticator;
 use Saloon\Enums\Method;
 use Saloon\Exceptions\Request\FatalRequestException;
@@ -13,6 +14,9 @@ use Saloon\Http\Request;
 use Saloon\Http\Response;
 use Saloon\PaginationPlugin\Contracts\HasPagination;
 use Saloon\PaginationPlugin\PagedPaginator;
+use Saloon\RateLimitPlugin\Contracts\RateLimitStore;
+use Saloon\RateLimitPlugin\Limit;
+use Saloon\RateLimitPlugin\Traits\HasRateLimits;
 use Saloon\Traits\Plugins\AcceptsJson;
 use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 use Throwable;
@@ -28,26 +32,39 @@ class Veeqo extends Connector implements HasPagination
 {
     use AcceptsJson;
     use AlwaysThrowOnErrors;
+    use HasRateLimits;
 
     // 1 request + 3 retries, backing off 1s, 2s, 4s; callers tune these per connector or request (ADR 0001).
-    // Proactive limiting is opt-in via saloonphp/rate-limit-plugin (ADR 0009, not wired yet).
     public ?int $tries = 4;
 
     public ?int $retryInterval = 1000;
 
     public ?bool $useExponentialBackoff = true;
 
-    // One connector per Veeqo account, named by credential kind (ADR 0005).
-    final private function __construct(private readonly Authenticator $credential) {}
+    private readonly string $limiterPrefix;
 
-    public static function withApiKey(#[\SensitiveParameter] string $apiKey): static
-    {
-        return new static(new HeaderAuthenticator($apiKey, 'x-api-key'));
+    // One connector per Veeqo account, named by credential kind (ADR 0005). Proactive limiting is
+    // opt-in: without a store no limiter runs, and the store only ever sees a hash of the credential (ADR 0009).
+    final private function __construct(
+        private readonly Authenticator $credential,
+        #[\SensitiveParameter] string $secret,
+        ?RateLimitStore $rateLimitStore,
+    ) {
+        $this->limiterPrefix = 'veeqo:'.hash('sha256', $secret);
+        $this->rateLimitStore = $rateLimitStore;
+        $this->rateLimitingEnabled = $rateLimitStore !== null;
+        // A 429 is left to the reactive retries; the plugin would lock the credential for 60s and throw (ADR 0009).
+        $this->detectTooManyAttempts = false;
     }
 
-    public static function withAccessToken(#[\SensitiveParameter] string $accessToken): static
+    public static function withApiKey(#[\SensitiveParameter] string $apiKey, ?RateLimitStore $rateLimitStore = null): static
     {
-        return new static(new TokenAuthenticator($accessToken));
+        return new static(new HeaderAuthenticator($apiKey, 'x-api-key'), $apiKey, $rateLimitStore);
+    }
+
+    public static function withAccessToken(#[\SensitiveParameter] string $accessToken, ?RateLimitStore $rateLimitStore = null): static
+    {
+        return new static(new TokenAuthenticator($accessToken), $accessToken, $rateLimitStore);
     }
 
     public function resolveBaseUrl(): string
@@ -58,6 +75,23 @@ class Veeqo extends Connector implements HasPagination
     protected function defaultAuth(): Authenticator
     {
         return $this->credential;
+    }
+
+    // A fixed window can pass 2N across a boundary: 25 per 5s caps a burst at 50, under the ~56 observed (ADR 0009).
+    protected function resolveLimits(): array
+    {
+        return [Limit::allow(25)->everySeconds(5)->sleep()];
+    }
+
+    protected function getLimiterPrefix(): string
+    {
+        return $this->limiterPrefix;
+    }
+
+    // Only reached via the plugin's useRateLimitPlugin(): a store is only ever passed at construction (ADR 0009).
+    protected function resolveRateLimitStore(): RateLimitStore
+    {
+        throw new LogicException('Pass rateLimitStore: to Veeqo::withApiKey() or Veeqo::withAccessToken() to enable rate limiting.');
     }
 
     public function getRequestException(Response $response, ?Throwable $senderException): VeeqoRequestException

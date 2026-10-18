@@ -60,6 +60,18 @@ Veeqo allows 5 requests/second (burst of 100). A failed request is retried up to
 
 Tune with Saloon's `$tries`, `$retryInterval` and `$useExponentialBackoff` on the connector or a request, e.g. `$request->tries = 1` in a queue job that has its own retries.
 
+## Rate limiting
+
+Veeqo's limit belongs to one credential. Many workers sharing one access token will use up the retries, so pass a shared [rate limit store](https://docs.saloon.dev/installable-plugins/handling-rate-limits) (Redis, PSR-16, Laravel cache, ...) to keep all of them to 25 requests per 5 seconds. Once the window is full, a request sleeps until the window resets and never throws:
+
+```php
+use Saloon\RateLimitPlugin\Stores\RedisStore;
+
+$veeqo = Veeqo::withAccessToken($accessToken, rateLimitStore: new RedisStore($redis));
+```
+
+The store only ever sees a SHA-256 of the credential. Without a store, no limiter runs. In Laravel, set `VEEQO_RATE_LIMIT_STORE` to a cache store name (e.g. `redis`) for the bound `Veeqo`. To change the limits, subclass `Veeqo` and override `resolveLimits()`.
+
 ## Development
 
 ```bash
