@@ -1,0 +1,41 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/shipping/tracking_events/{shipment_id}",
+        "operation": "https://developers.veeqo.com/api/operations/view-tracking-events/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": [
+        {
+            "timestamp": "2024-12-26T15:57:20+00:00",
+            "description": "Awaiting collection",
+            "detail": null,
+            "location": null,
+            "status": "awaiting_collection"
+        },
+        {
+            "timestamp": "2024-12-27T00:37:00+00:00",
+            "description": "In transit",
+            "detail": null,
+            "location": "Doraville, GA, US",
+            "status": "in_transit"
+        },
+        {
+            "timestamp": "2024-12-31T01:57:36+00:00",
+            "description": "Out for delivery",
+            "detail": null,
+            "location": "",
+            "status": "out_for_delivery"
+        },
+        {
+            "timestamp": "2025-01-02T19:22:00+00:00",
+            "description": "Delivered",
+            "detail": null,
+            "location": "East Syracuse, NY, US",
+            "status": "delivered"
+        }
+    ]
+}

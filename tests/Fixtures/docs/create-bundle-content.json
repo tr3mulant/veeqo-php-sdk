@@ -1,0 +1,130 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/kits/{kit_id}/kit_contents",
+        "operation": "https://developers.veeqo.com/api/operations/create-bundle-content/"
+    },
+    "status": 200,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "id": 1339393,
+        "product_variant_id": 139794497,
+        "kit_id": 220439988,
+        "quantity": 1,
+        "created_at": "2024-03-29T12:14:31.713Z",
+        "updated_at": "2024-03-29T12:14:31.713Z",
+        "deleted_at": null,
+        "deleted_by_id": null,
+        "sku_code": "SUP-007",
+        "title": "VEEQO SHORT SLEEVE T-SHIRT [DEMO] MEDIUM",
+        "total_available_stock_level": 9345,
+        "product_variant": {
+            "id": 139794497,
+            "type": "ProductVariant",
+            "title": "MEDIUM",
+            "sku_code": "SUP-007",
+            "upc_code": "725272730706",
+            "model_number": "",
+            "price": 0,
+            "cost_price": 0,
+            "min_reorder_level": 0,
+            "quantity_to_reorder": 0,
+            "created_by_id": 85999,
+            "created_at": "2023-09-20T14:27:48.401Z",
+            "updated_at": "2025-09-05T10:29:43.504Z",
+            "deleted_at": null,
+            "weight_grams": 0,
+            "weight_unit": "oz",
+            "product_title": "VEEQO SHORT SLEEVE T-SHIRT [DEMO]",
+            "full_title": "VEEQO SHORT SLEEVE T-SHIRT [DEMO] MEDIUM",
+            "sellable_title": "MEDIUM",
+            "profit": 0,
+            "margin": 0,
+            "tax_rate": 0,
+            "estimated_delivery": null,
+            "origin_country": null,
+            "hs_tariff_number": null,
+            "supplementary_units": 0,
+            "customs_description": null,
+            "hazmat": null,
+            "image_url": "https://thumbnails.veeqo.com/ME846VyJpz7rp5Xqw7HUOAeK_L77BsUj0k8a69LHTiI/rs:fit:1000:1000/aHR0cHM6Ly9zdGF0/aWMudmVlcW8uY29t/L2Zyb250ZW5kL2Rl/bW9fZGF0YV9pbWFn/ZXMvcHJvZHVjdHMv/dnExNS10c2hpcnQu/cG5n",
+            "product": {
+                "id": 71784455,
+                "title": "VEEQO SHORT SLEEVE T-SHIRT [DEMO]",
+                "weight": 0,
+                "origin_country": "GB",
+                "hs_tariff_number": "2501001000",
+                "tax_rate": 0,
+                "estimated_delivery": null,
+                "deleted_at": null,
+                "deleted_by_id": null,
+                "description": "",
+                "main_image_src": "https://thumbnails.veeqo.com/ME846VyJpz7rp5Xqw7HUOAeK_L77BsUj0k8a69LHTiI/rs:fit:1000:1000/aHR0cHM6Ly9zdGF0/aWMudmVlcW8uY29t/L2Zyb250ZW5kL2Rl/bW9fZGF0YV9pbWFn/ZXMvcHJvZHVjdHMv/dnExNS10c2hpcnQu/cG5n"
+            },
+            "stock_entries": [
+                {
+                    "sellable_id": 139794497,
+                    "warehouse_id": 88368,
+                    "infinite": false,
+                    "allocated_stock_level": 35,
+                    "stock_running_low": false,
+                    "updated_at": "2025-08-14T16:34:52.103Z",
+                    "incoming_stock_level": 0,
+                    "transit_outgoing_stock_level": 0,
+                    "warehouse": {
+                        "id": 88368,
+                        "name": "My Location",
+                        "display_position": 9999
+                    },
+                    "physical_stock_level": 9341,
+                    "available_stock_level": 9306,
+                    "sellable_on_hand_value": 0,
+                    "transit_incoming_stock_level": 0,
+                    "location": "B001 D001 C043"
+                },
+                {
+                    "sellable_id": 139794497,
+                    "warehouse_id": 90236,
+                    "infinite": false,
+                    "allocated_stock_level": 1,
+                    "stock_running_low": false,
+                    "updated_at": "2024-04-16T09:06:27.894Z",
+                    "incoming_stock_level": 0,
+                    "transit_outgoing_stock_level": 0,
+                    "warehouse": {
+                        "id": 90236,
+                        "name": "Test Warehouse",
+                        "display_position": 9999
+                    },
+                    "physical_stock_level": 40,
+                    "available_stock_level": 39,
+                    "sellable_on_hand_value": 0,
+                    "transit_incoming_stock_level": 0,
+                    "location": null
+                },
+                {
+                    "sellable_id": 139794497,
+                    "warehouse_id": 334769,
+                    "infinite": false,
+                    "allocated_stock_level": 0,
+                    "stock_running_low": true,
+                    "updated_at": "2025-07-02T08:33:32.907Z",
+                    "incoming_stock_level": 0,
+                    "transit_outgoing_stock_level": 0,
+                    "warehouse": {
+                        "id": 334769,
+                        "name": "API Created Warehouse",
+                        "display_position": 9999
+                    },
+                    "physical_stock_level": 0,
+                    "available_stock_level": 0,
+                    "sellable_on_hand_value": 0,
+                    "transit_incoming_stock_level": 0,
+                    "location": null
+                }
+            ]
+        }
+    }
+}

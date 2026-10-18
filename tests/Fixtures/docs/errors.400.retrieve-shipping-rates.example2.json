@@ -1,0 +1,14 @@
+{
+    "source": {
+        "method": "GET",
+        "path": "/shipping/rates/{allocation_id}",
+        "operation": "https://developers.veeqo.com/api/operations/retrieve-shipping-rates/"
+    },
+    "status": 400,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "error_messages": "This allocation is already shipped"
+    }
+}

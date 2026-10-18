@@ -6,6 +6,7 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 use Saloon\Http\PendingRequest;
 use Saloon\Http\Request;
+use TremulantTech\Veeqo\Enums\OrderStatus;
 use TremulantTech\Veeqo\Requests\Orders\GetOrder;
 use TremulantTech\Veeqo\Requests\Orders\ListOrders;
 use TremulantTech\Veeqo\Veeqo;
@@ -55,7 +56,7 @@ it('paginates with page and page_size until a short page', function () {
         return MockResponse::make(array_fill(0, $count, ['id' => 1]));
     }]);
 
-    $items = veeqo($mock)->paginate(new ListOrders(['status' => 'shipped']))->items();
+    $items = veeqo($mock)->paginate(new ListOrders(status: OrderStatus::Shipped))->items();
 
     expect(iterator_count($items))->toBe(103)
         ->and($pages)->toBe([
@@ -64,7 +65,6 @@ it('paginates with page and page_size until a short page', function () {
         ]);
 });
 
-// Records attempts and backoff sleeps for one request against a response that always fails the same way.
 function retryAttempts(Request $request, MockResponse $response, ?Veeqo $veeqo = null): array
 {
     $sleeps = [];

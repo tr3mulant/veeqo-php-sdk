@@ -1,0 +1,16 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/shipping/shipments",
+        "operation": "https://developers.veeqo.com/api/operations/purchase-shipping-labels/"
+    },
+    "status": 400,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "error_messages": [
+            "InvalidRequestException, errorCode: INVALID_VALUE_ADDED_SERVICES, errorMessage: The requested value added services are invalid. Please check the value added services offered in the GetRates response."
+        ]
+    }
+}

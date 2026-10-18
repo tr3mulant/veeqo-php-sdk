@@ -1,0 +1,22 @@
+{
+    "source": {
+        "method": "POST",
+        "path": "/orders/{order_id}/notes",
+        "operation": "https://developers.veeqo.com/api/operations/create-a-new-order-note/"
+    },
+    "status": 201,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "created_at": "2017-03-02T13:47:22.026Z",
+        "created_by": {
+            "email": "john.doe@veeqo.com",
+            "id": 1602,
+            "login": "John Doe"
+        },
+        "id": 287170,
+        "order_id": 323498,
+        "text": "Customer wants it very soon"
+    }
+}

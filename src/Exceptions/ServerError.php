@@ -2,5 +2,7 @@
 
 namespace TremulantTech\Veeqo\Exceptions;
 
-// 5xx
+/**
+ * 5xx
+ */
 class ServerError extends VeeqoRequestException {}
