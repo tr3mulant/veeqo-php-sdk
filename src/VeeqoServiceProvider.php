@@ -3,7 +3,6 @@
 namespace TremulantTech\Veeqo;
 
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 // Only loaded by Laravel via package auto-discovery; plain PHP users never touch this class.
@@ -13,15 +12,12 @@ class VeeqoServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/veeqo.php', 'veeqo');
 
-        $this->app->singleton(Veeqo::class, function (Application $app) {
-            $config = $app->make(Repository::class);
-            $apiKey = $config->get('veeqo.api_key');
+        // Never bind a connector with an empty credential; Appstore apps call Veeqo::withAccessToken() themselves (ADR 0005).
+        $apiKey = $this->app->make(Repository::class)->get('veeqo.api_key');
 
-            return new Veeqo(
-                apiKey: is_string($apiKey) ? $apiKey : '',
-                baseUrl: $config->string('veeqo.base_url'),
-            );
-        });
+        if (is_string($apiKey) && $apiKey !== '') {
+            $this->app->singleton(Veeqo::class, fn () => Veeqo::withApiKey($apiKey));
+        }
     }
 
     public function boot(): void
