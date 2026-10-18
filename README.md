@@ -60,9 +60,11 @@ Veeqo allows 5 requests/second (burst of 100). A failed request is retried up to
 
 Tune with Saloon's `$tries`, `$retryInterval` and `$useExponentialBackoff` on the connector or a request, e.g. `$request->tries = 1` in a queue job that has its own retries.
 
-## Testing
+## Development
 
 ```bash
+vendor/bin/lefthook install   # once: pre-commit hook runs Pint on staged files
 composer test
 composer analyse   # PHPStan level 10, same command CI runs
+composer lint      # Pint (laravel preset) check; vendor/bin/pint fixes
 ```
