@@ -59,6 +59,7 @@ it('flattens every Veeqo error body shape', function (MockResponse $response, ar
     'status/error, string status' => [fn () => fixtureResponse('responses/errors.404.product'), ['Not Found']],
     'status/error, int status' => [fn () => fixtureResponse('responses/errors.404.route'), ['Not Found']],
     '422 list' => [fn () => MockResponse::make(['error_messages' => ['Sku is taken', 'Title is blank']], 422), ['Sku is taken', 'Title is blank']],
+    'rails full_messages' => [fn () => fixtureResponse('docs/errors.422.update-allocation-package'), ['Weight must be greater than or equal to 0']],
     'json-encoded upstream error stays a string' => [fn () => MockResponse::make(['error_messages' => ['{"code":"bad"}']], 422), ['{"code":"bad"}']],
     'empty 429' => [fn () => fixtureResponse('responses/errors.429'), []],
     'non-json 5xx' => [fn () => MockResponse::make('<html>down</html>', 503), []],

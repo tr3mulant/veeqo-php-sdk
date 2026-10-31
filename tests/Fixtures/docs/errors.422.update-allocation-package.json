@@ -1,0 +1,21 @@
+{
+    "source": {
+        "method": "PUT",
+        "path": "/allocations/{allocation_id}/allocation_package",
+        "operation": "https://developers.veeqo.com/api/operations/update-allocation-package/"
+    },
+    "status": 422,
+    "headers": {
+        "content-type": "application/json"
+    },
+    "body": {
+        "errors": {
+            "weight": [
+                "must be greater than or equal to 0"
+            ]
+        },
+        "full_messages": [
+            "Weight must be greater than or equal to 0"
+        ]
+    }
+}
