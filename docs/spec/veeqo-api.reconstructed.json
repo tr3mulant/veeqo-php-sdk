@@ -28529,8 +28529,45 @@
               }
             }
           },
+          "404": {
+            "description": "No allocation with this id belongs to your company."
+          },
           "422": {
-            "description": ""
+            "description": "The allocation package failed to update, for example with a negative weight, or with no dimensions stored and no valid pair sent. `errors` lists the messages by field, and `full_messages` as sentences.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "full_messages": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "errors": {
+                      "weight": [
+                        "must be greater than or equal to 0"
+                      ]
+                    },
+                    "full_messages": [
+                      "Weight must be greater than or equal to 0"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
