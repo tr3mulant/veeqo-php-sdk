@@ -31,6 +31,8 @@ use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 use Throwable;
 use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
+use TremulantTech\Veeqo\Resources\AllocationPackages;
+use TremulantTech\Veeqo\Resources\Allocations;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
@@ -80,6 +82,16 @@ class Veeqo extends Connector implements HasPagination
     public static function withAccessToken(#[\SensitiveParameter] string $accessToken, ?RateLimitStore $rateLimitStore = null): static
     {
         return new static(new TokenAuthenticator($accessToken), $accessToken, $rateLimitStore);
+    }
+
+    public function allocationPackages(): AllocationPackages
+    {
+        return new AllocationPackages($this);
+    }
+
+    public function allocations(): Allocations
+    {
+        return new Allocations($this);
     }
 
     public function lineItems(): LineItems
@@ -224,6 +236,38 @@ class Veeqo extends Connector implements HasPagination
         }
 
         return array_map(fn (mixed $item) => $this->map($class, $item, $response), $items);
+    }
+
+    /**
+     * @internal
+     *
+     * @template T of object
+     *
+     * @param  class-string<T>  $class
+     * @return T
+     *
+     * @throws UnexpectedResponse
+     */
+    public function hydrateJsonApi(string $class, Response $response): object
+    {
+        return $this->map($class, self::unwrapJsonApi($response->json()), $response);
+    }
+
+    /**
+     * @internal
+     *
+     * A JSON:API `data` object as the flat entity: its numeric string id as an int, beside its attributes (ADR 0006).
+     *
+     * @pure
+     */
+    public static function unwrapJsonApi(mixed $body): mixed
+    {
+        if (! is_array($body) || ! is_array($body['data'] ?? null) || ! is_array($body['data']['attributes'] ?? null)) {
+            return $body;
+        }
+        $id = $body['data']['id'] ?? null;
+
+        return ['id' => is_numeric($id) ? (int) $id : $id, ...$body['data']['attributes']];
     }
 
     /**

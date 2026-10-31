@@ -9,23 +9,25 @@
         "content-type": "application/json"
     },
     "body": {
-        "id": "221127044",
-        "type": "allocation_package",
-        "attributes": {
-            "allocation_id": 447345401,
-            "created_at": "2025-02-25T17:03:00.202Z",
-            "depth": 7,
-            "height": 234,
-            "package_id": null,
-            "package_provider": "CUSTOM",
-            "package_selection_source": "ONE_OFF",
-            "package_name": null,
-            "similarity_key": "b85f12fa270a46dbfe254f4e6085b59f626ec4f2",
-            "updated_at": "2025-06-10T13:12:21.847Z",
-            "weight": 29.98,
-            "width": 433,
-            "weight_unit": "oz",
-            "dimensions_unit": "inches"
+        "data": {
+            "id": "221127044",
+            "type": "allocation_package",
+            "attributes": {
+                "allocation_id": 447345401,
+                "created_at": "2025-02-25T17:03:00.202Z",
+                "depth": 7,
+                "height": 234,
+                "package_id": null,
+                "package_provider": null,
+                "package_selection_source": "ONE_OFF",
+                "package_name": null,
+                "similarity_key": "b85f12fa270a46dbfe254f4e6085b59f626ec4f2",
+                "updated_at": "2025-06-10T13:12:21.847Z",
+                "weight": 29.98,
+                "width": 433,
+                "weight_unit": "oz",
+                "dimensions_unit": "inches"
+            }
         }
     }
 }
