@@ -8,6 +8,8 @@ use TremulantTech\Veeqo\Exceptions\RateLimited;
 use TremulantTech\Veeqo\Exceptions\Unauthorized;
 use TremulantTech\Veeqo\Exceptions\ValidationFailed;
 use TremulantTech\Veeqo\Requests\Orders\GetOrder;
+use TremulantTech\Veeqo\Responses\Allocation;
+use TremulantTech\Veeqo\Responses\AllocationPackage;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
@@ -29,7 +31,15 @@ const HYDRATES = [
     'docs/show-returns-on-order' => OrderReturn::class,
     'docs/create-a-new-order' => Order::class,
     'docs/create-a-new-order-note' => Note::class,
+    'docs/create-a-new-allocation' => Order::class,
+    'docs/update-allocation-detail' => Allocation::class,
+    'docs/update-allocation-package' => AllocationPackage::class,
 ];
+
+/**
+ * JSON:API bodies, unwrapped from `data` before hydrating (ADR 0006).
+ */
+const JSON_API = ['docs/update-allocation-package'];
 
 const THROWS = [
     'responses/errors.400.orders.bad_page_size' => ValidationFailed::class,
@@ -55,7 +65,7 @@ const PENDING = [
     'responses/customers.show', 'responses/delivery_methods.list', 'responses/delivery_methods.show', 'responses/products.list',
     'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show', 'responses/tags.list',
     'responses/tags.show', 'responses/warehouses.list', 'responses/warehouses.show',
-    'docs/create-a-bundle', 'docs/create-a-customer', 'docs/create-a-delivery-method', 'docs/create-a-new-allocation',
+    'docs/create-a-bundle', 'docs/create-a-customer', 'docs/create-a-delivery-method',
     'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-new-supplier', 'docs/create-a-new-tag', 'docs/create-a-shipment', 'docs/create-a-store',
     'docs/create-a-warehouse', 'docs/create-bundle-content', 'docs/createchannelsellable', 'docs/delete-purchase-order-line-item',
@@ -63,7 +73,7 @@ const PENDING = [
     'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-stores', 'docs/list-all-suppliers',
     'docs/list-all-tags', 'docs/list-all-warehouses', 'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
     'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
-    'docs/update-allocation-detail', 'docs/update-allocation-package', 'docs/update-a-stock-entry', 'docs/update-bundle-content',
+    'docs/update-a-stock-entry', 'docs/update-bundle-content',
     'docs/update-customer-detail', 'docs/update-delivery-method-detail', 'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order', 'docs/update-store-detail', 'docs/update-warehouse-detail', 'docs/view-an-tag-detail',
     'docs/view-a-supplier-detail', 'docs/view-company-detail', 'docs/view-customer-detail', 'docs/view-delivery-method',
@@ -84,6 +94,10 @@ function hydrateFixture(string $name, string|array $class): array
 {
     $response = sentFixture($name);
     $veeqo = Veeqo::withApiKey('test-key');
+
+    if (in_array($name, JSON_API, true)) {
+        return [$veeqo->hydrateJsonApi($class, $response), Veeqo::unwrapJsonApi($response->json())];
+    }
 
     return [is_array($class) ? $veeqo->hydrateList($class[0], $response) : $veeqo->hydrate($class, $response), $response->json()];
 }

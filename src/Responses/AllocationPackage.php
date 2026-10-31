@@ -20,5 +20,7 @@ readonly class AllocationPackage
         public float $weight,
         public string $weightUnit,
         public float $width,
+        public ?string $packageId = null,
+        public ?string $packageProvider = null,
     ) {}
 }
