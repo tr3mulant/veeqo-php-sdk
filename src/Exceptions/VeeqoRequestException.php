@@ -27,14 +27,14 @@ class VeeqoRequestException extends RequestException implements VeeqoException
     }
 
     /**
-     * Veeqo's error body comes in three shapes: {"error_messages": [..]}, {"error_messages": "..."} and {"status", "error"}.
+     * Veeqo's error body comes in four shapes: {"error_messages": [..]}, {"error_messages": "..."}, {"status", "error"} and Rails' {"errors": {..}, "full_messages": [..]}.
      *
      * @return list<string>
      */
     public function errorMessages(): array
     {
         $body = json_decode($this->getResponse()->body(), true);
-        $messages = is_array($body) ? $body['error_messages'] ?? $body['error'] ?? null : null;
+        $messages = is_array($body) ? $body['error_messages'] ?? $body['error'] ?? $body['full_messages'] ?? null : null;
 
         return match (true) {
             is_string($messages) => [$messages],

@@ -44,6 +44,7 @@ const THROWS = [
     'docs/errors.400.purchase-shipping-labels' => ValidationFailed::class,
     'docs/errors.400.retrieve-shipping-rates.example1' => ValidationFailed::class,
     'docs/errors.400.retrieve-shipping-rates.example2' => ValidationFailed::class,
+    'docs/errors.422.update-allocation-package' => ValidationFailed::class,
 ];
 
 /**
