@@ -9,7 +9,7 @@ Callers catch SDK-owned exceptions, not Saloon's. Every HTTP error is a `VeeqoRe
   - Subclasses extend `VeeqoRequestException`, not Saloon's status classes, so `catch (Saloon\…\NotFoundException)` does not catch the SDK's 404:
   - `ValidationFailed` (400, 422), `Unauthorized` (401), `Forbidden` (403: plan or permission gate), `NotFound` (404), `RateLimited` (429 after retries run out), `ServerError` (5xx).
 - Connection failures stay Saloon's `FatalRequestException`: there is no response to wrap.
-- Every HTTP exception exposes `errorMessages(): list<string>`, flattening Veeqo's three body shapes: `{"error_messages": [..]}` as-is, `{"error_messages": "..."}` as one item, `{"status", "error"}` as `[error]`. JSON-encoded upstream errors inside a message stay strings.
+- Every HTTP exception exposes `errorMessages(): list<string>`, flattening Veeqo's four body shapes: `{"error_messages": [..]}` as-is, `{"error_messages": "..."}` as one item, `{"status", "error"}` as `[error]`, and Rails' `{"errors": {..}, "full_messages": [..]}` as `full_messages` (the per-field `errors` map stays untyped; read it from `getResponse()->json()`). JSON-encoded upstream errors inside a message stay strings.
 
 ## Retries
 

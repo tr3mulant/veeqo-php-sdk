@@ -28437,40 +28437,137 @@
         "x-docs-slug": "update-allocation-package",
         "description": "Update an allocation\u2019s package. Useful if you need to specify package dimensions before making requests for shipping rates.",
         "requestBody": {
-          "content": {}
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "allocation_package": {
+                    "description": "Only `weight`, `width`, `height`, `depth`, `package_provider` and `package_id` are read; any other key is ignored. Values are stored in the package\u2019s existing units (`weight_unit` and `dimensions_unit` in the response), which cannot be changed here.",
+                    "type": "object",
+                    "properties": {
+                      "weight": {
+                        "description": "Weight of the package, in the package\u2019s `weight_unit`.",
+                        "type": "number"
+                      },
+                      "width": {
+                        "description": "Width of the package, in the package\u2019s `dimensions_unit`.",
+                        "type": "number"
+                      },
+                      "height": {
+                        "description": "Height of the package, in the package\u2019s `dimensions_unit`.",
+                        "type": "number"
+                      },
+                      "depth": {
+                        "description": "Depth of the package, in the package\u2019s `dimensions_unit`.",
+                        "type": "number"
+                      },
+                      "package_provider": {
+                        "description": "Where `package_id` comes from: `CUSTOM` for one of your saved packages, `CARRIER` for a carrier\u2019s package. `package_provider` and `package_id` are kept only as a valid pair; otherwise both are cleared and the package is stored with dimensions only. The response is still `200` (or `422` if no dimensions are stored), so check `package_provider` in the response.",
+                        "type": "string",
+                        "enum": [
+                          "CUSTOM",
+                          "CARRIER"
+                        ]
+                      },
+                      "package_id": {
+                        "description": "The id of one of your saved packages (with `CUSTOM`, such as `\"4821\"`) or of a carrier package (with `CARRIER`, such as `\"fedex/envelope\"`). Cleared unless it forms a valid pair with `package_provider`.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "save_for_similar_shipments": {
+                    "description": "Optional. `true` saves this package as the suggestion for similar shipments (`package_selection_source` `SUGGESTION`); `false` or omitted applies it to this allocation only (`ONE_OFF`). Similar shipments are those with the same products and quantities from this warehouse. `true` also asynchronously applies this package to every other unshipped allocation with the same products and quantities, replacing their weight, dimensions and package.",
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "allocation_package"
+                ],
+                "example": {
+                  "allocation_package": {
+                    "weight": 29.98,
+                    "width": 433,
+                    "height": 234,
+                    "depth": 7
+                  },
+                  "save_for_similar_shipments": false
+                }
+              }
+            }
+          }
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "The allocation package was updated. The body is wrapped in `data`.",
             "content": {
               "application/json": {
                 "schema": {
                   "example": {
-                    "id": "221127044",
-                    "type": "allocation_package",
-                    "attributes": {
-                      "allocation_id": 447345401,
-                      "created_at": "2025-02-25T17:03:00.202Z",
-                      "depth": 7,
-                      "height": 234,
-                      "package_id": null,
-                      "package_provider": "CUSTOM",
-                      "package_selection_source": "ONE_OFF",
-                      "package_name": null,
-                      "similarity_key": "b85f12fa270a46dbfe254f4e6085b59f626ec4f2",
-                      "updated_at": "2025-06-10T13:12:21.847Z",
-                      "weight": 29.98,
-                      "width": 433,
-                      "weight_unit": "oz",
-                      "dimensions_unit": "inches"
+                    "data": {
+                      "id": "221127044",
+                      "type": "allocation_package",
+                      "attributes": {
+                        "allocation_id": 447345401,
+                        "created_at": "2025-02-25T17:03:00.202Z",
+                        "depth": 7,
+                        "height": 234,
+                        "package_id": null,
+                        "package_provider": null,
+                        "package_selection_source": "ONE_OFF",
+                        "package_name": null,
+                        "similarity_key": "b85f12fa270a46dbfe254f4e6085b59f626ec4f2",
+                        "updated_at": "2025-06-10T13:12:21.847Z",
+                        "weight": 29.98,
+                        "width": 433,
+                        "weight_unit": "oz",
+                        "dimensions_unit": "inches"
+                      }
                     }
                   }
                 }
               }
             }
           },
+          "404": {
+            "description": "No allocation with this id belongs to your company."
+          },
           "422": {
-            "description": ""
+            "description": "The allocation package failed to update, for example with a negative weight, or with no dimensions stored and no valid pair sent. `errors` lists the messages by field, and `full_messages` as sentences.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "full_messages": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "errors": {
+                      "weight": [
+                        "must be greater than or equal to 0"
+                      ]
+                    },
+                    "full_messages": [
+                      "Weight must be greater than or equal to 0"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
