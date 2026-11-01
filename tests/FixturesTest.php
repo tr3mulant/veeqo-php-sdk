@@ -13,6 +13,7 @@ use TremulantTech\Veeqo\Responses\AllocationPackage;
 use TremulantTech\Veeqo\Responses\Channel;
 use TremulantTech\Veeqo\Responses\ChannelSellable;
 use TremulantTech\Veeqo\Responses\Customer;
+use TremulantTech\Veeqo\Responses\DeliveryMethod;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
@@ -50,6 +51,12 @@ const HYDRATES = [
     'docs/create-a-store' => Channel::class,
     'docs/update-store-detail' => Channel::class,
     'docs/createchannelsellable' => ChannelSellable::class,
+    'responses/delivery_methods.show' => DeliveryMethod::class,
+    'responses/delivery_methods.list' => [DeliveryMethod::class],
+    'docs/list-all-delivery-methods' => [DeliveryMethod::class],
+    'docs/view-delivery-method' => DeliveryMethod::class,
+    'docs/create-a-delivery-method' => DeliveryMethod::class,
+    'docs/update-delivery-method-detail' => DeliveryMethod::class,
 ];
 
 /**
@@ -78,21 +85,21 @@ const THROWS = [
  */
 const PENDING = [
     'responses/current_company.show',
-    'responses/delivery_methods.list', 'responses/delivery_methods.show', 'responses/products.list',
+    'responses/products.list',
     'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show', 'responses/tags.list',
     'responses/tags.show', 'responses/warehouses.list', 'responses/warehouses.show',
-    'docs/create-a-bundle', 'docs/create-a-delivery-method',
+    'docs/create-a-bundle',
     'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-new-supplier', 'docs/create-a-new-tag', 'docs/create-a-shipment',
     'docs/create-a-warehouse', 'docs/create-bundle-content', 'docs/delete-purchase-order-line-item',
-    'docs/email-purchase-order-reminders', 'docs/get-purchase-order', 'docs/list-all-delivery-methods',
+    'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
     'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
     'docs/list-all-tags', 'docs/list-all-warehouses', 'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
     'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
     'docs/update-a-stock-entry', 'docs/update-bundle-content',
-    'docs/update-delivery-method-detail', 'docs/update-product-detail', 'docs/update-property-detail',
+    'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order', 'docs/update-warehouse-detail', 'docs/view-an-tag-detail',
-    'docs/view-a-supplier-detail', 'docs/view-company-detail', 'docs/view-delivery-method',
+    'docs/view-a-supplier-detail', 'docs/view-company-detail',
     'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
     'docs/view-warehouse-detail',
 ];
