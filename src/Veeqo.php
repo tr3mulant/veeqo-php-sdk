@@ -33,6 +33,8 @@ use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
 use TremulantTech\Veeqo\Resources\AllocationPackages;
 use TremulantTech\Veeqo\Resources\Allocations;
+use TremulantTech\Veeqo\Resources\Channels;
+use TremulantTech\Veeqo\Resources\ChannelSellables;
 use TremulantTech\Veeqo\Resources\Customers;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
@@ -93,6 +95,16 @@ class Veeqo extends Connector implements HasPagination
     public function allocations(): Allocations
     {
         return new Allocations($this);
+    }
+
+    public function channels(): Channels
+    {
+        return new Channels($this);
+    }
+
+    public function channelSellables(): ChannelSellables
+    {
+        return new ChannelSellables($this);
     }
 
     public function customers(): Customers
