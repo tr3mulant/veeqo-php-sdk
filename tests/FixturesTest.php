@@ -10,6 +10,7 @@ use TremulantTech\Veeqo\Exceptions\ValidationFailed;
 use TremulantTech\Veeqo\Requests\Orders\GetOrder;
 use TremulantTech\Veeqo\Responses\Allocation;
 use TremulantTech\Veeqo\Responses\AllocationPackage;
+use TremulantTech\Veeqo\Responses\Customer;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
@@ -34,6 +35,12 @@ const HYDRATES = [
     'docs/create-a-new-allocation' => Order::class,
     'docs/update-allocation-detail' => Allocation::class,
     'docs/update-allocation-package' => AllocationPackage::class,
+    'responses/customers.show' => Customer::class,
+    'responses/customers.list' => [Customer::class],
+    'docs/list-all-customers' => Customer::class,
+    'docs/view-customer-detail' => Customer::class,
+    'docs/create-a-customer' => Customer::class,
+    'docs/update-customer-detail' => Customer::class,
 ];
 
 /**
@@ -61,22 +68,22 @@ const THROWS = [
  * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
  */
 const PENDING = [
-    'responses/channels.list', 'responses/channels.show', 'responses/current_company.show', 'responses/customers.list',
-    'responses/customers.show', 'responses/delivery_methods.list', 'responses/delivery_methods.show', 'responses/products.list',
+    'responses/channels.list', 'responses/channels.show', 'responses/current_company.show',
+    'responses/delivery_methods.list', 'responses/delivery_methods.show', 'responses/products.list',
     'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show', 'responses/tags.list',
     'responses/tags.show', 'responses/warehouses.list', 'responses/warehouses.show',
-    'docs/create-a-bundle', 'docs/create-a-customer', 'docs/create-a-delivery-method',
+    'docs/create-a-bundle', 'docs/create-a-delivery-method',
     'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-new-supplier', 'docs/create-a-new-tag', 'docs/create-a-shipment', 'docs/create-a-store',
     'docs/create-a-warehouse', 'docs/create-bundle-content', 'docs/createchannelsellable', 'docs/delete-purchase-order-line-item',
-    'docs/email-purchase-order-reminders', 'docs/get-purchase-order', 'docs/list-all-customers', 'docs/list-all-delivery-methods',
+    'docs/email-purchase-order-reminders', 'docs/get-purchase-order', 'docs/list-all-delivery-methods',
     'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-stores', 'docs/list-all-suppliers',
     'docs/list-all-tags', 'docs/list-all-warehouses', 'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
     'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
     'docs/update-a-stock-entry', 'docs/update-bundle-content',
-    'docs/update-customer-detail', 'docs/update-delivery-method-detail', 'docs/update-product-detail', 'docs/update-property-detail',
+    'docs/update-delivery-method-detail', 'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order', 'docs/update-store-detail', 'docs/update-warehouse-detail', 'docs/view-an-tag-detail',
-    'docs/view-a-supplier-detail', 'docs/view-company-detail', 'docs/view-customer-detail', 'docs/view-delivery-method',
+    'docs/view-a-supplier-detail', 'docs/view-company-detail', 'docs/view-delivery-method',
     'docs/view-product-detail', 'docs/view-properties', 'docs/view-store-detail', 'docs/view-tracking-events',
     'docs/view-warehouse-detail',
 ];
