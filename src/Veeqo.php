@@ -36,6 +36,7 @@ use TremulantTech\Veeqo\Resources\Allocations;
 use TremulantTech\Veeqo\Resources\BulkTagging;
 use TremulantTech\Veeqo\Resources\Channels;
 use TremulantTech\Veeqo\Resources\ChannelSellables;
+use TremulantTech\Veeqo\Resources\CurrentCompany;
 use TremulantTech\Veeqo\Resources\Customers;
 use TremulantTech\Veeqo\Resources\DeliveryMethods;
 use TremulantTech\Veeqo\Resources\LineItems;
@@ -113,6 +114,11 @@ class Veeqo extends Connector implements HasPagination
     public function channelSellables(): ChannelSellables
     {
         return new ChannelSellables($this);
+    }
+
+    public function currentCompany(): CurrentCompany
+    {
+        return new CurrentCompany($this);
     }
 
     public function customers(): Customers
