@@ -12,6 +12,7 @@ use TremulantTech\Veeqo\Responses\Allocation;
 use TremulantTech\Veeqo\Responses\AllocationPackage;
 use TremulantTech\Veeqo\Responses\Channel;
 use TremulantTech\Veeqo\Responses\ChannelSellable;
+use TremulantTech\Veeqo\Responses\Company;
 use TremulantTech\Veeqo\Responses\Customer;
 use TremulantTech\Veeqo\Responses\DeliveryMethod;
 use TremulantTech\Veeqo\Responses\Note;
@@ -57,6 +58,8 @@ const HYDRATES = [
     'docs/view-delivery-method' => DeliveryMethod::class,
     'docs/create-a-delivery-method' => DeliveryMethod::class,
     'docs/update-delivery-method-detail' => DeliveryMethod::class,
+    'responses/current_company.show' => Company::class,
+    'docs/view-company-detail' => Company::class,
 ];
 
 /**
@@ -84,7 +87,6 @@ const THROWS = [
  * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
  */
 const PENDING = [
-    'responses/current_company.show',
     'responses/products.list',
     'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show', 'responses/tags.list',
     'responses/tags.show', 'responses/warehouses.list', 'responses/warehouses.show',
@@ -99,7 +101,7 @@ const PENDING = [
     'docs/update-a-stock-entry', 'docs/update-bundle-content',
     'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order', 'docs/update-warehouse-detail', 'docs/view-an-tag-detail',
-    'docs/view-a-supplier-detail', 'docs/view-company-detail',
+    'docs/view-a-supplier-detail',
     'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
     'docs/view-warehouse-detail',
 ];
