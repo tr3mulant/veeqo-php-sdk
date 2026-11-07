@@ -33,6 +33,7 @@ use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
 use TremulantTech\Veeqo\Resources\AllocationPackages;
 use TremulantTech\Veeqo\Resources\Allocations;
+use TremulantTech\Veeqo\Resources\BulkTagging;
 use TremulantTech\Veeqo\Resources\Channels;
 use TremulantTech\Veeqo\Resources\ChannelSellables;
 use TremulantTech\Veeqo\Resources\CurrentCompany;
@@ -42,6 +43,7 @@ use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
 use TremulantTech\Veeqo\Resources\Returns;
+use TremulantTech\Veeqo\Resources\Tags;
 
 class Veeqo extends Connector implements HasPagination
 {
@@ -99,6 +101,11 @@ class Veeqo extends Connector implements HasPagination
         return new Allocations($this);
     }
 
+    public function bulkTagging(): BulkTagging
+    {
+        return new BulkTagging($this);
+    }
+
     public function channels(): Channels
     {
         return new Channels($this);
@@ -142,6 +149,11 @@ class Veeqo extends Connector implements HasPagination
     public function returns(): Returns
     {
         return new Returns($this);
+    }
+
+    public function tags(): Tags
+    {
+        return new Tags($this);
     }
 
     public function resolveBaseUrl(): string
