@@ -39,10 +39,13 @@ use TremulantTech\Veeqo\Resources\ChannelSellables;
 use TremulantTech\Veeqo\Resources\CurrentCompany;
 use TremulantTech\Veeqo\Resources\Customers;
 use TremulantTech\Veeqo\Resources\DeliveryMethods;
+use TremulantTech\Veeqo\Resources\KitContents;
+use TremulantTech\Veeqo\Resources\Kits;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
 use TremulantTech\Veeqo\Resources\Returns;
+use TremulantTech\Veeqo\Resources\StockEntries;
 use TremulantTech\Veeqo\Resources\Suppliers;
 use TremulantTech\Veeqo\Resources\Tags;
 use TremulantTech\Veeqo\Resources\Warehouses;
@@ -133,6 +136,16 @@ class Veeqo extends Connector implements HasPagination
         return new DeliveryMethods($this);
     }
 
+    public function kitContents(): KitContents
+    {
+        return new KitContents($this);
+    }
+
+    public function kits(): Kits
+    {
+        return new Kits($this);
+    }
+
     public function lineItems(): LineItems
     {
         return new LineItems($this);
@@ -151,6 +164,11 @@ class Veeqo extends Connector implements HasPagination
     public function returns(): Returns
     {
         return new Returns($this);
+    }
+
+    public function stockEntries(): StockEntries
+    {
+        return new StockEntries($this);
     }
 
     public function suppliers(): Suppliers

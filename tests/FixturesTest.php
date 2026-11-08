@@ -15,9 +15,12 @@ use TremulantTech\Veeqo\Responses\ChannelSellable;
 use TremulantTech\Veeqo\Responses\Company;
 use TremulantTech\Veeqo\Responses\Customer;
 use TremulantTech\Veeqo\Responses\DeliveryMethod;
+use TremulantTech\Veeqo\Responses\Kit;
+use TremulantTech\Veeqo\Responses\KitContent;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
+use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Supplier;
 use TremulantTech\Veeqo\Responses\Tag;
 use TremulantTech\Veeqo\Responses\Warehouse;
@@ -74,6 +77,14 @@ const HYDRATES = [
     'docs/list-all-tags' => [Tag::class],
     'docs/view-an-tag-detail' => Tag::class,
     'docs/create-a-new-tag' => Tag::class,
+    'docs/retrieve-bundle-detail' => Kit::class,
+    'docs/create-a-bundle' => Kit::class,
+    'docs/retrieve-bundle-content' => KitContent::class,
+    'docs/create-bundle-content' => KitContent::class,
+    'docs/update-bundle-content' => KitContent::class,
+    'responses/stock_entry.show' => StockEntry::class,
+    'docs/show-a-stock-entry' => StockEntry::class,
+    'docs/update-a-stock-entry' => StockEntry::class,
     'docs/list-all-suppliers' => [Supplier::class],
     'docs/view-a-supplier-detail' => Supplier::class,
     'docs/create-a-new-supplier' => Supplier::class,
@@ -105,16 +116,14 @@ const THROWS = [
  */
 const PENDING = [
     'responses/products.list',
-    'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show',
-    'docs/create-a-bundle',
+    'responses/products.show', 'responses/shipping.tracking_events',
     'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-shipment',
-    'docs/create-bundle-content', 'docs/delete-purchase-order-line-item',
+    'docs/delete-purchase-order-line-item',
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
     'docs/list-all-products', 'docs/list-all-purchase-orders',
-    'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
-    'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
-    'docs/update-a-stock-entry', 'docs/update-bundle-content',
+    'docs/purchase-shipping-labels',
+    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
     'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order',
     'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
