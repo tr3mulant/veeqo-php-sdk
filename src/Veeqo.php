@@ -45,14 +45,18 @@ use TremulantTech\Veeqo\Resources\Labels;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
+use TremulantTech\Veeqo\Resources\Payments;
 use TremulantTech\Veeqo\Resources\ProductProperties;
 use TremulantTech\Veeqo\Resources\ProductPropertySpecifics;
 use TremulantTech\Veeqo\Resources\Products;
+use TremulantTech\Veeqo\Resources\PurchaseOrderProductVariants;
+use TremulantTech\Veeqo\Resources\PurchaseOrders;
 use TremulantTech\Veeqo\Resources\Rates;
 use TremulantTech\Veeqo\Resources\Returns;
 use TremulantTech\Veeqo\Resources\Shipments;
 use TremulantTech\Veeqo\Resources\Shipping;
 use TremulantTech\Veeqo\Resources\StockEntries;
+use TremulantTech\Veeqo\Resources\Suppliers;
 use TremulantTech\Veeqo\Resources\Tags;
 use TremulantTech\Veeqo\Resources\TrackingEvents;
 use TremulantTech\Veeqo\Resources\Warehouses;
@@ -173,6 +177,11 @@ class Veeqo extends Connector implements HasPagination
         return new Orders($this);
     }
 
+    public function payments(): Payments
+    {
+        return new Payments($this);
+    }
+
     public function productProperties(): ProductProperties
     {
         return new ProductProperties($this);
@@ -186,6 +195,16 @@ class Veeqo extends Connector implements HasPagination
     public function products(): Products
     {
         return new Products($this);
+    }
+
+    public function purchaseOrderProductVariants(): PurchaseOrderProductVariants
+    {
+        return new PurchaseOrderProductVariants($this);
+    }
+
+    public function purchaseOrders(): PurchaseOrders
+    {
+        return new PurchaseOrders($this);
     }
 
     public function rates(): Rates
@@ -211,6 +230,11 @@ class Veeqo extends Connector implements HasPagination
     public function stockEntries(): StockEntries
     {
         return new StockEntries($this);
+    }
+
+    public function suppliers(): Suppliers
+    {
+        return new Suppliers($this);
     }
 
     public function tags(): Tags

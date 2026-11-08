@@ -24,9 +24,11 @@ use TremulantTech\Veeqo\Responses\Product;
 use TremulantTech\Veeqo\Responses\ProductProperty;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
+use TremulantTech\Veeqo\Responses\PurchaseOrder;
 use TremulantTech\Veeqo\Responses\Rate;
 use TremulantTech\Veeqo\Responses\Shipment;
 use TremulantTech\Veeqo\Responses\StockEntry;
+use TremulantTech\Veeqo\Responses\Supplier;
 use TremulantTech\Veeqo\Responses\Tag;
 use TremulantTech\Veeqo\Responses\TrackingEvent;
 use TremulantTech\Veeqo\Responses\Warehouse;
@@ -100,12 +102,23 @@ const HYDRATES = [
     'responses/stock_entry.show' => StockEntry::class,
     'docs/show-a-stock-entry' => StockEntry::class,
     'docs/update-a-stock-entry' => StockEntry::class,
+    'docs/list-all-suppliers' => [Supplier::class],
+    'docs/view-a-supplier-detail' => Supplier::class,
+    'docs/create-a-new-supplier' => Supplier::class,
+    'docs/list-all-purchase-orders' => [PurchaseOrder::class],
+    'docs/get-purchase-order' => PurchaseOrder::class,
+    'docs/update-purchase-order' => PurchaseOrder::class,
     'docs/create-a-shipment' => Shipment::class,
     'docs/purchase-shipping-labels' => Shipment::class,
     'docs/retrieve-shipping-rates' => Rate::class,
     'responses/shipping.tracking_events' => [TrackingEvent::class],
     'docs/view-tracking-events' => [TrackingEvent::class],
 ];
+
+/**
+ * Success bodies of operations that return void (ADR 0004): served by their resource's tests, never hydrated.
+ */
+const VOID = ['docs/delete-purchase-order-line-item', 'docs/email-purchase-order-reminders'];
 
 /**
  * Download bodies, returned unparsed as a StreamInterface (ADR 0004), so they hydrate into nothing.
@@ -131,18 +144,6 @@ const THROWS = [
     'docs/errors.400.retrieve-shipping-rates.example1' => ValidationFailed::class,
     'docs/errors.400.retrieve-shipping-rates.example2' => ValidationFailed::class,
     'docs/errors.422.update-allocation-package' => ValidationFailed::class,
-];
-
-/**
- * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
- */
-const PENDING = [
-    'docs/create-a-new-supplier',
-    'docs/delete-purchase-order-line-item',
-    'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
-    'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
-    'docs/update-purchase-order',
-    'docs/view-a-supplier-detail',
 ];
 
 function sentFixture(string $name): Response
@@ -214,7 +215,7 @@ it('accounts for every fixture on disk exactly once', function () {
         fn (string $path) => basename(dirname($path)).'/'.basename($path, '.json'),
         [...glob(__DIR__.'/Fixtures/responses/*.json'), ...glob(__DIR__.'/Fixtures/docs/*.json')],
     );
-    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...STREAMS, ...PENDING];
+    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...STREAMS, ...VOID];
     sort($onDisk);
     sort($accounted);
 
