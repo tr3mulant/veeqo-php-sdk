@@ -21,6 +21,7 @@ readonly class Warehouse
         public ?string $country = null,
         public ?DateTimeImmutable $createdAt = null,
         public ?int $createdById = null,
+        public ?CutOffTimes $cutOffTimes = null,
         public ?bool $cutOffTimesEnabled = null,
         public ?int $defaultMinReorder = null,
         public ?DateTimeImmutable $deletedAt = null,

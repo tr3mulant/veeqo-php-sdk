@@ -8,7 +8,10 @@ use CuyZ\Valinor\MapperBuilder;
 use CuyZ\Valinor\Normalizer\Format;
 use CuyZ\Valinor\Normalizer\Normalizer;
 use CuyZ\Valinor\NormalizerBuilder;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
+use Generator;
 use LogicException;
 use Psr\Http\Message\RequestInterface;
 use Saloon\Contracts\Authenticator;
@@ -33,14 +36,33 @@ use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Exceptions\VeeqoRequestException;
 use TremulantTech\Veeqo\Resources\AllocationPackages;
 use TremulantTech\Veeqo\Resources\Allocations;
+use TremulantTech\Veeqo\Resources\BulkTagging;
 use TremulantTech\Veeqo\Resources\Channels;
 use TremulantTech\Veeqo\Resources\ChannelSellables;
+use TremulantTech\Veeqo\Resources\CurrentCompany;
 use TremulantTech\Veeqo\Resources\Customers;
 use TremulantTech\Veeqo\Resources\DeliveryMethods;
+use TremulantTech\Veeqo\Resources\KitContents;
+use TremulantTech\Veeqo\Resources\Kits;
+use TremulantTech\Veeqo\Resources\Labels;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
+use TremulantTech\Veeqo\Resources\Payments;
+use TremulantTech\Veeqo\Resources\ProductProperties;
+use TremulantTech\Veeqo\Resources\ProductPropertySpecifics;
+use TremulantTech\Veeqo\Resources\Products;
+use TremulantTech\Veeqo\Resources\PurchaseOrderProductVariants;
+use TremulantTech\Veeqo\Resources\PurchaseOrders;
+use TremulantTech\Veeqo\Resources\Rates;
 use TremulantTech\Veeqo\Resources\Returns;
+use TremulantTech\Veeqo\Resources\Shipments;
+use TremulantTech\Veeqo\Resources\Shipping;
+use TremulantTech\Veeqo\Resources\StockEntries;
+use TremulantTech\Veeqo\Resources\Suppliers;
+use TremulantTech\Veeqo\Resources\Tags;
+use TremulantTech\Veeqo\Resources\TrackingEvents;
+use TremulantTech\Veeqo\Resources\Warehouses;
 
 class Veeqo extends Connector implements HasPagination
 {
@@ -98,6 +120,11 @@ class Veeqo extends Connector implements HasPagination
         return new Allocations($this);
     }
 
+    public function bulkTagging(): BulkTagging
+    {
+        return new BulkTagging($this);
+    }
+
     public function channels(): Channels
     {
         return new Channels($this);
@@ -108,6 +135,11 @@ class Veeqo extends Connector implements HasPagination
         return new ChannelSellables($this);
     }
 
+    public function currentCompany(): CurrentCompany
+    {
+        return new CurrentCompany($this);
+    }
+
     public function customers(): Customers
     {
         return new Customers($this);
@@ -116,6 +148,21 @@ class Veeqo extends Connector implements HasPagination
     public function deliveryMethods(): DeliveryMethods
     {
         return new DeliveryMethods($this);
+    }
+
+    public function kitContents(): KitContents
+    {
+        return new KitContents($this);
+    }
+
+    public function kits(): Kits
+    {
+        return new Kits($this);
+    }
+
+    public function labels(): Labels
+    {
+        return new Labels($this);
     }
 
     public function lineItems(): LineItems
@@ -133,9 +180,79 @@ class Veeqo extends Connector implements HasPagination
         return new Orders($this);
     }
 
+    public function payments(): Payments
+    {
+        return new Payments($this);
+    }
+
+    public function productProperties(): ProductProperties
+    {
+        return new ProductProperties($this);
+    }
+
+    public function productPropertySpecifics(): ProductPropertySpecifics
+    {
+        return new ProductPropertySpecifics($this);
+    }
+
+    public function products(): Products
+    {
+        return new Products($this);
+    }
+
+    public function purchaseOrderProductVariants(): PurchaseOrderProductVariants
+    {
+        return new PurchaseOrderProductVariants($this);
+    }
+
+    public function purchaseOrders(): PurchaseOrders
+    {
+        return new PurchaseOrders($this);
+    }
+
+    public function rates(): Rates
+    {
+        return new Rates($this);
+    }
+
     public function returns(): Returns
     {
         return new Returns($this);
+    }
+
+    public function shipments(): Shipments
+    {
+        return new Shipments($this);
+    }
+
+    public function shipping(): Shipping
+    {
+        return new Shipping($this);
+    }
+
+    public function stockEntries(): StockEntries
+    {
+        return new StockEntries($this);
+    }
+
+    public function suppliers(): Suppliers
+    {
+        return new Suppliers($this);
+    }
+
+    public function tags(): Tags
+    {
+        return new Tags($this);
+    }
+
+    public function trackingEvents(): TrackingEvents
+    {
+        return new TrackingEvents($this);
+    }
+
+    public function warehouses(): Warehouses
+    {
+        return new Warehouses($this);
     }
 
     public function resolveBaseUrl(): string
@@ -265,6 +382,30 @@ class Veeqo extends Connector implements HasPagination
     /**
      * @internal
      *
+     * Every item across every page, lazily. Yields one by one: `yield from` across pages repeats keys.
+     *
+     * @template T of object
+     *
+     * @param  class-string<T>  $class
+     * @return Generator<int, T>
+     *
+     * @throws UnexpectedResponse
+     */
+    public function hydratePages(string $class, Request $request): Generator
+    {
+        foreach ($this->paginate($request) as $page) {
+            if (! $page instanceof Response) {
+                throw new LogicException('Expected a synchronous page');
+            }
+            foreach ($this->hydrateList($class, $page) as $item) {
+                yield $item;
+            }
+        }
+    }
+
+    /**
+     * @internal
+     *
      * @template T of object
      *
      * @param  class-string<T>  $class
@@ -307,6 +448,16 @@ class Veeqo extends Connector implements HasPagination
     /**
      * @internal
      *
+     * A date filter as DATE_ATOM in UTC, because Veeqo's *[before] filters include the whole UTC day of the date sent.
+     */
+    public static function queryDate(?DateTimeInterface $date): ?string
+    {
+        return $date === null ? null : DateTimeImmutable::createFromInterface($date)->setTimezone(new DateTimeZone('UTC'))->format(DATE_ATOM);
+    }
+
+    /**
+     * @internal
+     *
      * A request body in wire terms: null properties dropped, snake_case keys, DATE_ATOM dates, enum values (ADR 0010).
      *
      * @return array<string, mixed>
@@ -343,7 +494,8 @@ class Veeqo extends Connector implements HasPagination
         $body = [];
         foreach ($normalized as $key => $field) {
             if ($field !== null) {
-                $body[strtolower((string) preg_replace('/[A-Z]/', '_$0', (string) $key))] = $field;
+                // A digit ending a later word is its own segment (`addressLine1` → `address_line_1`), one ending the first word isn't (`address1`), as in Veeqo's request keys.
+                $body[strtolower((string) preg_replace(['/([A-Z][a-z]*)(\d)/', '/[A-Z]/'], ['$1_$2', '_$0'], (string) $key))] = $field;
             }
         }
 

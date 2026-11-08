@@ -12,11 +12,26 @@ use TremulantTech\Veeqo\Responses\Allocation;
 use TremulantTech\Veeqo\Responses\AllocationPackage;
 use TremulantTech\Veeqo\Responses\Channel;
 use TremulantTech\Veeqo\Responses\ChannelSellable;
+use TremulantTech\Veeqo\Responses\Company;
 use TremulantTech\Veeqo\Responses\Customer;
 use TremulantTech\Veeqo\Responses\DeliveryMethod;
+use TremulantTech\Veeqo\Responses\Kit;
+use TremulantTech\Veeqo\Responses\KitContent;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
+use TremulantTech\Veeqo\Responses\Product;
+use TremulantTech\Veeqo\Responses\ProductProperty;
+use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
+use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
+use TremulantTech\Veeqo\Responses\PurchaseOrder;
+use TremulantTech\Veeqo\Responses\Rate;
+use TremulantTech\Veeqo\Responses\ShipmentSummary;
+use TremulantTech\Veeqo\Responses\StockEntry;
+use TremulantTech\Veeqo\Responses\Supplier;
+use TremulantTech\Veeqo\Responses\Tag;
+use TremulantTech\Veeqo\Responses\TrackingEvent;
+use TremulantTech\Veeqo\Responses\Warehouse;
 use TremulantTech\Veeqo\Veeqo;
 
 /**
@@ -57,7 +72,58 @@ const HYDRATES = [
     'docs/view-delivery-method' => DeliveryMethod::class,
     'docs/create-a-delivery-method' => DeliveryMethod::class,
     'docs/update-delivery-method-detail' => DeliveryMethod::class,
+    'responses/current_company.show' => Company::class,
+    'docs/view-company-detail' => Company::class,
+    'responses/warehouses.show' => Warehouse::class,
+    'responses/warehouses.list' => [Warehouse::class],
+    'docs/list-all-warehouses' => [Warehouse::class],
+    'docs/view-warehouse-detail' => Warehouse::class,
+    'docs/create-a-warehouse' => Warehouse::class,
+    'docs/update-warehouse-detail' => Warehouse::class,
+    'responses/tags.show' => Tag::class,
+    'responses/tags.list' => [Tag::class],
+    'docs/list-all-tags' => [Tag::class],
+    'docs/view-an-tag-detail' => Tag::class,
+    'docs/create-a-new-tag' => Tag::class,
+    'responses/products.show' => Product::class,
+    'responses/products.list' => [Product::class],
+    'docs/list-all-products' => [Product::class],
+    'docs/view-product-detail' => Product::class,
+    'docs/create-a-new-product' => Product::class,
+    'docs/update-product-detail' => Product::class,
+    'docs/create-a-new-property' => ProductProperty::class,
+    'docs/view-properties' => ProductPropertySpecific::class,
+    'docs/update-property-detail' => ProductPropertySpecificSummary::class,
+    'docs/retrieve-bundle-detail' => Kit::class,
+    'docs/create-a-bundle' => Kit::class,
+    'docs/retrieve-bundle-content' => KitContent::class,
+    'docs/create-bundle-content' => KitContent::class,
+    'docs/update-bundle-content' => KitContent::class,
+    'responses/stock_entry.show' => StockEntry::class,
+    'docs/show-a-stock-entry' => StockEntry::class,
+    'docs/update-a-stock-entry' => StockEntry::class,
+    'docs/list-all-suppliers' => [Supplier::class],
+    'docs/view-a-supplier-detail' => Supplier::class,
+    'docs/create-a-new-supplier' => Supplier::class,
+    'docs/list-all-purchase-orders' => [PurchaseOrder::class],
+    'docs/get-purchase-order' => PurchaseOrder::class,
+    'docs/update-purchase-order' => PurchaseOrder::class,
+    'docs/create-a-shipment' => ShipmentSummary::class,
+    'docs/purchase-shipping-labels' => ShipmentSummary::class,
+    'docs/retrieve-shipping-rates' => Rate::class,
+    'responses/shipping.tracking_events' => [TrackingEvent::class],
+    'docs/view-tracking-events' => [TrackingEvent::class],
 ];
+
+/**
+ * Success bodies of operations that return void (ADR 0004): served by their resource's tests, never hydrated.
+ */
+const VOID = ['docs/delete-purchase-order-line-item', 'docs/email-purchase-order-reminders'];
+
+/**
+ * Download bodies, returned unparsed as a StreamInterface (ADR 0004), so they hydrate into nothing.
+ */
+const STREAMS = ['docs/retrieve-shipping-labels'];
 
 /**
  * JSON:API bodies, unwrapped from `data` before hydrating (ADR 0006).
@@ -78,30 +144,6 @@ const THROWS = [
     'docs/errors.400.retrieve-shipping-rates.example1' => ValidationFailed::class,
     'docs/errors.400.retrieve-shipping-rates.example2' => ValidationFailed::class,
     'docs/errors.422.update-allocation-package' => ValidationFailed::class,
-];
-
-/**
- * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
- */
-const PENDING = [
-    'responses/current_company.show',
-    'responses/products.list',
-    'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show', 'responses/tags.list',
-    'responses/tags.show', 'responses/warehouses.list', 'responses/warehouses.show',
-    'docs/create-a-bundle',
-    'docs/create-a-new-product', 'docs/create-a-new-property',
-    'docs/create-a-new-supplier', 'docs/create-a-new-tag', 'docs/create-a-shipment',
-    'docs/create-a-warehouse', 'docs/create-bundle-content', 'docs/delete-purchase-order-line-item',
-    'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
-    'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
-    'docs/list-all-tags', 'docs/list-all-warehouses', 'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
-    'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
-    'docs/update-a-stock-entry', 'docs/update-bundle-content',
-    'docs/update-product-detail', 'docs/update-property-detail',
-    'docs/update-purchase-order', 'docs/update-warehouse-detail', 'docs/view-an-tag-detail',
-    'docs/view-a-supplier-detail', 'docs/view-company-detail',
-    'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
-    'docs/view-warehouse-detail',
 ];
 
 function sentFixture(string $name): Response
@@ -173,7 +215,7 @@ it('accounts for every fixture on disk exactly once', function () {
         fn (string $path) => basename(dirname($path)).'/'.basename($path, '.json'),
         [...glob(__DIR__.'/Fixtures/responses/*.json'), ...glob(__DIR__.'/Fixtures/docs/*.json')],
     );
-    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...PENDING];
+    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...STREAMS, ...VOID];
     sort($onDisk);
     sort($accounted);
 

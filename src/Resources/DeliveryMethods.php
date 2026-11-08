@@ -3,8 +3,6 @@
 namespace TremulantTech\Veeqo\Resources;
 
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\DeliveryMethods\CreateDeliveryMethodData;
 use TremulantTech\Veeqo\Data\DeliveryMethods\UpdateDeliveryMethodData;
 use TremulantTech\Veeqo\Requests\DeliveryMethods\CreateDeliveryMethod;
@@ -24,14 +22,7 @@ class DeliveryMethods
      */
     public function list(): Generator
     {
-        foreach ($this->veeqo->paginate(new ListDeliveryMethods) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(DeliveryMethod::class, $page) as $deliveryMethod) {
-                yield $deliveryMethod;
-            }
-        }
+        return $this->veeqo->hydratePages(DeliveryMethod::class, new ListDeliveryMethods);
     }
 
     public function get(int $id): DeliveryMethod
