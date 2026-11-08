@@ -18,6 +18,7 @@ use TremulantTech\Veeqo\Responses\DeliveryMethod;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
+use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Tag;
 use TremulantTech\Veeqo\Veeqo;
 
@@ -66,6 +67,9 @@ const HYDRATES = [
     'docs/list-all-tags' => [Tag::class],
     'docs/view-an-tag-detail' => Tag::class,
     'docs/create-a-new-tag' => Tag::class,
+    'responses/stock_entry.show' => StockEntry::class,
+    'docs/show-a-stock-entry' => StockEntry::class,
+    'docs/update-a-stock-entry' => StockEntry::class,
 ];
 
 /**
@@ -94,7 +98,7 @@ const THROWS = [
  */
 const PENDING = [
     'responses/products.list',
-    'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show',
+    'responses/products.show', 'responses/shipping.tracking_events',
     'responses/warehouses.list', 'responses/warehouses.show',
     'docs/create-a-bundle',
     'docs/create-a-new-product', 'docs/create-a-new-property',
@@ -103,8 +107,8 @@ const PENDING = [
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
     'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
     'docs/list-all-warehouses', 'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
-    'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
-    'docs/update-a-stock-entry', 'docs/update-bundle-content',
+    'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
+    'docs/update-bundle-content',
     'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order', 'docs/update-warehouse-detail',
     'docs/view-a-supplier-detail',
