@@ -15,11 +15,18 @@ use TremulantTech\Veeqo\Responses\ChannelSellable;
 use TremulantTech\Veeqo\Responses\Company;
 use TremulantTech\Veeqo\Responses\Customer;
 use TremulantTech\Veeqo\Responses\DeliveryMethod;
+use TremulantTech\Veeqo\Responses\Kit;
+use TremulantTech\Veeqo\Responses\KitContent;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
+use TremulantTech\Veeqo\Responses\Product;
+use TremulantTech\Veeqo\Responses\ProductProperty;
+use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
+use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
 use TremulantTech\Veeqo\Responses\PurchaseOrder;
 use TremulantTech\Veeqo\Responses\StockEntry;
+use TremulantTech\Veeqo\Responses\Supplier;
 use TremulantTech\Veeqo\Responses\Tag;
 use TremulantTech\Veeqo\Responses\Warehouse;
 use TremulantTech\Veeqo\Veeqo;
@@ -75,9 +82,26 @@ const HYDRATES = [
     'docs/list-all-tags' => [Tag::class],
     'docs/view-an-tag-detail' => Tag::class,
     'docs/create-a-new-tag' => Tag::class,
+    'responses/products.show' => Product::class,
+    'responses/products.list' => [Product::class],
+    'docs/list-all-products' => [Product::class],
+    'docs/view-product-detail' => Product::class,
+    'docs/create-a-new-product' => Product::class,
+    'docs/update-product-detail' => Product::class,
+    'docs/create-a-new-property' => ProductProperty::class,
+    'docs/view-properties' => ProductPropertySpecific::class,
+    'docs/update-property-detail' => ProductPropertySpecificSummary::class,
+    'docs/retrieve-bundle-detail' => Kit::class,
+    'docs/create-a-bundle' => Kit::class,
+    'docs/retrieve-bundle-content' => KitContent::class,
+    'docs/create-bundle-content' => KitContent::class,
+    'docs/update-bundle-content' => KitContent::class,
     'responses/stock_entry.show' => StockEntry::class,
     'docs/show-a-stock-entry' => StockEntry::class,
     'docs/update-a-stock-entry' => StockEntry::class,
+    'docs/list-all-suppliers' => [Supplier::class],
+    'docs/view-a-supplier-detail' => Supplier::class,
+    'docs/create-a-new-supplier' => Supplier::class,
     'docs/list-all-purchase-orders' => [PurchaseOrder::class],
     'docs/get-purchase-order' => PurchaseOrder::class,
     'docs/update-purchase-order' => PurchaseOrder::class,
@@ -113,19 +137,11 @@ const THROWS = [
  * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
  */
 const PENDING = [
-    'responses/products.list',
-    'responses/products.show', 'responses/shipping.tracking_events',
-    'docs/create-a-bundle',
-    'docs/create-a-new-product', 'docs/create-a-new-property',
-    'docs/create-a-new-supplier', 'docs/create-a-shipment',
-    'docs/create-bundle-content',
-    'docs/list-all-products', 'docs/list-all-suppliers',
-    'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
-    'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
-    'docs/update-bundle-content',
-    'docs/update-product-detail', 'docs/update-property-detail',
-    'docs/view-a-supplier-detail',
-    'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
+    'responses/shipping.tracking_events',
+    'docs/create-a-shipment',
+    'docs/purchase-shipping-labels',
+    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
+    'docs/view-tracking-events',
 ];
 
 function sentFixture(string $name): Response
