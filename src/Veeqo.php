@@ -49,6 +49,7 @@ use TremulantTech\Veeqo\Resources\ProductPropertySpecifics;
 use TremulantTech\Veeqo\Resources\Products;
 use TremulantTech\Veeqo\Resources\Returns;
 use TremulantTech\Veeqo\Resources\StockEntries;
+use TremulantTech\Veeqo\Resources\Suppliers;
 use TremulantTech\Veeqo\Resources\Tags;
 use TremulantTech\Veeqo\Resources\Warehouses;
 
@@ -186,6 +187,11 @@ class Veeqo extends Connector implements HasPagination
     public function stockEntries(): StockEntries
     {
         return new StockEntries($this);
+    }
+
+    public function suppliers(): Suppliers
+    {
+        return new Suppliers($this);
     }
 
     public function tags(): Tags
