@@ -149,6 +149,7 @@ These are typed from Veeqo's published doc examples only, never a live capture, 
 
 - Kits and kit contents (`kits()`, `kitContents()`)
 - Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
+- Shipping rates and tracking events (`rates()`, `trackingEvents()`), and the `Shipment` returned by `shipments()->create()` and `shipping()->purchaseLabels()`
 
 ## Development
 

@@ -41,15 +41,20 @@ use TremulantTech\Veeqo\Resources\Customers;
 use TremulantTech\Veeqo\Resources\DeliveryMethods;
 use TremulantTech\Veeqo\Resources\KitContents;
 use TremulantTech\Veeqo\Resources\Kits;
+use TremulantTech\Veeqo\Resources\Labels;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
 use TremulantTech\Veeqo\Resources\ProductProperties;
 use TremulantTech\Veeqo\Resources\ProductPropertySpecifics;
 use TremulantTech\Veeqo\Resources\Products;
+use TremulantTech\Veeqo\Resources\Rates;
 use TremulantTech\Veeqo\Resources\Returns;
+use TremulantTech\Veeqo\Resources\Shipments;
+use TremulantTech\Veeqo\Resources\Shipping;
 use TremulantTech\Veeqo\Resources\StockEntries;
 use TremulantTech\Veeqo\Resources\Tags;
+use TremulantTech\Veeqo\Resources\TrackingEvents;
 use TremulantTech\Veeqo\Resources\Warehouses;
 
 class Veeqo extends Connector implements HasPagination
@@ -148,6 +153,11 @@ class Veeqo extends Connector implements HasPagination
         return new Kits($this);
     }
 
+    public function labels(): Labels
+    {
+        return new Labels($this);
+    }
+
     public function lineItems(): LineItems
     {
         return new LineItems($this);
@@ -178,9 +188,24 @@ class Veeqo extends Connector implements HasPagination
         return new Products($this);
     }
 
+    public function rates(): Rates
+    {
+        return new Rates($this);
+    }
+
     public function returns(): Returns
     {
         return new Returns($this);
+    }
+
+    public function shipments(): Shipments
+    {
+        return new Shipments($this);
+    }
+
+    public function shipping(): Shipping
+    {
+        return new Shipping($this);
     }
 
     public function stockEntries(): StockEntries
@@ -191,6 +216,11 @@ class Veeqo extends Connector implements HasPagination
     public function tags(): Tags
     {
         return new Tags($this);
+    }
+
+    public function trackingEvents(): TrackingEvents
+    {
+        return new TrackingEvents($this);
     }
 
     public function warehouses(): Warehouses

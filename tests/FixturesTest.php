@@ -24,8 +24,11 @@ use TremulantTech\Veeqo\Responses\Product;
 use TremulantTech\Veeqo\Responses\ProductProperty;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
+use TremulantTech\Veeqo\Responses\Rate;
+use TremulantTech\Veeqo\Responses\Shipment;
 use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Tag;
+use TremulantTech\Veeqo\Responses\TrackingEvent;
 use TremulantTech\Veeqo\Responses\Warehouse;
 use TremulantTech\Veeqo\Veeqo;
 
@@ -97,7 +100,17 @@ const HYDRATES = [
     'responses/stock_entry.show' => StockEntry::class,
     'docs/show-a-stock-entry' => StockEntry::class,
     'docs/update-a-stock-entry' => StockEntry::class,
+    'docs/create-a-shipment' => Shipment::class,
+    'docs/purchase-shipping-labels' => Shipment::class,
+    'docs/retrieve-shipping-rates' => Rate::class,
+    'responses/shipping.tracking_events' => [TrackingEvent::class],
+    'docs/view-tracking-events' => [TrackingEvent::class],
 ];
+
+/**
+ * Download bodies, returned unparsed as a StreamInterface (ADR 0004), so they hydrate into nothing.
+ */
+const STREAMS = ['docs/retrieve-shipping-labels'];
 
 /**
  * JSON:API bodies, unwrapped from `data` before hydrating (ADR 0006).
@@ -124,16 +137,12 @@ const THROWS = [
  * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
  */
 const PENDING = [
-    'responses/shipping.tracking_events',
-    'docs/create-a-new-supplier', 'docs/create-a-shipment',
+    'docs/create-a-new-supplier',
     'docs/delete-purchase-order-line-item',
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
     'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
-    'docs/purchase-shipping-labels',
-    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
     'docs/update-purchase-order',
     'docs/view-a-supplier-detail',
-    'docs/view-tracking-events',
 ];
 
 function sentFixture(string $name): Response
@@ -205,7 +214,7 @@ it('accounts for every fixture on disk exactly once', function () {
         fn (string $path) => basename(dirname($path)).'/'.basename($path, '.json'),
         [...glob(__DIR__.'/Fixtures/responses/*.json'), ...glob(__DIR__.'/Fixtures/docs/*.json')],
     );
-    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...PENDING];
+    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...STREAMS, ...PENDING];
     sort($onDisk);
     sort($accounted);
 
