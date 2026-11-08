@@ -15,6 +15,8 @@ use TremulantTech\Veeqo\Responses\ChannelSellable;
 use TremulantTech\Veeqo\Responses\Company;
 use TremulantTech\Veeqo\Responses\Customer;
 use TremulantTech\Veeqo\Responses\DeliveryMethod;
+use TremulantTech\Veeqo\Responses\Kit;
+use TremulantTech\Veeqo\Responses\KitContent;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
@@ -66,6 +68,11 @@ const HYDRATES = [
     'docs/list-all-tags' => [Tag::class],
     'docs/view-an-tag-detail' => Tag::class,
     'docs/create-a-new-tag' => Tag::class,
+    'docs/retrieve-bundle-detail' => Kit::class,
+    'docs/create-a-bundle' => Kit::class,
+    'docs/retrieve-bundle-content' => KitContent::class,
+    'docs/create-bundle-content' => KitContent::class,
+    'docs/update-bundle-content' => KitContent::class,
 ];
 
 /**
@@ -96,15 +103,14 @@ const PENDING = [
     'responses/products.list',
     'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show',
     'responses/warehouses.list', 'responses/warehouses.show',
-    'docs/create-a-bundle',
     'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-new-supplier', 'docs/create-a-shipment',
-    'docs/create-a-warehouse', 'docs/create-bundle-content', 'docs/delete-purchase-order-line-item',
+    'docs/create-a-warehouse', 'docs/delete-purchase-order-line-item',
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
     'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
-    'docs/list-all-warehouses', 'docs/purchase-shipping-labels', 'docs/retrieve-bundle-content',
-    'docs/retrieve-bundle-detail', 'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
-    'docs/update-a-stock-entry', 'docs/update-bundle-content',
+    'docs/list-all-warehouses', 'docs/purchase-shipping-labels',
+    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
+    'docs/update-a-stock-entry',
     'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order', 'docs/update-warehouse-detail',
     'docs/view-a-supplier-detail',

@@ -39,6 +39,8 @@ use TremulantTech\Veeqo\Resources\ChannelSellables;
 use TremulantTech\Veeqo\Resources\CurrentCompany;
 use TremulantTech\Veeqo\Resources\Customers;
 use TremulantTech\Veeqo\Resources\DeliveryMethods;
+use TremulantTech\Veeqo\Resources\KitContents;
+use TremulantTech\Veeqo\Resources\Kits;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
@@ -129,6 +131,16 @@ class Veeqo extends Connector implements HasPagination
     public function deliveryMethods(): DeliveryMethods
     {
         return new DeliveryMethods($this);
+    }
+
+    public function kitContents(): KitContents
+    {
+        return new KitContents($this);
+    }
+
+    public function kits(): Kits
+    {
+        return new Kits($this);
     }
 
     public function lineItems(): LineItems
