@@ -62,6 +62,58 @@ $request->body()->set(['order' => [...$request->body()->get('order'), 'due_date'
 $veeqo->send($request);
 ```
 
+## Vocabulary
+
+SDK identifiers use Veeqo's wire terms (paths and JSON keys), which often differ from the words in Veeqo's docs:
+
+| Veeqo docs | SDK | Glossary |
+|---|---|---|
+| Store | `channels()`, `Channel` | Channel |
+| Company | `currentCompany()`, `Company` | Veeqo account |
+| Bundle | `kits()`, `Kit` | |
+| Bundle Content | `kitContents()`, `KitContent` | |
+| Property | `productProperties()`, `ProductProperty` | |
+| Properties (on a product), Remove Property From Product | `productPropertySpecifics()`, `ProductPropertySpecific` | |
+| Purchase Order Line Item | `purchaseOrderProductVariants()`, `PurchaseOrderProductVariant` | |
+| Email Purchase Order Reminders | `purchaseOrders()->reminder()` | |
+| Order Note | `notes()`, `Note` | |
+| Line Item Notes | `lineItems()->update()` | |
+| Returns on Order | `returns()`, `OrderReturn` | |
+| Bulk Tagging / Bulk Untagging | `bulkTagging()->create()` / `->delete()` | |
+| Purchase Shipping Labels | `shipping()->purchaseLabels()`, `Shipment` | |
+| Retrieve Shipping Labels | `labels()->get()` | |
+| Shipping Rates | `rates()`, `Rate` | |
+| View, Retrieve, Show | `get()` | |
+
+## Faking with `MockClient`
+
+The resource layer sends the public request classes, so fake Veeqo with Saloon's `MockClient` keyed by request class:
+
+```php
+use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
+use TremulantTech\Veeqo\Exceptions\NotFound;
+use TremulantTech\Veeqo\Requests\Orders\CancelOrder;
+use TremulantTech\Veeqo\Requests\Orders\GetOrder;
+
+$mock = new MockClient([
+    GetOrder::class => MockResponse::make(['error_messages' => 'Not found'], 404),
+    CancelOrder::class => MockResponse::make(status: 204),
+]);
+$veeqo = Veeqo::withApiKey('test-key')->withMockClient($mock);
+
+$veeqo->orders()->cancel(123);
+$mock->assertSent(CancelOrder::class);
+
+try {
+    $veeqo->orders()->get(123);
+} catch (NotFound $e) {
+    // ...
+}
+```
+
+A list response must be a JSON array; a page shorter than 100 items ends the `list()` generator. Set `$veeqo->retryInterval = 0` so faked 429s and GET 5xx retries don't sleep.
+
 ## Laravel
 
 Auto-discovered. Set `VEEQO_API_KEY` in `.env`, then inject or resolve `Veeqo` (it is only bound when the key is set):
@@ -147,6 +199,8 @@ The store only ever sees a SHA-256 of the credential. Without a store, no limite
 
 These are typed from Veeqo's published doc examples only, never a live capture, so every field except `id` is nullable:
 
+- Channel sellables (`channelSellables()`)
+- Order notes (`notes()`)
 - Kits and kit contents (`kits()`, `kitContents()`)
 - Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
 - Purchase orders and their line items (`purchaseOrders()`, `purchaseOrderProductVariants()`)
