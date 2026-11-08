@@ -25,9 +25,12 @@ use TremulantTech\Veeqo\Responses\ProductProperty;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
 use TremulantTech\Veeqo\Responses\PurchaseOrder;
+use TremulantTech\Veeqo\Responses\Rate;
+use TremulantTech\Veeqo\Responses\Shipment;
 use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Supplier;
 use TremulantTech\Veeqo\Responses\Tag;
+use TremulantTech\Veeqo\Responses\TrackingEvent;
 use TremulantTech\Veeqo\Responses\Warehouse;
 use TremulantTech\Veeqo\Veeqo;
 
@@ -105,12 +108,22 @@ const HYDRATES = [
     'docs/list-all-purchase-orders' => [PurchaseOrder::class],
     'docs/get-purchase-order' => PurchaseOrder::class,
     'docs/update-purchase-order' => PurchaseOrder::class,
+    'docs/create-a-shipment' => Shipment::class,
+    'docs/purchase-shipping-labels' => Shipment::class,
+    'docs/retrieve-shipping-rates' => Rate::class,
+    'responses/shipping.tracking_events' => [TrackingEvent::class],
+    'docs/view-tracking-events' => [TrackingEvent::class],
 ];
 
 /**
  * Success bodies of operations that return void (ADR 0004): served by their resource's tests, never hydrated.
  */
 const VOID = ['docs/delete-purchase-order-line-item', 'docs/email-purchase-order-reminders'];
+
+/**
+ * Download bodies, returned unparsed as a StreamInterface (ADR 0004), so they hydrate into nothing.
+ */
+const STREAMS = ['docs/retrieve-shipping-labels'];
 
 /**
  * JSON:API bodies, unwrapped from `data` before hydrating (ADR 0006).
@@ -131,17 +144,6 @@ const THROWS = [
     'docs/errors.400.retrieve-shipping-rates.example1' => ValidationFailed::class,
     'docs/errors.400.retrieve-shipping-rates.example2' => ValidationFailed::class,
     'docs/errors.422.update-allocation-package' => ValidationFailed::class,
-];
-
-/**
- * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
- */
-const PENDING = [
-    'responses/shipping.tracking_events',
-    'docs/create-a-shipment',
-    'docs/purchase-shipping-labels',
-    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
-    'docs/view-tracking-events',
 ];
 
 function sentFixture(string $name): Response
@@ -213,7 +215,7 @@ it('accounts for every fixture on disk exactly once', function () {
         fn (string $path) => basename(dirname($path)).'/'.basename($path, '.json'),
         [...glob(__DIR__.'/Fixtures/responses/*.json'), ...glob(__DIR__.'/Fixtures/docs/*.json')],
     );
-    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...VOID, ...PENDING];
+    $accounted = [...array_keys(HYDRATES), ...array_keys(THROWS), ...STREAMS, ...VOID];
     sort($onDisk);
     sort($accounted);
 
