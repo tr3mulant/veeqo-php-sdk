@@ -2,14 +2,13 @@
 
 namespace TremulantTech\Veeqo\Requests\PurchaseOrders;
 
-use DateTimeImmutable;
 use DateTimeInterface;
-use DateTimeZone;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\PaginationPlugin\Contracts\Paginatable;
 use TremulantTech\Veeqo\Enums\PurchaseOrderOrder;
 use TremulantTech\Veeqo\Enums\PurchaseOrderState;
+use TremulantTech\Veeqo\Veeqo;
 
 /**
  * @see https://developers.veeqo.com/api/operations/list-all-purchase-orders/
@@ -49,22 +48,14 @@ class ListPurchaseOrders extends Request implements Paginatable
             'product_variant_id' => $productVariantId,
             'product_variant_upc_code' => $productVariantUpcCode,
             'reference_number' => $referenceNumber,
-            'created[after]' => self::utc($createdAfter),
-            'created[before]' => self::utc($createdBefore),
-            'created_at_min' => self::utc($createdAtMin),
-            'updated_at_min' => self::utc($updatedAtMin),
+            'created[after]' => Veeqo::queryDate($createdAfter),
+            'created[before]' => Veeqo::queryDate($createdBefore),
+            'created_at_min' => Veeqo::queryDate($createdAtMin),
+            'updated_at_min' => Veeqo::queryDate($updatedAtMin),
             'since_id' => $sinceId,
             'sort_by' => $sortBy,
             'order' => $order?->value,
         ], fn (mixed $value) => $value !== null);
-    }
-
-    /**
-     * In UTC, because Veeqo's *[before] filters include the whole UTC day of the date sent.
-     */
-    private static function utc(?DateTimeInterface $date): ?string
-    {
-        return $date === null ? null : DateTimeImmutable::createFromInterface($date)->setTimezone(new DateTimeZone('UTC'))->format(DATE_ATOM);
     }
 
     public function resolveEndpoint(): string

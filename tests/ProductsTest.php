@@ -69,7 +69,7 @@ it('deletes a product', function () {
         && $response->getPsrRequest()->getMethod() === 'DELETE');
 });
 
-it('lists products lazily across pages, sending filters with dates as DATE_ATOM', function () {
+it('lists products lazily across pages, sending filters with dates as DATE_ATOM in UTC', function () {
     $queries = [];
     $mock = new MockClient([ListProducts::class => function (PendingRequest $request) use (&$queries) {
         $queries[] = $request->createPsrRequest()->getUri()->getQuery();
@@ -84,7 +84,7 @@ it('lists products lazily across pages, sending filters with dates as DATE_ATOM'
     expect($queries)->toBe([]);
     $products = iterator_to_array($products, false);
 
-    $filters = 'since_id=5&warehouse_id=1003&created_at_min=2026-01-31T09%3A30%3A00%2B01%3A00&updated_at_min=2026-01-31T09%3A30%3A00%2B01%3A00&query=dog';
+    $filters = 'since_id=5&warehouse_id=1003&created_at_min=2026-01-31T08%3A30%3A00%2B00%3A00&updated_at_min=2026-01-31T08%3A30%3A00%2B00%3A00&query=dog';
     expect($products)->toHaveCount(110)->each->toBeInstanceOf(Product::class)
         ->and($queries)->toBe(["{$filters}&page=1&page_size=100", "{$filters}&page=2&page_size=100"]);
 });

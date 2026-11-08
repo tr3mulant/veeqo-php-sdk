@@ -8,7 +8,10 @@ use CuyZ\Valinor\MapperBuilder;
 use CuyZ\Valinor\Normalizer\Format;
 use CuyZ\Valinor\Normalizer\Normalizer;
 use CuyZ\Valinor\NormalizerBuilder;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
+use Generator;
 use LogicException;
 use Psr\Http\Message\RequestInterface;
 use Saloon\Contracts\Authenticator;
@@ -379,6 +382,30 @@ class Veeqo extends Connector implements HasPagination
     /**
      * @internal
      *
+     * Every item across every page, lazily. Yields one by one: `yield from` across pages repeats keys.
+     *
+     * @template T of object
+     *
+     * @param  class-string<T>  $class
+     * @return Generator<int, T>
+     *
+     * @throws UnexpectedResponse
+     */
+    public function hydratePages(string $class, Request $request): Generator
+    {
+        foreach ($this->paginate($request) as $page) {
+            if (! $page instanceof Response) {
+                throw new LogicException('Expected a synchronous page');
+            }
+            foreach ($this->hydrateList($class, $page) as $item) {
+                yield $item;
+            }
+        }
+    }
+
+    /**
+     * @internal
+     *
      * @template T of object
      *
      * @param  class-string<T>  $class
@@ -416,6 +443,16 @@ class Veeqo extends Connector implements HasPagination
     public static function propertyName(string $wireKey): string
     {
         return lcfirst(str_replace('_', '', ucwords(rtrim($wireKey, '?'), '_')));
+    }
+
+    /**
+     * @internal
+     *
+     * A date filter as DATE_ATOM in UTC, because Veeqo's *[before] filters include the whole UTC day of the date sent.
+     */
+    public static function queryDate(?DateTimeInterface $date): ?string
+    {
+        return $date === null ? null : DateTimeImmutable::createFromInterface($date)->setTimezone(new DateTimeZone('UTC'))->format(DATE_ATOM);
     }
 
     /**

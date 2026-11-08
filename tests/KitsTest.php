@@ -1,6 +1,7 @@
 <?php
 
 use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
 use TremulantTech\Veeqo\Data\Kits\CreateKitData;
 use TremulantTech\Veeqo\Data\Kits\KitContentData;
 use TremulantTech\Veeqo\Requests\Kits\CreateKit;
@@ -23,6 +24,15 @@ it('gets a kit as a typed Kit with its contents', function () {
         ->and($kit->contents[0]->productVariant?->product->hsTariffNumber)->toBe('2501001000');
     $mock->assertSent(fn ($request, $response) => $response->getPendingRequest()->getUrl() === 'https://api.veeqo.com/kits/220439988'
         && $response->getPsrRequest()->getMethod() === 'GET');
+});
+
+it('hydrates a kit whose contents and stock entries are null, as every unverified field but id may be', function () {
+    $mock = new MockClient([GetKit::class => MockResponse::make(['id' => 1, 'contents' => null, 'stock_entries' => null])]);
+
+    $kit = veeqo($mock)->kits()->get(1);
+
+    expect($kit->contents)->toBeNull()
+        ->and($kit->stockEntries)->toBeNull();
 });
 
 it('creates a kit, sending a flat body with its contents', function () {

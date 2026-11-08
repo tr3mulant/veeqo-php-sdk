@@ -11,6 +11,7 @@ use TremulantTech\Veeqo\Data\PurchaseOrders\ReminderPurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\UpdatePurchaseOrderData;
 use TremulantTech\Veeqo\Enums\PurchaseOrderOrder;
 use TremulantTech\Veeqo\Enums\PurchaseOrderState;
+use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Requests\PurchaseOrderProductVariants\DeletePurchaseOrderProductVariant;
 use TremulantTech\Veeqo\Requests\PurchaseOrderProductVariants\UpdatePurchaseOrderProductVariant;
 use TremulantTech\Veeqo\Requests\PurchaseOrders\CreatePurchaseOrder;
@@ -123,6 +124,16 @@ it('downloads a purchase order as a CSV or PDF stream', function (string $method
 })->with([
     ['downloadCsv', DownloadPurchaseOrderCsv::class, '.csv', 'text/csv'],
     ['downloadPdf', DownloadPurchaseOrderPdf::class, '.pdf', 'application/pdf'],
+]);
+
+it('never follows a download redirect, which would send the API key to another host, and throws instead of streaming it', function (string $method, string $class) {
+    $mock = new MockClient([$class => MockResponse::make('', 302, ['Location' => 'https://elsewhere.example/doc'])]);
+
+    expect(fn () => veeqo($mock)->purchaseOrders()->{$method}(491))->toThrow(UnexpectedResponse::class);
+    $mock->assertSent(fn ($request, $response) => $response->getPendingRequest()->config()->get('allow_redirects') === false);
+})->with([
+    ['downloadCsv', DownloadPurchaseOrderCsv::class],
+    ['downloadPdf', DownloadPurchaseOrderPdf::class],
 ]);
 
 it('requests reminder emails unenveloped, returning nothing', function () {

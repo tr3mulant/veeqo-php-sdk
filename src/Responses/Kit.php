@@ -8,17 +8,17 @@ readonly class Kit
 {
     /**
      * @param  numeric-string|null  $costPrice
-     * @param  list<KitContent>  $contents
+     * @param  list<KitContent>|null  $contents
      * @param  numeric-string|null  $onHandValue
      * @param  numeric-string|null  $price
      * @param  numeric-string|null  $profit
-     * @param  list<StockEntry>  $stockEntries
+     * @param  list<StockEntry>|null  $stockEntries
      */
     public function __construct(
         public int $id,
         public ?int $allocatedStockLevelAtAllWarehouses = null,
         public ?int $availableStockLevelAtAllWarehouses = null,
-        public array $contents = [],
+        public ?array $contents = null,
         public ?string $costPrice = null,
         public ?DateTimeImmutable $createdAt = null,
         public ?int $createdById = null,
@@ -42,7 +42,7 @@ readonly class Kit
         public ?bool $requiresReview = null,
         public ?string $sellableTitle = null,
         public ?string $skuCode = null,
-        public array $stockEntries = [],
+        public ?array $stockEntries = null,
         public ?int $stockLevelAtAllWarehouses = null,
         public ?int $supplementaryUnits = null,
         public ?float $taxRate = null,
