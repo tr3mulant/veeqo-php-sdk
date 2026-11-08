@@ -143,6 +143,13 @@ $veeqo = Veeqo::withAccessToken($accessToken, rateLimitStore: new RedisStore($re
 
 The store only ever sees a SHA-256 of the credential. Without a store, no limiter runs. In Laravel, set `VEEQO_RATE_LIMIT_STORE` to a cache store name (e.g. `redis`) for the bound `Veeqo`. To change the limits, subclass `Veeqo` and override `resolveLimits()`.
 
+## Unverified resources
+
+These are typed from Veeqo's published doc examples only, never a live capture, so every field except `id` is nullable:
+
+- Kits and kit contents (`kits()`, `kitContents()`)
+- Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
+
 ## Development
 
 ```bash

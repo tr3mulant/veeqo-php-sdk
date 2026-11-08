@@ -11,6 +11,7 @@ readonly class ProductSummary
         public string $title,
         public float $weight,
         public ?int $estimatedDelivery = null,
+        public ?string $hsTariffNumber = null,
         public ?Image $mainImage = null,
         public ?string $mainImageSrc = null,
         public ?string $originCountry = null,
