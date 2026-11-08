@@ -20,7 +20,9 @@ use TremulantTech\Veeqo\Responses\KitContent;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
+use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Tag;
+use TremulantTech\Veeqo\Responses\Warehouse;
 use TremulantTech\Veeqo\Veeqo;
 
 /**
@@ -63,6 +65,12 @@ const HYDRATES = [
     'docs/update-delivery-method-detail' => DeliveryMethod::class,
     'responses/current_company.show' => Company::class,
     'docs/view-company-detail' => Company::class,
+    'responses/warehouses.show' => Warehouse::class,
+    'responses/warehouses.list' => [Warehouse::class],
+    'docs/list-all-warehouses' => [Warehouse::class],
+    'docs/view-warehouse-detail' => Warehouse::class,
+    'docs/create-a-warehouse' => Warehouse::class,
+    'docs/update-warehouse-detail' => Warehouse::class,
     'responses/tags.show' => Tag::class,
     'responses/tags.list' => [Tag::class],
     'docs/list-all-tags' => [Tag::class],
@@ -73,6 +81,9 @@ const HYDRATES = [
     'docs/retrieve-bundle-content' => KitContent::class,
     'docs/create-bundle-content' => KitContent::class,
     'docs/update-bundle-content' => KitContent::class,
+    'responses/stock_entry.show' => StockEntry::class,
+    'docs/show-a-stock-entry' => StockEntry::class,
+    'docs/update-a-stock-entry' => StockEntry::class,
 ];
 
 /**
@@ -101,21 +112,18 @@ const THROWS = [
  */
 const PENDING = [
     'responses/products.list',
-    'responses/products.show', 'responses/shipping.tracking_events', 'responses/stock_entry.show',
-    'responses/warehouses.list', 'responses/warehouses.show',
+    'responses/products.show', 'responses/shipping.tracking_events',
     'docs/create-a-new-product', 'docs/create-a-new-property',
     'docs/create-a-new-supplier', 'docs/create-a-shipment',
-    'docs/create-a-warehouse', 'docs/delete-purchase-order-line-item',
+    'docs/delete-purchase-order-line-item',
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
     'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
-    'docs/list-all-warehouses', 'docs/purchase-shipping-labels',
-    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates', 'docs/show-a-stock-entry',
-    'docs/update-a-stock-entry',
+    'docs/purchase-shipping-labels',
+    'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
     'docs/update-product-detail', 'docs/update-property-detail',
-    'docs/update-purchase-order', 'docs/update-warehouse-detail',
+    'docs/update-purchase-order',
     'docs/view-a-supplier-detail',
     'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
-    'docs/view-warehouse-detail',
 ];
 
 function sentFixture(string $name): Response
