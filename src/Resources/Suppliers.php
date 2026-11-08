@@ -3,8 +3,6 @@
 namespace TremulantTech\Veeqo\Resources;
 
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Suppliers\CreateSupplierData;
 use TremulantTech\Veeqo\Data\Suppliers\UpdateSupplierData;
 use TremulantTech\Veeqo\Requests\Suppliers\CreateSupplier;
@@ -24,14 +22,7 @@ class Suppliers
      */
     public function list(): Generator
     {
-        foreach ($this->veeqo->paginate(new ListSuppliers) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Supplier::class, $page) as $supplier) {
-                yield $supplier;
-            }
-        }
+        return $this->veeqo->hydratePages(Supplier::class, new ListSuppliers);
     }
 
     public function get(int $id): Supplier

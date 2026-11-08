@@ -2,7 +2,6 @@
 
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
-use Saloon\Http\PendingRequest;
 use TremulantTech\Veeqo\Data\Tags\CreateTagData;
 use TremulantTech\Veeqo\Requests\Tags\CreateTag;
 use TremulantTech\Veeqo\Requests\Tags\DeleteTag;
@@ -24,22 +23,14 @@ it('gets a tag as a typed Tag', function () {
         && $response->getPsrRequest()->getMethod() === 'GET');
 });
 
-it('lists tags lazily across pages', function () {
-    $queries = [];
-    $mock = new MockClient([ListTags::class => function (PendingRequest $request) use (&$queries) {
-        $queries[] = $request->createPsrRequest()->getUri()->getQuery();
-        $tags = json_decode(fixtureResponse('responses/tags.list')->body(), true);
-
-        return MockResponse::make($request->query()->get('page') === 1 ? array_slice(array_merge(...array_fill(0, 20, $tags)), 0, 100) : $tags);
-    }]);
+it('lists every tag in one unpaginated request, since GET /tags documents no paging', function () {
+    $mock = new MockClient([ListTags::class => fixtureResponse('responses/tags.list')]);
 
     $tags = veeqo($mock)->tags()->list();
 
-    expect($queries)->toBe([]);
-    $tags = iterator_to_array($tags, false);
-
-    expect($tags)->toHaveCount(105)->each->toBeInstanceOf(Tag::class)
-        ->and($queries)->toBe(['page=1&page_size=100', 'page=2&page_size=100']);
+    expect($tags)->toHaveCount(5)->each->toBeInstanceOf(Tag::class);
+    $mock->assertSentCount(1);
+    $mock->assertSent(fn ($request, $response) => (string) $response->getPsrRequest()->getUri() === 'https://api.veeqo.com/tags');
 });
 
 it('creates a tag, sending a flat body', function () {

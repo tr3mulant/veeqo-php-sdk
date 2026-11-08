@@ -2,9 +2,6 @@
 
 namespace TremulantTech\Veeqo\Resources;
 
-use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Tags\CreateTagData;
 use TremulantTech\Veeqo\Requests\Tags\CreateTag;
 use TremulantTech\Veeqo\Requests\Tags\DeleteTag;
@@ -18,18 +15,13 @@ class Tags
     public function __construct(private readonly Veeqo $veeqo) {}
 
     /**
-     * @return Generator<int, Tag>
+     * Not paginated: GET /tags documents no paging, and Veeqo returns every tag at once.
+     *
+     * @return list<Tag>
      */
-    public function list(): Generator
+    public function list(): array
     {
-        foreach ($this->veeqo->paginate(new ListTags) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Tag::class, $page) as $tag) {
-                yield $tag;
-            }
-        }
+        return $this->veeqo->hydrateList(Tag::class, $this->veeqo->send(new ListTags));
     }
 
     public function get(int $id): Tag

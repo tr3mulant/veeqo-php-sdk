@@ -4,8 +4,6 @@ namespace TremulantTech\Veeqo\Resources;
 
 use DateTimeInterface;
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Products\CreateProductData;
 use TremulantTech\Veeqo\Data\Products\UpdateProductData;
 use TremulantTech\Veeqo\Requests\Products\CreateProduct;
@@ -30,14 +28,7 @@ class Products
         ?DateTimeInterface $updatedAtMin = null,
         ?string $query = null,
     ): Generator {
-        foreach ($this->veeqo->paginate(new ListProducts($sinceId, $warehouseId, $createdAtMin, $updatedAtMin, $query)) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Product::class, $page) as $product) {
-                yield $product;
-            }
-        }
+        return $this->veeqo->hydratePages(Product::class, new ListProducts($sinceId, $warehouseId, $createdAtMin, $updatedAtMin, $query));
     }
 
     public function get(int $id): Product

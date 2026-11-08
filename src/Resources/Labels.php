@@ -12,7 +12,7 @@ class Labels
     public function __construct(private readonly Veeqo $veeqo) {}
 
     /**
-     * @param  list<int>  $shipmentIds
+     * @param  non-empty-list<int>  $shipmentIds
      */
     public function get(array $shipmentIds, LabelFormat $format): StreamInterface
     {

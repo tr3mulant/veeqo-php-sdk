@@ -6,7 +6,7 @@ use TremulantTech\Veeqo\Data\Shipments\CreateShipmentData;
 use TremulantTech\Veeqo\Data\Shipments\TrackingNumberData;
 use TremulantTech\Veeqo\Requests\Shipments\CreateShipment;
 use TremulantTech\Veeqo\Requests\Shipments\DeleteShipment;
-use TremulantTech\Veeqo\Responses\Shipment;
+use TremulantTech\Veeqo\Responses\ShipmentSummary;
 
 it('creates a shipment, enveloping it beside its allocation and order ids', function () {
     $mock = new MockClient([CreateShipment::class => fixtureResponse('docs/create-a-shipment')]);
@@ -19,7 +19,7 @@ it('creates a shipment, enveloping it beside its allocation and order ids', func
         trackingNumberAttributes: new TrackingNumberData(trackingNumber: '12345679ABC'),
     ));
 
-    expect($shipment)->toBeInstanceOf(Shipment::class)
+    expect($shipment)->toBeInstanceOf(ShipmentSummary::class)
         ->and($shipment->id)->toBe(3)
         ->and($shipment->trackingNumber?->trackingNumber)->toBe(' 12345679ABC')
         ->and($shipment->outboundLabelCharges?->value)->toBe('5.52');

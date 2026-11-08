@@ -19,6 +19,14 @@ class DownloadPurchaseOrderPdf extends Request
         return "/purchase_orders/{$this->id}.pdf";
     }
 
+    /**
+     * Guzzle would resend the custom `x-api-key` header to a documented 302's other host.
+     */
+    protected function defaultConfig(): array
+    {
+        return ['allow_redirects' => false];
+    }
+
     protected function defaultHeaders(): array
     {
         return ['Accept' => 'application/pdf'];

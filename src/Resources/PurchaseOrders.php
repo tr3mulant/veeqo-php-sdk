@@ -4,14 +4,14 @@ namespace TremulantTech\Veeqo\Resources;
 
 use DateTimeInterface;
 use Generator;
-use LogicException;
 use Psr\Http\Message\StreamInterface;
-use Saloon\Http\Response;
+use Saloon\Http\Request;
 use TremulantTech\Veeqo\Data\PurchaseOrders\CreatePurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\ReminderPurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\UpdatePurchaseOrderData;
 use TremulantTech\Veeqo\Enums\PurchaseOrderOrder;
 use TremulantTech\Veeqo\Enums\PurchaseOrderState;
+use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Requests\PurchaseOrders\CreatePurchaseOrder;
 use TremulantTech\Veeqo\Requests\PurchaseOrders\DownloadPurchaseOrderCsv;
 use TremulantTech\Veeqo\Requests\PurchaseOrders\DownloadPurchaseOrderPdf;
@@ -51,14 +51,7 @@ class PurchaseOrders
     ): Generator {
         $request = new ListPurchaseOrders($query, $state, $supplierId, $destinationWarehouseId, $productVariantId, $productVariantUpcCode, $referenceNumber, $createdAfter, $createdBefore, $createdAtMin, $updatedAtMin, $sinceId, $sortBy, $order);
 
-        foreach ($this->veeqo->paginate($request) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(PurchaseOrder::class, $page) as $purchaseOrder) {
-                yield $purchaseOrder;
-            }
-        }
+        return $this->veeqo->hydratePages(PurchaseOrder::class, $request);
     }
 
     public function get(int $id): PurchaseOrder
@@ -79,14 +72,30 @@ class PurchaseOrders
         return $this->veeqo->hydrate(PurchaseOrder::class, $this->veeqo->send(new UpdatePurchaseOrder($id, $data)));
     }
 
+    /**
+     * @throws UnexpectedResponse on Veeqo's documented 302, which is not followed: its Location is on the response.
+     */
     public function downloadCsv(int $id): StreamInterface
     {
-        return $this->veeqo->send(new DownloadPurchaseOrderCsv($id))->stream();
+        return $this->download(new DownloadPurchaseOrderCsv($id));
     }
 
+    /**
+     * @throws UnexpectedResponse on Veeqo's documented 302, which is not followed: its Location is on the response.
+     */
     public function downloadPdf(int $id): StreamInterface
     {
-        return $this->veeqo->send(new DownloadPurchaseOrderPdf($id))->stream();
+        return $this->download(new DownloadPurchaseOrderPdf($id));
+    }
+
+    private function download(Request $request): StreamInterface
+    {
+        $response = $this->veeqo->send($request);
+        if ($response->status() !== 200) {
+            throw new UnexpectedResponse($response, ["Expected a 200 download, got {$response->status()}"]);
+        }
+
+        return $response->stream();
     }
 
     /**

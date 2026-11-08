@@ -14,7 +14,7 @@ class GetLabel extends Request
     protected Method $method = Method::GET;
 
     /**
-     * @param  list<int>  $shipmentIds
+     * @param  non-empty-list<int>  $shipmentIds  Sent as one comma-separated `shipment_ids[]`, as the spec defines.
      */
     public function __construct(protected array $shipmentIds, protected LabelFormat $format) {}
 
@@ -25,7 +25,7 @@ class GetLabel extends Request
 
     protected function defaultQuery(): array
     {
-        return ['shipment_ids' => $this->shipmentIds];
+        return ['shipment_ids' => [implode(',', $this->shipmentIds)]];
     }
 
     /**

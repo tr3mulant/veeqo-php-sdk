@@ -26,7 +26,7 @@ use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
 use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
 use TremulantTech\Veeqo\Responses\PurchaseOrder;
 use TremulantTech\Veeqo\Responses\Rate;
-use TremulantTech\Veeqo\Responses\Shipment;
+use TremulantTech\Veeqo\Responses\ShipmentSummary;
 use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Supplier;
 use TremulantTech\Veeqo\Responses\Tag;
@@ -108,8 +108,8 @@ const HYDRATES = [
     'docs/list-all-purchase-orders' => [PurchaseOrder::class],
     'docs/get-purchase-order' => PurchaseOrder::class,
     'docs/update-purchase-order' => PurchaseOrder::class,
-    'docs/create-a-shipment' => Shipment::class,
-    'docs/purchase-shipping-labels' => Shipment::class,
+    'docs/create-a-shipment' => ShipmentSummary::class,
+    'docs/purchase-shipping-labels' => ShipmentSummary::class,
     'docs/retrieve-shipping-rates' => Rate::class,
     'responses/shipping.tracking_events' => [TrackingEvent::class],
     'docs/view-tracking-events' => [TrackingEvent::class],

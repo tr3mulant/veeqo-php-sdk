@@ -3,8 +3,6 @@
 namespace TremulantTech\Veeqo\Resources;
 
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Warehouses\CreateWarehouseData;
 use TremulantTech\Veeqo\Data\Warehouses\UpdateWarehouseData;
 use TremulantTech\Veeqo\Requests\Warehouses\CreateWarehouse;
@@ -24,14 +22,7 @@ class Warehouses
      */
     public function list(?string $externalId = null): Generator
     {
-        foreach ($this->veeqo->paginate(new ListWarehouses($externalId)) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Warehouse::class, $page) as $warehouse) {
-                yield $warehouse;
-            }
-        }
+        return $this->veeqo->hydratePages(Warehouse::class, new ListWarehouses($externalId));
     }
 
     public function get(int $id): Warehouse

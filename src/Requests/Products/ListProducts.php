@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\PaginationPlugin\Contracts\Paginatable;
+use TremulantTech\Veeqo\Veeqo;
 
 /**
  * @see https://developers.veeqo.com/api/operations/list-all-products/
@@ -27,8 +28,8 @@ class ListProducts extends Request implements Paginatable
         $this->filters = array_filter([
             'since_id' => $sinceId,
             'warehouse_id' => $warehouseId,
-            'created_at_min' => $createdAtMin?->format(DATE_ATOM),
-            'updated_at_min' => $updatedAtMin?->format(DATE_ATOM),
+            'created_at_min' => Veeqo::queryDate($createdAtMin),
+            'updated_at_min' => Veeqo::queryDate($updatedAtMin),
             'query' => $query,
         ], fn (mixed $value) => $value !== null);
     }
