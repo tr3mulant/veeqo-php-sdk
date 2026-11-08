@@ -44,6 +44,7 @@ use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
 use TremulantTech\Veeqo\Resources\Returns;
 use TremulantTech\Veeqo\Resources\Tags;
+use TremulantTech\Veeqo\Resources\Warehouses;
 
 class Veeqo extends Connector implements HasPagination
 {
@@ -154,6 +155,11 @@ class Veeqo extends Connector implements HasPagination
     public function tags(): Tags
     {
         return new Tags($this);
+    }
+
+    public function warehouses(): Warehouses
+    {
+        return new Warehouses($this);
     }
 
     public function resolveBaseUrl(): string
@@ -361,7 +367,8 @@ class Veeqo extends Connector implements HasPagination
         $body = [];
         foreach ($normalized as $key => $field) {
             if ($field !== null) {
-                $body[strtolower((string) preg_replace('/[A-Z]/', '_$0', (string) $key))] = $field;
+                // A digit ending a later word is its own segment (`addressLine1` → `address_line_1`), one ending the first word isn't (`address1`), as in Veeqo's request keys.
+                $body[strtolower((string) preg_replace(['/([A-Z][a-z]*)(\d)/', '/[A-Z]/'], ['$1_$2', '_$0'], (string) $key))] = $field;
             }
         }
 
