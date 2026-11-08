@@ -42,6 +42,8 @@ use TremulantTech\Veeqo\Resources\DeliveryMethods;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
+use TremulantTech\Veeqo\Resources\PurchaseOrderProductVariants;
+use TremulantTech\Veeqo\Resources\PurchaseOrders;
 use TremulantTech\Veeqo\Resources\Returns;
 use TremulantTech\Veeqo\Resources\StockEntries;
 use TremulantTech\Veeqo\Resources\Tags;
@@ -146,6 +148,16 @@ class Veeqo extends Connector implements HasPagination
     public function orders(): Orders
     {
         return new Orders($this);
+    }
+
+    public function purchaseOrderProductVariants(): PurchaseOrderProductVariants
+    {
+        return new PurchaseOrderProductVariants($this);
+    }
+
+    public function purchaseOrders(): PurchaseOrders
+    {
+        return new PurchaseOrders($this);
     }
 
     public function returns(): Returns
