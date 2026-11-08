@@ -43,6 +43,7 @@ use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
 use TremulantTech\Veeqo\Resources\Returns;
+use TremulantTech\Veeqo\Resources\Suppliers;
 use TremulantTech\Veeqo\Resources\Tags;
 use TremulantTech\Veeqo\Resources\Warehouses;
 
@@ -150,6 +151,11 @@ class Veeqo extends Connector implements HasPagination
     public function returns(): Returns
     {
         return new Returns($this);
+    }
+
+    public function suppliers(): Suppliers
+    {
+        return new Suppliers($this);
     }
 
     public function tags(): Tags
