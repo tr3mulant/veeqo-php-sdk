@@ -20,6 +20,10 @@ use TremulantTech\Veeqo\Responses\KitContent;
 use TremulantTech\Veeqo\Responses\Note;
 use TremulantTech\Veeqo\Responses\Order;
 use TremulantTech\Veeqo\Responses\OrderReturn;
+use TremulantTech\Veeqo\Responses\Product;
+use TremulantTech\Veeqo\Responses\ProductProperty;
+use TremulantTech\Veeqo\Responses\ProductPropertySpecific;
+use TremulantTech\Veeqo\Responses\ProductPropertySpecificSummary;
 use TremulantTech\Veeqo\Responses\StockEntry;
 use TremulantTech\Veeqo\Responses\Tag;
 use TremulantTech\Veeqo\Responses\Warehouse;
@@ -76,6 +80,15 @@ const HYDRATES = [
     'docs/list-all-tags' => [Tag::class],
     'docs/view-an-tag-detail' => Tag::class,
     'docs/create-a-new-tag' => Tag::class,
+    'responses/products.show' => Product::class,
+    'responses/products.list' => [Product::class],
+    'docs/list-all-products' => [Product::class],
+    'docs/view-product-detail' => Product::class,
+    'docs/create-a-new-product' => Product::class,
+    'docs/update-product-detail' => Product::class,
+    'docs/create-a-new-property' => ProductProperty::class,
+    'docs/view-properties' => ProductPropertySpecific::class,
+    'docs/update-property-detail' => ProductPropertySpecificSummary::class,
     'docs/retrieve-bundle-detail' => Kit::class,
     'docs/create-a-bundle' => Kit::class,
     'docs/retrieve-bundle-content' => KitContent::class,
@@ -111,19 +124,16 @@ const THROWS = [
  * Fixtures whose resource isn't typed yet. Each resource's ticket moves its fixtures into HYDRATES; the last one deletes this.
  */
 const PENDING = [
-    'responses/products.list',
-    'responses/products.show', 'responses/shipping.tracking_events',
-    'docs/create-a-new-product', 'docs/create-a-new-property',
+    'responses/shipping.tracking_events',
     'docs/create-a-new-supplier', 'docs/create-a-shipment',
     'docs/delete-purchase-order-line-item',
     'docs/email-purchase-order-reminders', 'docs/get-purchase-order',
-    'docs/list-all-products', 'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
+    'docs/list-all-purchase-orders', 'docs/list-all-suppliers',
     'docs/purchase-shipping-labels',
     'docs/retrieve-shipping-labels', 'docs/retrieve-shipping-rates',
-    'docs/update-product-detail', 'docs/update-property-detail',
     'docs/update-purchase-order',
     'docs/view-a-supplier-detail',
-    'docs/view-product-detail', 'docs/view-properties', 'docs/view-tracking-events',
+    'docs/view-tracking-events',
 ];
 
 function sentFixture(string $name): Response

@@ -148,6 +148,7 @@ The store only ever sees a SHA-256 of the credential. Without a store, no limite
 These are typed from Veeqo's published doc examples only, never a live capture, so every field except `id` is nullable:
 
 - Kits and kit contents (`kits()`, `kitContents()`)
+- Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
 
 ## Development
 

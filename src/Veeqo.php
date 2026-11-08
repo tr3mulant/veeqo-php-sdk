@@ -44,6 +44,9 @@ use TremulantTech\Veeqo\Resources\Kits;
 use TremulantTech\Veeqo\Resources\LineItems;
 use TremulantTech\Veeqo\Resources\Notes;
 use TremulantTech\Veeqo\Resources\Orders;
+use TremulantTech\Veeqo\Resources\ProductProperties;
+use TremulantTech\Veeqo\Resources\ProductPropertySpecifics;
+use TremulantTech\Veeqo\Resources\Products;
 use TremulantTech\Veeqo\Resources\Returns;
 use TremulantTech\Veeqo\Resources\StockEntries;
 use TremulantTech\Veeqo\Resources\Tags;
@@ -158,6 +161,21 @@ class Veeqo extends Connector implements HasPagination
     public function orders(): Orders
     {
         return new Orders($this);
+    }
+
+    public function productProperties(): ProductProperties
+    {
+        return new ProductProperties($this);
+    }
+
+    public function productPropertySpecifics(): ProductPropertySpecifics
+    {
+        return new ProductPropertySpecifics($this);
+    }
+
+    public function products(): Products
+    {
+        return new Products($this);
     }
 
     public function returns(): Returns
