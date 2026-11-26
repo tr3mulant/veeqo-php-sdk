@@ -42,3 +42,25 @@ _Avoid_: API key, bearer key, OAuth key
 **Client credentials**:
 The client ID and client secret Veeqo issues to an Appstore app. They identify the app itself, never a Veeqo account, and are only used to obtain access tokens.
 _Avoid_: app key, OAuth credentials
+
+## Catalogue
+
+**Sellable**:
+Anything stocked and sold: a product variant or a kit.
+
+**Kit**:
+A sellable made up of other sellables, sold as one item.
+
+**Kit content**:
+One sellable and its quantity inside a kit.
+
+**Product property**:
+A named attribute defined once per Veeqo account, such as colour or material.
+
+## Orders
+
+**Note**:
+A free-text comment attached to an order.
+
+**Return**:
+Items from an order sent back by the customer.
