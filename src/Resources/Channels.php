@@ -3,8 +3,6 @@
 namespace TremulantTech\Veeqo\Resources;
 
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Channels\CreateChannelData;
 use TremulantTech\Veeqo\Data\Channels\UpdateChannelData;
 use TremulantTech\Veeqo\Requests\Channels\CreateChannel;
@@ -24,14 +22,7 @@ class Channels
      */
     public function list(): Generator
     {
-        foreach ($this->veeqo->paginate(new ListChannels) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Channel::class, $page) as $channel) {
-                yield $channel;
-            }
-        }
+        return $this->veeqo->hydratePages(Channel::class, new ListChannels);
     }
 
     public function get(int $id): Channel

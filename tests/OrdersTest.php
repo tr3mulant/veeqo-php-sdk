@@ -100,6 +100,16 @@ it('sends every date filter as DATE_ATOM', function () {
     ]);
 });
 
+it('hydrates a tracked shipment whatever shape its tracking number takes, keeping the shipment strict', function (mixed $trackingNumber) {
+    $order = json_decode(fixtureResponse('responses/orders.list.shipped')->body(), true)[0];
+    $order['allocations'][0]['shipment']['tracking_number'] = $trackingNumber;
+
+    $shipment = veeqo(new MockClient([GetOrder::class => MockResponse::make($order)]))->orders()->get(1079)->allocations[0]->shipment;
+
+    expect($shipment?->allocationId)->toBeInt()
+        ->and($shipment?->carrierId)->toBeInt();
+})->with([['1Z999'], [['id' => 1, 'tracking_number' => '1Z999']]]);
+
 it('lists the returns on an order', function () {
     $mock = new MockClient([ListReturns::class => MockResponse::make([json_decode(fixtureResponse('docs/show-returns-on-order')->body(), true)])]);
 

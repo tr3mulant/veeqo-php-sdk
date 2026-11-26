@@ -4,8 +4,6 @@ namespace TremulantTech\Veeqo\Resources;
 
 use DateTimeInterface;
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Orders\CancelOrderData;
 use TremulantTech\Veeqo\Data\Orders\CreateOrderData;
 use TremulantTech\Veeqo\Data\Orders\UpdateOrderData;
@@ -44,14 +42,7 @@ class Orders
     ): Generator {
         $request = new ListOrders($sinceId, $createdAtMin, $updatedAtMin, $channelIds, $createdAfter, $createdBefore, $dueAfter, $dueBefore, $query, $status, $tags, $allocatedAt);
 
-        foreach ($this->veeqo->paginate($request) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Order::class, $page) as $order) {
-                yield $order;
-            }
-        }
+        return $this->veeqo->hydratePages(Order::class, $request);
     }
 
     public function get(int $id): Order

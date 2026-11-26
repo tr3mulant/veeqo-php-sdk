@@ -3,8 +3,6 @@
 namespace TremulantTech\Veeqo\Resources;
 
 use Generator;
-use LogicException;
-use Saloon\Http\Response;
 use TremulantTech\Veeqo\Data\Customers\CreateCustomerData;
 use TremulantTech\Veeqo\Data\Customers\UpdateCustomerData;
 use TremulantTech\Veeqo\Enums\CustomerType;
@@ -24,14 +22,7 @@ class Customers
      */
     public function list(?string $query = null, ?CustomerType $customerType = null): Generator
     {
-        foreach ($this->veeqo->paginate(new ListCustomers($query, $customerType)) as $page) {
-            if (! $page instanceof Response) {
-                throw new LogicException('Expected a synchronous page');
-            }
-            foreach ($this->veeqo->hydrateList(Customer::class, $page) as $customer) {
-                yield $customer;
-            }
-        }
+        return $this->veeqo->hydratePages(Customer::class, new ListCustomers($query, $customerType));
     }
 
     public function get(int $id): Customer

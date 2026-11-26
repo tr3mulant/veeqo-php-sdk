@@ -11,6 +11,8 @@ readonly class Sellable
      * @param  numeric-string  $price
      * @param  numeric-string  $profit
      * @param  list<StockEntry>  $stockEntries
+     * @param  list<ChannelSummary>  $activeChannels
+     * @param  list<ChannelSellable>  $channelSellables
      * @param  list<Image>  $images
      * @param  numeric-string|null  $onHandValue
      * @param  list<VariantOptionSpecific>  $variantOptionSpecifics
@@ -37,7 +39,9 @@ readonly class Sellable
         public string $type,
         public string $upcCode,
         public DateTimeImmutable $updatedAt,
+        public array $activeChannels = [],
         public ?int $allocatedStockLevelAtAllWarehouses = null,
+        public array $channelSellables = [],
         public ?int $availableStockLevelAtAllWarehouses = null,
         public ?string $customsDescription = null,
         public ?int $estimatedDelivery = null,
@@ -50,6 +54,7 @@ readonly class Sellable
         public ?MeasurementAttributes $measurementAttributes = null,
         public ?string $onHandValue = null,
         public ?string $originCountry = null,
+        public ?bool $requiresReview = null,
         public ?int $stockLevelAtAllWarehouses = null,
         public ?int $supplementaryUnits = null,
         public ?int $totalQuantitySold = null,
