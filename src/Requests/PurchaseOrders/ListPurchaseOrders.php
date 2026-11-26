@@ -7,7 +7,7 @@ use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\PaginationPlugin\Contracts\Paginatable;
 use TremulantTech\Veeqo\Enums\PurchaseOrderOrder;
-use TremulantTech\Veeqo\Enums\PurchaseOrderState;
+use TremulantTech\Veeqo\Enums\PurchaseOrderStateFilter;
 use TremulantTech\Veeqo\Veeqo;
 
 /**
@@ -26,7 +26,7 @@ class ListPurchaseOrders extends Request implements Paginatable
      */
     public function __construct(
         ?string $query = null,
-        ?PurchaseOrderState $state = null,
+        ?PurchaseOrderStateFilter $state = null,
         ?int $supplierId = null,
         ?int $destinationWarehouseId = null,
         ?int $productVariantId = null,

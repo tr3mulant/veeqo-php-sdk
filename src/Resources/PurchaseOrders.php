@@ -10,7 +10,7 @@ use TremulantTech\Veeqo\Data\PurchaseOrders\CreatePurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\ReminderPurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\UpdatePurchaseOrderData;
 use TremulantTech\Veeqo\Enums\PurchaseOrderOrder;
-use TremulantTech\Veeqo\Enums\PurchaseOrderState;
+use TremulantTech\Veeqo\Enums\PurchaseOrderStateFilter;
 use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Requests\PurchaseOrders\CreatePurchaseOrder;
 use TremulantTech\Veeqo\Requests\PurchaseOrders\DownloadPurchaseOrderCsv;
@@ -35,7 +35,7 @@ class PurchaseOrders
      */
     public function list(
         ?string $query = null,
-        ?PurchaseOrderState $state = null,
+        ?PurchaseOrderStateFilter $state = null,
         ?int $supplierId = null,
         ?int $destinationWarehouseId = null,
         ?int $productVariantId = null,

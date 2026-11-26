@@ -3,6 +3,7 @@
 namespace TremulantTech\Veeqo\Data\PurchaseOrders;
 
 use DateTimeInterface;
+use TremulantTech\Veeqo\Enums\PurchaseOrderState;
 
 /**
  * `send_to_supplier` is left out: the spec documents it as a dead field (use $sendSupplierReportEmail).
@@ -10,7 +11,6 @@ use DateTimeInterface;
 readonly class CreatePurchaseOrderData
 {
     /**
-     * @param  string|null  $state  `draft`, `active` or `completed`.
      * @param  numeric-string|null  $shippingAndHandling
      * @param  bool|null  $sendSupplierReportEmail  Only emails when the purchase order is active, and Veeqo may suppress it silently.
      * @param  string|null  $supplierReportFormat  `pdf` or `csv` attaches the document; anything else sends no attachment.
@@ -19,7 +19,7 @@ readonly class CreatePurchaseOrderData
     public function __construct(
         public int $supplierId,
         public int $destinationWarehouseId,
-        public ?string $state = null,
+        public ?PurchaseOrderState $state = null,
         public ?string $number = null,
         public ?string $referenceNumber = null,
         public ?DateTimeInterface $expectedDate = null,

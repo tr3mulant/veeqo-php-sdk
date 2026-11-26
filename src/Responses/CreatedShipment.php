@@ -5,10 +5,10 @@ namespace TremulantTech\Veeqo\Responses;
 use DateTimeImmutable;
 
 /**
- * The shipment returned by `shipments()->create()` and `shipping()->purchaseLabels()`, typed from their doc
- * examples only (ADR 0011), so the live-verified {@see Shipment} an allocation embeds stays strict.
+ * The shipment returned by `shipments()->create()` and `shipping()->purchaseLabels()`: a write-response shape,
+ * typed from their doc examples only, separate from the {@see Shipment} an allocation embeds (ADR 0006, ADR 0011).
  */
-readonly class ShipmentSummary
+readonly class CreatedShipment
 {
     public function __construct(
         public int $id,

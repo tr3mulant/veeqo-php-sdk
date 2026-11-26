@@ -80,7 +80,7 @@ SDK identifiers use Veeqo's wire terms (paths and JSON keys), which often differ
 | Line Item Notes | `lineItems()->update()` | |
 | Returns on Order | `returns()`, `OrderReturn` | |
 | Bulk Tagging / Bulk Untagging | `bulkTagging()->create()` / `->delete()` | |
-| Purchase Shipping Labels | `shipping()->purchaseLabels()`, `Shipment` | |
+| Purchase Shipping Labels | `shipping()->purchaseLabels()`, `CreatedShipment` | |
 | Retrieve Shipping Labels | `labels()->get()` | |
 | Shipping Rates | `rates()`, `Rate` | |
 | View, Retrieve, Show | `get()` | |
@@ -205,7 +205,7 @@ These are typed from Veeqo's published doc examples only, never a live capture, 
 - Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
 - Purchase orders and their line items (`purchaseOrders()`, `purchaseOrderProductVariants()`)
 - Suppliers (`suppliers()`)
-- Shipping rates and tracking events (`rates()`, `trackingEvents()`), and the `ShipmentSummary` returned by `shipments()->create()` and `shipping()->purchaseLabels()`
+- Shipping rates and tracking events (`rates()`, `trackingEvents()`), and the `CreatedShipment` returned by `shipments()->create()` and `shipping()->purchaseLabels()`
 
 ## Development
 

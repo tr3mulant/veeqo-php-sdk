@@ -11,6 +11,7 @@ use TremulantTech\Veeqo\Data\PurchaseOrders\ReminderPurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\UpdatePurchaseOrderData;
 use TremulantTech\Veeqo\Enums\PurchaseOrderOrder;
 use TremulantTech\Veeqo\Enums\PurchaseOrderState;
+use TremulantTech\Veeqo\Enums\PurchaseOrderStateFilter;
 use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Requests\PurchaseOrderProductVariants\DeletePurchaseOrderProductVariant;
 use TremulantTech\Veeqo\Requests\PurchaseOrderProductVariants\UpdatePurchaseOrderProductVariant;
@@ -51,7 +52,7 @@ it('lists purchase orders lazily across pages, sending enum filters and DATE_ATO
         return MockResponse::make($request->query()->get('page') === 1 ? array_fill(0, 100, $purchaseOrders[0]) : $purchaseOrders);
     }]);
 
-    $purchaseOrders = veeqo($mock)->purchaseOrders()->list(state: PurchaseOrderState::PastDue, order: PurchaseOrderOrder::Desc, sortBy: 'expected_date', createdBefore: new DateTimeImmutable('2026-01-31T09:00:00+02:00'));
+    $purchaseOrders = veeqo($mock)->purchaseOrders()->list(state: PurchaseOrderStateFilter::PastDue, order: PurchaseOrderOrder::Desc, sortBy: 'expected_date', createdBefore: new DateTimeImmutable('2026-01-31T09:00:00+02:00'));
 
     expect($queries)->toBe([]);
     $purchaseOrders = iterator_to_array($purchaseOrders, false);
@@ -100,7 +101,7 @@ it('updates a purchase order, editing a line item by id, and returns the purchas
     $mock = new MockClient([UpdatePurchaseOrder::class => fixtureResponse('docs/update-purchase-order')]);
 
     $purchaseOrder = veeqo($mock)->purchaseOrders()->update(491, new UpdatePurchaseOrderData(
-        state: 'active',
+        state: PurchaseOrderState::Active,
         note: 'Updated note',
         purchaseOrderProductVariantsAttributes: [new PurchaseOrderProductVariantData(id: 1575, receivedQuantity: 5)],
     ));

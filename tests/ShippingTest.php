@@ -3,7 +3,7 @@
 use Saloon\Http\Faking\MockClient;
 use TremulantTech\Veeqo\Data\Shipping\PurchaseLabelsData;
 use TremulantTech\Veeqo\Requests\Shipping\PurchaseLabels;
-use TremulantTech\Veeqo\Responses\ShipmentSummary;
+use TremulantTech\Veeqo\Responses\CreatedShipment;
 
 it('purchases a label for a quote, enveloping the shipment beside its carrier and dropping nulls', function () {
     $mock = new MockClient([PurchaseLabels::class => fixtureResponse('docs/purchase-shipping-labels')]);
@@ -20,7 +20,7 @@ it('purchases a label for a quote, enveloping the shipment beside its carrier an
         serviceCarrier: 'ups',
     ));
 
-    expect($shipment)->toBeInstanceOf(ShipmentSummary::class)
+    expect($shipment)->toBeInstanceOf(CreatedShipment::class)
         ->and($shipment->id)->toBe(123456789)
         ->and($shipment->labelUrl)->toBe('<LABEL_URL_PART_FROM_PURCHASE>')
         ->and($shipment->outboundLabelCharges?->unit)->toBe('USD')
