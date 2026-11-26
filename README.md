@@ -1,53 +1,70 @@
 # Veeqo PHP SDK
 
-PHP SDK for the [Veeqo API](https://developers.veeqo.com/api), built on [Saloon](https://docs.saloon.dev) v4.
+A PHP and Laravel client for the [Veeqo API](https://developers.veeqo.com/api), built on [Saloon](https://docs.saloon.dev).
+
+## Get Started
+
+> **Requires PHP 8.4+**
+
+Install the package with Composer:
 
 ```bash
 composer require tremulanttech/veeqo-php-sdk
 ```
 
-## Plain PHP
+Add your API key to `.env`:
+
+```env
+VEEQO_API_KEY=your-api-key
+```
+
+In Laravel, resolve `Veeqo` from the container:
+
+```php
+use TremulantTech\Veeqo\Veeqo;
+
+$order = app(Veeqo::class)->orders()->get(123);
+```
+
+In plain PHP, construct it yourself:
+
+```php
+$veeqo = Veeqo::withApiKey('your-api-key');
+```
+
+## Configuration
+
+| Variable | Purpose |
+|---|---|
+| `VEEQO_API_KEY` | Your API key. `Veeqo` is only bound when it is set. |
+| `VEEQO_RATE_LIMIT_STORE` | A cache store name (e.g. `redis`) that shares the rate limit across workers. |
+| `VEEQO_CLIENT_ID`, `VEEQO_CLIENT_SECRET`, `VEEQO_REDIRECT_URI` | For Appstore apps only. See [Appstore apps](#appstore-apps). |
+
+Publish the config file with `php artisan vendor:publish --tag=veeqo-config`.
+
+## Usage
+
+Fetch one record:
+
+```php
+$order = $veeqo->orders()->get(123); // TremulantTech\Veeqo\Responses\Order
+```
+
+List records. `list()` walks every page lazily:
 
 ```php
 use TremulantTech\Veeqo\Enums\OrderStatus;
-use TremulantTech\Veeqo\Veeqo;
 
-// Private integration: API key, sent as x-api-key.
-$veeqo = Veeqo::withApiKey('your-api-key');
-
-// Appstore app: one connector per Veeqo account, with that account's OAuth access token.
-$veeqo = Veeqo::withAccessToken($accessToken);
-
-$order = $veeqo->orders()->get(123); // TremulantTech\Veeqo\Responses\Order
-
-// Walks every page (page_size 100) lazily, one request per page.
-foreach ($veeqo->orders()->list(status: OrderStatus::AwaitingFulfillment, createdAfter: new DateTimeImmutable('-1 day')) as $order) {
+foreach ($veeqo->orders()->list(status: OrderStatus::AwaitingFulfillment) as $order) {
     // ...
 }
 ```
 
-Money is a numeric string (`$order->totalPrice === '12.50'`), date-times are `DateTimeImmutable`. A response that doesn't match its class throws `UnexpectedResponse`, carrying the response and `mismatches()`.
-
-The Saloon requests stay public underneath, for the raw body, headers, page-level control or a filter value the SDK doesn't know yet:
-
-```php
-use TremulantTech\Veeqo\Requests\Orders\ListOrders;
-
-$request = new ListOrders(channelIds: [1, 2]);
-$request->query()->add('status', 'some_new_status');
-
-foreach ($veeqo->paginate($request) as $page) {
-    $page->json();
-}
-```
-
-Writes take a `Data` class named in Veeqo's wire terms (`*_attributes` included); null arguments are left out of the body and the `{"order": ...}` envelope is added for you. Edit the request body for anything the class can't express, such as an explicit null:
+Create a record from a `Data` class:
 
 ```php
 use TremulantTech\Veeqo\Data\Orders\CreateOrderData;
 use TremulantTech\Veeqo\Data\Orders\LineItemData;
-use TremulantTech\Veeqo\Data\Orders\UpdateOrderData;
-use TremulantTech\Veeqo\Requests\Orders\UpdateOrder;
 
 $order = $veeqo->orders()->create(new CreateOrderData(
     channelId: 1,
@@ -56,77 +73,69 @@ $order = $veeqo->orders()->create(new CreateOrderData(
     deliverToId: 4,
     lineItemsAttributes: [new LineItemData(sellableId: 5, pricePerUnit: '9.99', quantity: 1)],
 ));
+```
 
-$request = new UpdateOrder($order->id, new UpdateOrderData(deliveryMethodId: 6));
-$request->body()->set(['order' => [...$request->body()->get('order'), 'due_date' => null]]);
-$veeqo->send($request);
+Every HTTP error throws a subclass of `VeeqoRequestException`:
+
+```php
+use TremulantTech\Veeqo\Exceptions\NotFound;
+
+try {
+    $veeqo->orders()->get(123);
+} catch (NotFound $e) {
+    $e->errorMessages(); // ['Not found']
+}
+```
+
+## Testing
+
+Fake Veeqo with Saloon's `MockClient`, keyed by request class:
+
+```php
+use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
+use TremulantTech\Veeqo\Requests\Orders\CancelOrder;
+
+$mock = new MockClient([
+    CancelOrder::class => MockResponse::make(status: 204),
+]);
+
+$veeqo = Veeqo::withApiKey('test-key')->withMockClient($mock);
+$veeqo->orders()->cancel(123);
+
+$mock->assertSent(CancelOrder::class);
 ```
 
 ## Vocabulary
 
-SDK identifiers use Veeqo's wire terms (paths and JSON keys), which often differ from the words in Veeqo's docs:
+SDK names follow Veeqo's wire terms, which often differ from the words in Veeqo's docs:
 
 | Veeqo docs | SDK | Glossary |
 |---|---|---|
 | Store | `channels()`, `Channel` | Channel |
 | Company | `currentCompany()`, `Company` | Veeqo account |
-| Bundle | `kits()`, `Kit` | |
-| Bundle Content | `kitContents()`, `KitContent` | |
-| Property | `productProperties()`, `ProductProperty` | |
+| Bundle | `kits()`, `Kit` | Kit |
+| Bundle Content | `kitContents()`, `KitContent` | Kit content |
+| Property | `productProperties()`, `ProductProperty` | Product property |
 | Properties (on a product), Remove Property From Product | `productPropertySpecifics()`, `ProductPropertySpecific` | |
 | Purchase Order Line Item | `purchaseOrderProductVariants()`, `PurchaseOrderProductVariant` | |
 | Email Purchase Order Reminders | `purchaseOrders()->reminder()` | |
-| Order Note | `notes()`, `Note` | |
+| Order Note | `notes()`, `Note` | Note |
 | Line Item Notes | `lineItems()->update()` | |
-| Returns on Order | `returns()`, `OrderReturn` | |
+| Returns on Order | `returns()`, `OrderReturn` | Return |
 | Bulk Tagging / Bulk Untagging | `bulkTagging()->create()` / `->delete()` | |
 | Purchase Shipping Labels | `shipping()->purchaseLabels()`, `CreatedShipment` | |
 | Retrieve Shipping Labels | `labels()->get()` | |
 | Shipping Rates | `rates()`, `Rate` | |
 | View, Retrieve, Show | `get()` | |
 
-## Faking with `MockClient`
+## Unverified resources
 
-The resource layer sends the public request classes, so fake Veeqo with Saloon's `MockClient` keyed by request class:
-
-```php
-use Saloon\Http\Faking\MockClient;
-use Saloon\Http\Faking\MockResponse;
-use TremulantTech\Veeqo\Exceptions\NotFound;
-use TremulantTech\Veeqo\Requests\Orders\CancelOrder;
-use TremulantTech\Veeqo\Requests\Orders\GetOrder;
-
-$mock = new MockClient([
-    GetOrder::class => MockResponse::make(['error_messages' => 'Not found'], 404),
-    CancelOrder::class => MockResponse::make(status: 204),
-]);
-$veeqo = Veeqo::withApiKey('test-key')->withMockClient($mock);
-
-$veeqo->orders()->cancel(123);
-$mock->assertSent(CancelOrder::class);
-
-try {
-    $veeqo->orders()->get(123);
-} catch (NotFound $e) {
-    // ...
-}
-```
-
-A list response must be a JSON array; a page shorter than 100 items ends the `list()` generator. Set `$veeqo->retryInterval = 0` so faked 429s and GET 5xx retries don't sleep.
-
-## Laravel
-
-Auto-discovered. Set `VEEQO_API_KEY` in `.env`, then inject or resolve `Veeqo` (it is only bound when the key is set):
-
-```php
-app(Veeqo::class)->orders()->get(123);
-```
-
-Publish the config with `php artisan vendor:publish --tag=veeqo-config`.
+These are typed from Veeqo's doc examples only, so every field except `id` is nullable: `channelSellables()`, `notes()`, `kits()`, `kitContents()`, `productProperties()`, `productPropertySpecifics()`, `purchaseOrders()`, `purchaseOrderProductVariants()`, `suppliers()`, the `PaymentData` input of `payments()`, `rates()`, `trackingEvents()`, and the `CreatedShipment` returned by `shipments()->create()` and `shipping()->purchaseLabels()`.
 
 ## Appstore apps
 
-`VeeqoOAuth` takes a Veeqo account from your authorize redirect to a permanent access token (Veeqo issues no refresh token and no expiry). Storing tokens and the routes are yours. In Laravel, set `VEEQO_CLIENT_ID`, `VEEQO_CLIENT_SECRET` and `VEEQO_REDIRECT_URI` and resolve `VeeqoOAuth`; it is only bound when all three are set. In plain PHP, use `new VeeqoOAuth($clientId, $clientSecret, $redirectUri)`.
+`VeeqoOAuth` exchanges a Veeqo account's grant for a permanent access token. Set the three OAuth variables and resolve it in Laravel, or use `new VeeqoOAuth($clientId, $clientSecret, $redirectUri)`. You own the routes and token storage, for example:
 
 ```php
 use Illuminate\Http\Request;
@@ -145,11 +154,10 @@ Route::get('/veeqo/callback', function (Request $request, VeeqoOAuth $oauth) {
         return redirect('/')->with('error', 'Veeqo access was declined.');
     }
 
-    // Throws InvalidStateException unless the state matches the one stored in the session. The code is valid for 10 minutes.
+    // Throws InvalidStateException unless the state matches.
     $token = $oauth->getAccessToken($request->string('code')->toString(), $request->query('state'), session()->pull('veeqo_state'))
         ->getAccessToken();
 
-    // The token response doesn't name the account, so ask Veeqo which account the token belongs to.
     $company = Veeqo::withAccessToken($token)->currentCompany()->get();
 
     VeeqoAccount::updateOrCreate(['company_id' => $company->id], ['access_token' => encrypt($token)]);
@@ -158,61 +166,8 @@ Route::get('/veeqo/callback', function (Request $request, VeeqoOAuth $oauth) {
 });
 ```
 
-A failed exchange (for example an expired code) throws the SDK exceptions described under [Errors](#errors). If a stored token gets `Unauthorized` (401), that account has revoked your app. Delete the token and ask the account to connect again.
+An `Unauthorized` (401) on a stored token means that account revoked your app.
 
-## Errors
+## License
 
-Every HTTP error throws a `TremulantTech\Veeqo\Exceptions\VeeqoRequestException`, or one of its subclasses: `ValidationFailed` (400, 422), `Unauthorized` (401), `Forbidden` (403), `NotFound` (404), `RateLimited` (429) and `ServerError` (5xx). `errorMessages()` returns Veeqo's error messages as a list of strings. Connection failures stay Saloon's `FatalRequestException`.
-
-```php
-use TremulantTech\Veeqo\Exceptions\NotFound;
-
-try {
-    $veeqo->orders()->get(123);
-} catch (NotFound $e) {
-    $e->errorMessages(); // ['Not found']
-}
-```
-
-## Retries
-
-Veeqo allows 5 requests/second (burst of 100). A failed request is retried up to 3 times, backing off 1s, 2s, 4s:
-
-- 429 is retried for every method.
-- 5xx and connection failures are retried for `GET` only, so a write that may have reached Veeqo is never resent.
-
-Tune with Saloon's `$tries`, `$retryInterval` and `$useExponentialBackoff` on the connector or a request, e.g. `$request->tries = 1` in a queue job that has its own retries.
-
-## Rate limiting
-
-Veeqo's limit belongs to one credential. Many workers sharing one access token will use up the retries, so pass a shared [rate limit store](https://docs.saloon.dev/installable-plugins/handling-rate-limits) (Redis, PSR-16, Laravel cache, ...) to keep all of them to 25 requests per 5 seconds. Once the window is full, a request sleeps until the window resets and never throws:
-
-```php
-use Saloon\RateLimitPlugin\Stores\RedisStore;
-
-$veeqo = Veeqo::withAccessToken($accessToken, rateLimitStore: new RedisStore($redis));
-```
-
-The store only ever sees a SHA-256 of the credential. Without a store, no limiter runs. In Laravel, set `VEEQO_RATE_LIMIT_STORE` to a cache store name (e.g. `redis`) for the bound `Veeqo`. To change the limits, subclass `Veeqo` and override `resolveLimits()`.
-
-## Unverified resources
-
-These are typed from Veeqo's published doc examples only, never a live capture, so every field except `id` is nullable:
-
-- Channel sellables (`channelSellables()`)
-- Order notes (`notes()`)
-- Kits and kit contents (`kits()`, `kitContents()`)
-- Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
-- Purchase orders and their line items (`purchaseOrders()`, `purchaseOrderProductVariants()`)
-- Suppliers (`suppliers()`)
-- Payments (`payments()`): it returns nothing, but its `PaymentData` input is typed from the doc example only
-- Shipping rates and tracking events (`rates()`, `trackingEvents()`), and the `CreatedShipment` returned by `shipments()->create()` and `shipping()->purchaseLabels()`
-
-## Development
-
-```bash
-vendor/bin/lefthook install   # once: pre-commit hook runs Pint on staged files
-composer test
-composer analyse   # PHPStan level 10, same command CI runs
-composer lint      # Pint (laravel preset) check; vendor/bin/pint fixes
-```
+MIT. See [LICENSE](LICENSE).
