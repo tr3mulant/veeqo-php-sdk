@@ -14,6 +14,7 @@ use DateTimeZone;
 use Generator;
 use LogicException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamInterface;
 use Saloon\Contracts\Authenticator;
 use Saloon\Enums\Method;
 use Saloon\Exceptions\Request\FatalRequestException;
@@ -341,6 +342,23 @@ class Veeqo extends Connector implements HasPagination
                 return $response->json();
             }
         };
+    }
+
+    /**
+     * @internal
+     *
+     * The body of a download, which only a 200 carries: any other 2xx (a 302 is never followed) throws.
+     *
+     * @throws UnexpectedResponse
+     */
+    public function download(Request $request): StreamInterface
+    {
+        $response = $this->send($request);
+        if ($response->status() !== 200) {
+            throw new UnexpectedResponse($response, ["Expected a 200 download, got {$response->status()}"]);
+        }
+
+        return $response->stream();
     }
 
     /**

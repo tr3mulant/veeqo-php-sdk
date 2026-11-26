@@ -2,7 +2,9 @@
 
 use Psr\Http\Message\StreamInterface;
 use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
 use TremulantTech\Veeqo\Enums\LabelFormat;
+use TremulantTech\Veeqo\Exceptions\UnexpectedResponse;
 use TremulantTech\Veeqo\Requests\Labels\GetLabel;
 
 it('downloads labels as an unparsed stream, asking for the format by extension and Accept header and the shipments as one comma-separated value', function () {
@@ -15,4 +17,10 @@ it('downloads labels as an unparsed stream, asking for the format by extension a
     $mock->assertSent(fn ($request, $response) => (string) $response->getPsrRequest()->getUri() === 'https://api.veeqo.com/shipping/labels.pdf?shipment_ids%5B%5D=3%2C4'
         && $response->getPsrRequest()->getMethod() === 'GET'
         && $response->getPsrRequest()->getHeaderLine('Accept') === 'application/pdf');
+});
+
+it('throws on a 2xx that is not a 200 rather than streaming an empty label', function () {
+    $mock = new MockClient([GetLabel::class => MockResponse::make('', 202)]);
+
+    expect(fn () => veeqo($mock)->labels()->get(shipmentIds: [3], format: LabelFormat::Pdf))->toThrow(UnexpectedResponse::class);
 });

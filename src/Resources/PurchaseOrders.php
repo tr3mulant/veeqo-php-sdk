@@ -5,7 +5,6 @@ namespace TremulantTech\Veeqo\Resources;
 use DateTimeInterface;
 use Generator;
 use Psr\Http\Message\StreamInterface;
-use Saloon\Http\Request;
 use TremulantTech\Veeqo\Data\PurchaseOrders\CreatePurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\ReminderPurchaseOrderData;
 use TremulantTech\Veeqo\Data\PurchaseOrders\UpdatePurchaseOrderData;
@@ -77,7 +76,7 @@ class PurchaseOrders
      */
     public function downloadCsv(int $id): StreamInterface
     {
-        return $this->download(new DownloadPurchaseOrderCsv($id));
+        return $this->veeqo->download(new DownloadPurchaseOrderCsv($id));
     }
 
     /**
@@ -85,17 +84,7 @@ class PurchaseOrders
      */
     public function downloadPdf(int $id): StreamInterface
     {
-        return $this->download(new DownloadPurchaseOrderPdf($id));
-    }
-
-    private function download(Request $request): StreamInterface
-    {
-        $response = $this->veeqo->send($request);
-        if ($response->status() !== 200) {
-            throw new UnexpectedResponse($response, ["Expected a 200 download, got {$response->status()}"]);
-        }
-
-        return $response->stream();
+        return $this->veeqo->download(new DownloadPurchaseOrderPdf($id));
     }
 
     /**

@@ -205,6 +205,7 @@ These are typed from Veeqo's published doc examples only, never a live capture, 
 - Product properties and product property specifics (`productProperties()`, `productPropertySpecifics()`)
 - Purchase orders and their line items (`purchaseOrders()`, `purchaseOrderProductVariants()`)
 - Suppliers (`suppliers()`)
+- Payments (`payments()`): it returns nothing, but its `PaymentData` input is typed from the doc example only
 - Shipping rates and tracking events (`rates()`, `trackingEvents()`), and the `CreatedShipment` returned by `shipments()->create()` and `shipping()->purchaseLabels()`
 
 ## Development
